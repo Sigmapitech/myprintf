@@ -1,0 +1,9 @@
+[reports]
+ignore = [ ]
+severity_levels = true
+merge = "multiline"
+
+[reports.text]
+code = true
+description = true
+level = false

@@ -1,0 +1,13 @@
+# Build
+*.out
+*.a
+*.o
+
+# Python (CI)
+*.pyc
+
+# Coverage
+*.gc??
+
+# tests
+unit_tests
