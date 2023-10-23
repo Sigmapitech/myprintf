@@ -1,3 +1,9 @@
+/*
+** EPITECH PROJECT, 2023
+** my_printf
+** File description:
+** utils.c
+*/
 int put_nbr(int fd, int nb)
 {
     int out = nb / 10;
