@@ -22,7 +22,7 @@ typedef struct {
     size_t written;
     size_t width;
     size_t prec;
-    va_list ap;
+    va_list *ap;
     union arg_type arg;
 } print_info_t;
 
@@ -37,8 +37,8 @@ typedef struct {
     char name[MAX_SPEC_LEN];
     type_t type;
 } spec_t;
-int put_nbr(int fd, int nb);
 
+int put_nbr(int fd, int nb);
 int vdprintf(int fd, const char *restrict format, va_list ap);
 
 #endif
