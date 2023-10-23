@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  GH_PUB_KEY:
+    github.com ssh-ed25519 \
+    AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+  GH_BOT_ACC_EMAIL:
+    41898282+github-actions[bot]@users.noreply.github.com
+  GH_BOT_ACC_NAME:
+    github-actions[bot]
+
+jobs:
+  run_scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get branch name
+        id: branch-names
+        uses: tj-actions/branch-names@v6
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.branch-names.outputs.head_ref_branch }}
+
+      - name: setup git
+        run: |
+          git config --local user.email $GH_BOT_ACC_EMAIL
+          git config --local user.name $GH_BOT_ACC_NAME
+          git fetch --unshallow origin
+
+      - uses: actions/setup-python@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          python-version: '3.11'
+          architecture: 'x64'
+
+      - name: fix headers
+        run: python ./.github/fix_headers.py
+
+      - name: add to git
+        run: |
+          git add .
+          git commit -m "[skip ci] Update epitech headers (auto)" \
+          || echo "nothing to commit."
+
+      - name: push
+        run: git push || echo "nothing to commit."
