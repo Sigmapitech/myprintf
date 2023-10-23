@@ -4,6 +4,8 @@
 ## File description:
 ## _
 ##
+VPATH += .
+SRC += vdprintf.c
 
 VPATH += base
 SRC += my_compute_power_rec.c
