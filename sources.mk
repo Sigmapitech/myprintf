@@ -6,6 +6,7 @@
 ##
 VPATH += .
 SRC += vdprintf.c
+SRC += printf.c
 
 VPATH += base
 SRC += my_compute_power_rec.c

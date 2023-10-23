@@ -24,6 +24,8 @@
     #define ATTR(key) __attribute__((key))
     #define UNUSED ATTR(unused)
 
+    #include <stdarg.h>
+
 char **my_str_to_word_array(char const *str);
 char *my_revstr(char *str);
 char *my_strcapitalize(char *str);
@@ -59,5 +61,9 @@ void my_putchar(char c);
 void my_puthex(int line, int pad);
 void my_sort_int_array(int *array, int size);
 void my_swap(int *a, int *b);
+
+// Delivery
+int printf(const char *format, ...);
+int vdprintf(int fd, const char *restrict format, va_list ap);
 
 #endif
