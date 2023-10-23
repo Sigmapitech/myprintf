@@ -1,13 +1,17 @@
 /*
 ** EPITECH PROJECT, 2023
-** my_printf
+** __
 ** File description:
-** vdprintf.c
+** _
 */
 #include <stdarg.h>
 
 
 int vdprintf(int fd, const char *restrict format, va_list ap)
 {
-    return 0;
+    print_info_t pinfo = {0, 0, 0};
+
+    for (; *format != '\0'; format++) {
+    }
+    return pi->written;
 }
