@@ -41,4 +41,8 @@ typedef struct {
 int put_nbr(int fd, int nb);
 int vdprintf(int fd, const char *restrict format, va_list ap);
 
+int print_char(int fd, print_info_t pinfo);
+int print_int(int fd, print_info_t pinfo);
+int print_str(int fd, print_info_t pinfo);
+
 #endif
