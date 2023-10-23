@@ -4,7 +4,7 @@ int put_nbr(int fd, int nb)
     char c;
 
     if (nb == 0)
-        return put_char('0');
+        return write(fd, "0", 1);
     if (nb < 0) {
         c = '-';
         write(fd, &c, 1);
