@@ -5,6 +5,7 @@
 ** vdprintf.c
 */
 #include <stdarg.h>
+#include "internal.h"
 
 int vdprintf(int fd, const char *restrict format, va_list ap)
 {

@@ -12,10 +12,18 @@
     #include <stdarg.h>
     #include <stddef.h>
 
+union arg_type {
+    char c;
+    int i;
+    void *p;
+};
+
 typedef struct {
     size_t written;
     size_t width;
     size_t prec;
+    va_list ap;
+    union arg_type arg;
 } print_info_t;
 
 typedef enum {
@@ -25,10 +33,11 @@ typedef enum {
 } type_t;
 
 typedef struct {
-    void (*handle)(print_info_t *info);
+    void (*handle)(int fd, print_info_t *info);
     char name[MAX_SPEC_LEN];
     type_t type;
 } spec_t;
+int put_nbr(int fd, int nb);
 
 int vdprintf(int fd, const char *restrict format, va_list ap);
 
