@@ -1,8 +1,8 @@
 ##
 ## EPITECH PROJECT, 2023
-## __
+## my_printf
 ## File description:
-## _
+## sources.mk
 ##
 VPATH += .
 SRC += vdprintf.c

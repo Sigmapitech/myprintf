@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** C Workshop Lib
+** my_printf
 ** File description:
 ** my_str_to_word_array.c
 */
