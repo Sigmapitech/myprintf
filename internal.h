@@ -1,9 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** Day07-Libmy, arguments
+** my_printf
 ** File description:
-** Task02 - concatenate two strings
-** non-printable characters are printed hexadecimally
+** internal.h
 */
 #ifndef NO_USE_INTERNAL
     #define NO_USE_INTERNAL
