@@ -12,13 +12,11 @@
 
     #include <stdarg.h>
     #include <stddef.h>
-
+/* a faire
 typedef enum {
-    FLAG,
-    CONVERSION,
     LENGTH_MODIFIER,
-} type_t;
-
+} ;
+*/
 typedef struct {
     size_t written;
     va_list ap;
@@ -41,7 +39,7 @@ typedef struct {
 } spec_t;
 
 int put_nbr(int fd, int nb);
-int vdprintf(int fd, const char *restrict format, va_list ap);
+int vdprintf(int fd, const char *format, va_list ap);
 
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
