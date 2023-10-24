@@ -4,6 +4,9 @@
 ** File description:
 ** utils.c
 */
+
+#include <unistd.h>
+
 int put_nbr(int fd, int nb)
 {
     int out = nb / 10;
@@ -14,12 +17,12 @@ int put_nbr(int fd, int nb)
     if (nb < 0) {
         c = '-';
         write(fd, &c, 1);
-        out = out != 0 ? put_nbr(~out + 1) : 0;
+        out = out != 0 ? put_nbr(fd, ~out + 1) : 0;
         out++;
         c = ~(nb % 10) + 1 + '0';
         write(fd, &c, 1);
     } else {
-        out = out != 0 ? put_nbr(out) : 0;
+        out = out != 0 ? put_nbr(fd, out) : 0;
         c = nb % 10 + '0';
         write(fd, &c, 1);
     }
