@@ -20,15 +20,15 @@ typedef enum {
 } type_t;
 
 typedef struct {
-    int fd;
     size_t written;
     va_list ap;
+    int fd;
 } print_info_t;
 
 typedef struct {
     size_t width;
-    char flag;
     char *len_mod;
+    char flag;
     int prec;
 } conv_info_t;
 
@@ -36,30 +36,30 @@ typedef int (*conv_func_t)(print_info_t, conv_info_t);
 
 typedef struct {
     conv_func_t *handler;
-    char name[MAX_SPEC_LEN];
     type_t type;
+    char name[MAX_SPEC_LEN];
 } spec_t;
 
 int put_nbr(int fd, int nb);
 int vdprintf(int fd, const char *restrict format, va_list ap);
 
 
-int conv_char(print_info_t pinfo, conv_info_t cinfo);
-int conv_int(print_info_t pinfo, conv_info_t cinfo);
-int conv_str(print_info_t pinfo, conv_info_t cinfo);
-int conv_ptr(print_info_t pinfo, conv_info_t cinfo);
-int conv_per(print_info_t pinfo, conv_info_t cinfo);
+int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_str(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_per(print_info_t *pinfo, conv_info_t *cinfo);
 
-int conv_oct(print_info_t pinfo, conv_info_t cinfo);
-int conv_hex(print_info_t pinfo, conv_info_t cinfo);
-int conv_uint(print_info_t pinfo, conv_info_t cinfo);
+int conv_oct(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_hex(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_uint(print_info_t *pinfo, conv_info_t *cinfo);
 
-int conv_nota_sci(print_info_t pinfo, conv_info_t cinfo);
-int conv_nota_dec(print_info_t pinfo, conv_info_t cinfo);
-int conv_nota_var(print_info_t pinfo, conv_info_t cinfo);
-int conv_nota_hex(print_info_t pinfo, conv_info_t cinfo);
+int conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo);
+int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo);
 
-int conv_num(print_info_t pinfo, conv_info_t cinfo);
+int conv_num(print_info_t *pinfo, conv_info_t *cinfo);
 
 static
 const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
