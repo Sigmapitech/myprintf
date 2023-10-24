@@ -1,3 +1,9 @@
+/*
+** EPITECH PROJECT, 2023
+** my_printf
+** File description:
+** convertion_float.c
+*/
 #include "internal.h"
 
 // scientific notation of float
