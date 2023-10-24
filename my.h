@@ -57,6 +57,7 @@ int my_str_isupper(char const *str);
 int my_strcmp(char const *s1, char const *s2);
 int my_strlen(char const *str);
 int my_strncmp(char const *s1, char const *s2, int n);
+int my_strnlen(char const *str, int n);
 void my_putchar(char c);
 void my_puthex(int line, int pad);
 void my_sort_int_array(int *array, int size);

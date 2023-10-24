@@ -14,3 +14,12 @@ int my_strlen(char const *str)
         ;
     return p - str;
 }
+
+int my_strnlen(char const *str, int n)
+{
+    char const *p = str;
+
+    for (; n-- && *p != '\0'; ++p)
+        ;
+    return p - str;
+}
