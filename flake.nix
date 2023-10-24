@@ -50,6 +50,28 @@
             runHook postInstall
           '';
         };
+
+        unit_tests = libmy.overrideAttrs(prev: rec {
+          name = "unit_tests";
+          buildInputs = prev.buildInputs ++ [ pkgs.criterion ];
+          buildPhase = ''
+            runHook preBuild
+
+            make unit_tests NO_COV=1
+
+            runHook postBuild
+          '';
+
+          installPhase = ''
+            runHook preInstall
+
+            mkdir -p $out/bin
+            cp ${name} $out/bin/${name}
+
+            runHook postInstall
+          '';
+
+        });
       });
     };
 }
