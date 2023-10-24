@@ -4,22 +4,31 @@
 ** File description:
 ** convertion_base.c
 */
+
 #include "internal.h"
 
-int print_char(int fd, print_info_t pinfo)
+int conv_char(print_info_t pinfo, conv_info cinfo)
 {
-    pinfo->arg.c = (char)va_arg(pinfo->ap, int);
-    return write(fd, *pinfo->arg.c, 1);
+    return 0;
 }
 
-int print_int(int fd, print_info_t pinfo)
+int conv_int(print_info_t pinfo, conv_info cinfo)
 {
-    pinfo->arg.i = va_arg(pinfo->ap, int);
-    return put_nbr(fd, *pinfo->arg.i);
+    return 0;
 }
 
-int print_str(int fd, print_info_t pinfo)
+int conv_str(print_info_t pinfo, conv_info cinfo)
 {
-    pinfo->arg.p = va_arg(*pinfo->ap, char *);
-    return write(fd, *pinfo->arg.p, my_strlen(pinfo->arg.p));
+    return 0;
+}
+
+int conv_ptr(print_info_t pinfo, conv_info cinfo)
+{
+    return 0;
+}
+
+// percent
+int conv_per(print_info_t pinfo, conv_info cinfo)
+{
+    return 0;
 }
