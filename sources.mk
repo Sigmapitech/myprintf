@@ -43,3 +43,6 @@ SRC += my_strncpy.c
 SRC += my_strstr.c
 SRC += my_strupcase.c
 SRC += my_swap.c
+
+VPATH += tests
+TSRC += test_setup.c

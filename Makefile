@@ -30,12 +30,19 @@ CFLAGS += -Wwrite-strings
 CFLAGS += -iquote .
 
 include sources.mk
+
 vpath %.c $(VPATH)
 
 BUILD_DIR := .build
 
 LIB := libmy.a
+UNIT := unit_tests
+
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
+TOBJ := $(TSRC:%.c=$(BUILD_DIR)/%.o)
+
+TFLAGS := -L .
+TFLAGS += -lmy -lcriterion
 
 RM ?= rm -f
 AM ?= ar
@@ -64,3 +71,20 @@ re: fclean
 	$(MAKE) all
 
 .PHONY: re
+
+$(UNIT): LDFLAGS += -L ./lib/my -lmy -lcriterion
+$(UNIT): CFLAGS += -g3 --coverage
+$(UNIT): $(LIB) $(TOBJ)
+	$(CC) -g3 --coverage -fprofile-arcs $(CFLAGS) -o $@ $(TOBJ) $(TFLAGS)
+
+tests_run: $(UNIT)
+	./$^ --verbose
+
+.PHONY: tests_run
+
+cov: fclean
+	$(MAKE) tests_run
+	gcovr --exclude tests
+	gcovr --exclude tests --branch
+
+.PHONY: cov
