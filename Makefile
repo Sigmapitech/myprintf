@@ -72,10 +72,14 @@ re: fclean
 
 .PHONY: re
 
+NO_COV ?= 0
+
 $(UNIT): LDFLAGS += -L ./lib/my -lmy -lcriterion
-$(UNIT): CFLAGS += -g3 --coverage
+ifeq ($(NO_COV),0)
+$(UNIT): CFLAGS += -g3 --coverage -fprofile-arcs
+endif
 $(UNIT): $(LIB) $(TOBJ)
-	$(CC) -g3 --coverage -fprofile-arcs $(CFLAGS) -o $@ $(TOBJ) $(TFLAGS)
+	$(CC) -g3 $(CFLAGS) -o $@ $(TOBJ) $(TFLAGS)
 
 tests_run: $(UNIT)
 	./$^ --verbose
