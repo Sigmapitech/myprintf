@@ -7,7 +7,7 @@
 #include "internal.h"
 
 // scientific notation of float
-int conv_nota_sci(print_info_t *pinfo, conv_inf_to *cinfo)
+int conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
 {
     return 0;
 }

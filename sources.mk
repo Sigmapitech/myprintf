@@ -7,6 +7,13 @@
 VPATH += .
 SRC += vdprintf.c
 SRC += printf.c
+SRC += utils.c
+
+VPATH += handlers
+SRC += conversion_base.c
+SRC += conversion_extra.c
+SRC += conversion_float.c
+SRC += conversion_numerical.c
 
 VPATH += base
 SRC += my_compute_power_rec.c
