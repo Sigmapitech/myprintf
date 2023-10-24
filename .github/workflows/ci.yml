@@ -39,6 +39,28 @@ jobs:
         run: |
           nix build
 
+  run_unittests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.GH_SSH_PRIVATE_KEY }}
+          known_hosts: $GH_PUB_KEY
+      - name: Setup Nix via cachix
+        uses: cachix/install-nix-action@v20
+      - name: Setup cachix cli
+        run: nix-env -iA cachix -f https://cachix.org/api/v1/install
+      - name: Install coding-style
+        run: cachix use coding-style
+      - name: Run
+        run: |
+          nix run .#unit_tests
+
   fix_headers:
     runs-on: ubuntu-latest
     steps:
@@ -72,10 +94,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ fix_headers ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Get branch name
+        id: branch-names
+        uses: tj-actions/branch-names@v6
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ steps.branch-names.outputs.head_ref_branch }}
+      - name: Make sure repo is up to date
+        run: git pull
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -92,7 +118,7 @@ jobs:
           nix run github:Sigmapitech/cs --extra-experimental-features 'nix-command flakes'
 
   sync_repository:
-    needs: [ check_compilation, verify_coding_style_checker ]
+    needs: [ check_compilation, run_unittests, verify_coding_style_checker ]
     if: ${{ !github.event.pull_request }}
     runs-on: ubuntu-latest
     steps:
