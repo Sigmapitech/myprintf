@@ -59,19 +59,17 @@ const char *parse_leng_mod(conv_info_t *cinfo, const char *fmt)
 }
 
 static
-int print_literal(int fd, const char **format)
+const char *print_literal(print_info_t *pinfo, const char *fmt)
 {
-    const char *s = *format;
+    const char *s = fmt;
 
-    for (; **format != '\0' && **format != '%'; (*format)++);
-    return write(fd, s, *format - s);
+    for (; *fmt != '\0' && *fmt != '%'; fmt++);
+    pinfo->written += write(pinfo->fd, s, fmt - s);
+    return fmt;
 }
 
 __attribute__((optimize("unroll-loops")))
-const char *handle_lookahead(
-    print_info_t *pinfo UNUSED,
-    conv_info_t *cinfo,
-    const char *fmt)
+const char *handle_lookahead(conv_info_t *cinfo, const char *fmt)
 {
     const char *(*parse_funcs[4])(conv_info_t *, const char *) = {
         &parse_flag, &parse_width, &parse_prec, &parse_leng_mod
@@ -93,10 +91,10 @@ int vdprintf(int fd, const char *format, va_list ap)
     for (; *format != '\0'; format++) {
         if (*format != '%') {
             format++;
-            pinfo.written += print_literal(fd, &format);
+            format = print_literal(&pinfo, format);
             continue;
         }
-        format = handle_lookahead(&pinfo, &cinfo, ++format);
+        format = handle_lookahead(&cinfo, ++format);
         if (format == NULL)
             return -1;
         CONVERSION_FUNCS[(int)*format](&pinfo, &cinfo);
