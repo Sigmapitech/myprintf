@@ -42,6 +42,7 @@ SRC += my_strcat.c
 SRC += my_strcmp.c
 SRC += my_strcpy.c
 SRC += my_strdup.c
+SRC += my_stridx.c
 SRC += my_strlen.c
 SRC += my_strlowcase.c
 SRC += my_strncat.c

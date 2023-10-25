@@ -55,13 +55,13 @@ int my_str_isnum(char const *str);
 int my_str_isprintable(char const *str);
 int my_str_isupper(char const *str);
 int my_strcmp(char const *s1, char const *s2);
+int my_stridx(const char *str, char c);
 int my_strlen(char const *str);
 int my_strncmp(char const *s1, char const *s2, int n);
 void my_putchar(char c);
 void my_puthex(int line, int pad);
 void my_sort_int_array(int *array, int size);
 void my_swap(int *a, int *b);
-
 // Delivery
 int my_printf(const char *format, ...);
 int my_vdprintf(int fd, const char *restrict format, va_list ap);
