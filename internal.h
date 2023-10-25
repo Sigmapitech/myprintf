@@ -20,8 +20,11 @@ typedef enum {
 } type_t;
 
 typedef enum {
-    F_LEFTPAD = 1,
-    F_ZERO = 2
+    F_PAD_LEFT = 1 << 0,
+    F_PAD_ZERO = 1 << 1,
+    F_ALT_FORM = 1 << 2,
+    F_PUT_SIGN = 1 << 3,
+    F_SET_SPACE = 1 << 4,
 } flag_t;
 
 typedef struct {

@@ -19,7 +19,7 @@ void test_conv_func(conv_func_t convf, char *exp, ...)
 {
     print_info_t pinfo = { .fd = STDOUT_FILENO };
     conv_info_t cinfo = {
-        .flag = F_LEFTPAD,
+        .flag = F_PAD_LEFT,
         .width = 5
     };
 
