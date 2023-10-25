@@ -10,15 +10,18 @@
 #include <unistd.h>
 
 #include "internal.h"
-#include "my.h"
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
+    (void)pinfo;
+    (void)cinfo;
     return 0;
 }
 
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
+    (void)pinfo;
+    (void)cinfo;
     return 0;
 }
 
@@ -42,11 +45,15 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 
 int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
 {
+    (void)pinfo;
+    (void)cinfo;
     return 0;
 }
 
 // percent
 int conv_per(print_info_t *pinfo, conv_info_t *cinfo)
 {
+    (void)pinfo;
+    (void)cinfo;
     return 0;
 }
