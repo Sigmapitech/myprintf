@@ -56,5 +56,5 @@ VPATH += tests
 TSRC += test_setup.c
 
 VPATH += tests/handlers
-TSRC += test_handler_base.c
+TSRC += test_handler_string.c
 TSRC += test_conversion_func.c

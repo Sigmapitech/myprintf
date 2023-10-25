@@ -24,7 +24,7 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 {
     char *s = va_arg(pinfo->ap, char *);
-    int len = my_strnlen(s, cinfo->width);
+    int len = MIN(my_strnlen(s, cinfo->width), cinfo->prec);
     int pad = cinfo->width - len;
     int written = 0;
 
