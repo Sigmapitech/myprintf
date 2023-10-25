@@ -30,10 +30,10 @@ const char *parse_width(conv_info_t *cinfo, const char *fmt)
 {
     cinfo->width = 0;
     for (; IS_DIGIT(*fmt); fmt++) {
-        if (cinfo->width > UINT_MAX / 10)
+        if (cinfo->width > (INT_MAX / 10))
             return NULL;
         cinfo->width *= 10;
-        if (cinfo->width > UINT_MAX - '0')
+        if (cinfo->width > INT_MAX - (*fmt - '0'))
             return NULL;
         cinfo->width += *fmt - '0';
     }
@@ -47,12 +47,13 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
         cinfo->prec = INT_MAX;
         return fmt;
     }
+    fmt++;
     cinfo->prec = 0;
-    for (; *fmt >= '0' && *fmt <= '9'; fmt++) {
-        if (cinfo->prec > INT_MAX / 10)
+    for (; IS_DIGIT(*fmt); fmt++) {
+        if (cinfo->prec > (INT_MAX / 10))
             return NULL;
         cinfo->prec *= 10;
-        if (cinfo->width > INT_MAX - '0')
+        if (cinfo->width > INT_MAX - (*fmt - '0'))
             return NULL;
         cinfo->prec += *fmt - '0';
     }

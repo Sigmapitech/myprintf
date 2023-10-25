@@ -41,7 +41,7 @@ typedef struct {
 } print_info_t;
 
 typedef struct {
-    size_t width;
+    int width;
     len_mod_t len_mod;
     char flag;
     int prec;
