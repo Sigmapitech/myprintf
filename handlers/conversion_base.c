@@ -30,7 +30,7 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 {
     char *s = va_arg(pinfo->ap, char *);
     int len = MIN(my_strnlen(s, cinfo->width), cinfo->prec);
-    int pad = cinfo->width - ((len != -1) ? len : sizeof("(null)") -1);
+    int pad = cinfo->width - ((len != -1) ? len : (int)SSTR_LEN("(null)"));
     int written = 0;
 
     if (pad > 0 && cinfo->flag & F_PAD_LEFT)
@@ -38,7 +38,7 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
     if (s != NULL)
         written += write(pinfo->fd, s, len);
     else
-        written += write(pinfo->fd, "(null)", sizeof("(null)") - 1);
+        written += write(pinfo->fd, "(null)", (int)SSTR_LEN("(null)"));
     if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
     return written;
