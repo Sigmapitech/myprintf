@@ -5,6 +5,7 @@
 ** conversion_base.c
 */
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -25,12 +26,15 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 {
     char *s = va_arg(pinfo->ap, char *);
     int len = MIN(my_strnlen(s, cinfo->width), cinfo->prec);
-    int pad = cinfo->width - len;
+    int pad = cinfo->width - ((len != -1) ? len : sizeof("(null)") -1);
     int written = 0;
 
     if (pad > 0 && cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
-    written += write(pinfo->fd, s, len);
+    if (s != NULL)
+        written += write(pinfo->fd, s, len);
+    else
+        written += write(pinfo->fd, "(null)", sizeof("(null)") - 1);
     if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
     return written;

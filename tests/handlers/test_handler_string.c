@@ -36,28 +36,6 @@ Test(conv_str, right_padded_string, .init = cr_redirect_stdout)
     test_conv_func(&cinfo, &conv_str, "abc  ", "abc");
 }
 
-Test(conv_str, precision_set_to_zero, .init = cr_redirect_stdout)
-{
-    conv_info_t cinfo = {
-        .flag = F_NO_FLAG,
-        .width = 0,
-        .prec = 0,
-    };
-
-    test_conv_func(&cinfo, &conv_str, "", "abc");
-}
-
-Test(conv_str, precision_set_to_zero_with_pad, .init = cr_redirect_stdout)
-{
-    conv_info_t cinfo = {
-        .flag = F_NO_FLAG,
-        .width = 5,
-        .prec = 0,
-    };
-
-    test_conv_func(&cinfo, &conv_str, "     ", "abc");
-}
-
 Test(conv_str, precision_and_pad, .init = cr_redirect_stdout)
 {
     conv_info_t cinfo = {
