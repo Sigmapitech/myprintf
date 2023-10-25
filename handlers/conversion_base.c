@@ -26,13 +26,14 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
     char *s = va_arg(pinfo->ap, char *);
     int len = my_strnlen(s, cinfo->width);
     int pad = cinfo->width - len;
+    int written = 0;
 
     if (pad > 0 && cinfo->flag & F_PAD_LEFT)
-        putnchar(pinfo->fd, ' ', pad);
-    write(pinfo->fd, s, len);
-    if (pad > 0 && cinfo->flag & ~F_PAD_LEFT)
-        putnchar(pinfo->fd, pad, ' ');
-    return 0;
+        written += putnchar(pinfo->fd, ' ', pad);
+    written += write(pinfo->fd, s, len);
+    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
+        written += putnchar(pinfo->fd, ' ', pad);
+    return written;
 }
 
 int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
