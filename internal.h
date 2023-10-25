@@ -20,6 +20,7 @@ typedef enum {
 } type_t;
 
 typedef enum {
+    F_NO_FLAG = 0,
     F_PAD_LEFT = 1 << 0,
     F_PAD_ZERO = 1 << 1,
     F_ALT_FORM = 1 << 2,
