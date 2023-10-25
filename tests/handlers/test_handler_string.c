@@ -1,12 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-:q
-:a
-:q
-:w
 ** my_printf
 ** File description:
-** test_handler_base.c
+** test_handler_string.c
 */
 
 #include <limits.h>
