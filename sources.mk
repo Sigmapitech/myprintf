@@ -54,3 +54,4 @@ SRC += my_swap.c
 
 VPATH += tests
 TSRC += test_setup.c
+TSRC += test_parse_flag.c
