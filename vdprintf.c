@@ -15,15 +15,11 @@
 static
 const char *parse_flag(conv_info_t *cinfo, const char *fmt)
 {
-    char cmp[] = "+#0- ";
-    int idx;
-
     cinfo->flag = 0;
-    for (; *fmt != '\0'; fmt++) {
-        idx = my_stridx(cmp, *fmt);
-        if (idx == -1) {
+    for (int idx; *fmt != '\0'; fmt++) {
+        idx = my_stridx("+#0- ", *fmt);
+        if (idx == -1)
             return fmt;
-        }
         cinfo->flag |= 1 << idx;
     }
     return NULL;
@@ -33,13 +29,11 @@ static
 const char *parse_width(conv_info_t *cinfo, const char *fmt)
 {
     cinfo->width = 0;
-    for (; '0' <= *fmt && *fmt <= '9'; fmt++) {
+    for (; IS_DIGIT(*fmt); fmt++) {
         cinfo->width *= 10;
         cinfo->width += *fmt - '0';
     }
-    if (*fmt == '\0')
-        return NULL;
-    return fmt;
+    return (*fmt == '\0') ? NULL : fmt;
 }
 
 static
@@ -54,15 +48,13 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
         cinfo->prec *= 10;
         cinfo->prec += *fmt - '0';
     }
-    if (*fmt == '\0')
-        return NULL;
-    return fmt;
+    return (*fmt == '\0') ? NULL : fmt;
 }
 
 static
 const char *parse_leng_mod(conv_info_t *cinfo, const char *fmt)
 {
-    cinfo->len_mod = "\0";
+    cinfo->len_mod = (char *)"\0";
     return fmt;
 }
 
@@ -75,23 +67,21 @@ int print_literal(int fd, const char **format)
     return write(fd, s, *format - s);
 }
 
+__attribute__((optimize("unroll-loops")))
 const char *handle_lookahead(
     print_info_t *pinfo UNUSED,
     conv_info_t *cinfo,
     const char *fmt)
 {
-    fmt = parse_flag(cinfo, fmt);
-    if (fmt == NULL)
-        return NULL;
-    fmt = parse_width(cinfo, fmt);
-    if (fmt == NULL)
-        return NULL;
-    fmt = parse_prec(cinfo, fmt);
-    if (fmt == NULL)
-        return NULL;
-    fmt = parse_leng_mod(cinfo, fmt);
-    if (fmt == NULL)
-        return NULL;
+    const char *(*parse_funcs[4])(conv_info_t *, const char *) = {
+        &parse_flag, &parse_width, &parse_prec, &parse_leng_mod
+    };
+
+    for (int i = 0; i < 4; i++) {
+        fmt = parse_funcs[i](cinfo, fmt);
+        if (fmt == NULL)
+            return NULL;
+    }
     return fmt;
 }
 
@@ -105,14 +95,11 @@ int vdprintf(int fd, const char *format, va_list ap)
             format++;
             pinfo.written += print_literal(fd, &format);
             continue;
-        } else {
-            format++;
-            format = handle_lookahead(&pinfo, &cinfo, format);
         }
+        format = handle_lookahead(&pinfo, &cinfo, ++format);
         if (format == NULL)
             return -1;
-        else
-            CONVERSION_FUNCS[(int)*format](&pinfo, &cinfo);
+        CONVERSION_FUNCS[(int)*format](&pinfo, &cinfo);
     }
     return pinfo.written;
 }

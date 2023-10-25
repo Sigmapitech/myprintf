@@ -23,10 +23,7 @@ static
 void test_handle(conv_info_t *exp, const char *input)
 {
     conv_info_t got = {
-        .flag = 0,
-        .width = 0,
-        .prec = 0,
-        .len_mod = ""
+        0, .len_mod = ""
     };
 
     handle_lookahead(NULL, &got, input);
@@ -35,7 +32,7 @@ void test_handle(conv_info_t *exp, const char *input)
     cr_assert_eq(exp->flag, got.flag);
     cr_assert_eq(exp->width, got.width);
     cr_assert_eq(exp->prec, got.prec);
-    // cr_assert_str_eq(exp->len_mod, got.len_mod);
+    cr_assert_str_eq(exp->len_mod, got.len_mod);
 }
 
 Test(parse, empty_str)
@@ -45,7 +42,7 @@ Test(parse, empty_str)
     test_handle_out(NULL, str);
 }
 
-Test(parse, flag1)
+Test(parse, all_flags_enabled)
 {
     conv_info_t expected = {
         .flag = 31, .width = 0, .prec = INT_MAX, .len_mod = ""
