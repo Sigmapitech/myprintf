@@ -33,6 +33,8 @@ const char *parse_width(conv_info_t *cinfo, const char *fmt)
         if (cinfo->width > UINT_MAX / 10)
             return NULL;
         cinfo->width *= 10;
+        if (cinfo->width > UINT_MAX - '0')
+            return NULL;
         cinfo->width += *fmt - '0';
     }
     return (*fmt == '\0') ? NULL : fmt;
@@ -50,6 +52,8 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
         if (cinfo->prec > INT_MAX / 10)
             return NULL;
         cinfo->prec *= 10;
+        if (cinfo->width > INT_MAX - '0')
+            return NULL;
         cinfo->prec += *fmt - '0';
     }
     return (*fmt == '\0') ? NULL : fmt;
@@ -58,7 +62,7 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
 static
 const char *parse_leng_mod(conv_info_t *cinfo, const char *fmt)
 {
-    cinfo->len_mod = (char *)"\0";
+    cinfo->len_mod = CONV_NO;
     return fmt;
 }
 

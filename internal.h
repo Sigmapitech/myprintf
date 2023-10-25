@@ -22,6 +22,18 @@ typedef enum {
     F_SET_SPACE = 1 << 4,
 } flag_t;
 
+typedef enum {
+    CONV_NO,        // default
+    CONV_CHAR,      // hh
+    CONV_SHORT,     // h
+    CONV_LONG,      // l
+    CONV_LONG_LONG, // ll & q
+    CONV_DOUBLE,    // L
+    CONV_INTMAX_T,  // j
+    CONV_SIZE_T,    // z & z
+    CONV_PTDRDIFF_T // t
+} len_mod_t;
+
 typedef struct {
     size_t written;
     va_list ap;
@@ -30,7 +42,7 @@ typedef struct {
 
 typedef struct {
     size_t width;
-    char *len_mod;
+    len_mod_t len_mod;
     char flag;
     int prec;
 } conv_info_t;
