@@ -27,12 +27,10 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
     int len = my_strnlen(s, cinfo->width);
     int pad = cinfo->width - len;
 
-    if (pad > 0 && cinfo->flag & F_LEFTPAD) {
-        fprintf(stderr, "kek!\n");
+    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
         putnchar(pinfo->fd, ' ', pad);
-    }
     write(pinfo->fd, s, len);
-    if (pad > 0 && cinfo->flag & ~F_LEFTPAD)
+    if (pad > 0 && cinfo->flag & ~F_PAD_LEFT)
         putnchar(pinfo->fd, pad, ' ');
     return 0;
 }
