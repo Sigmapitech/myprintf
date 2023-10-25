@@ -24,10 +24,14 @@
     #define ATTR(key) __attribute__((key))
     #define UNUSED ATTR(unused)
 
+    // Static len have the size of the number of characters their are
+    // composed of, including the '\0'
+    #define SSTR_LEN(s) (sizeof(s) - 1)
+
     #include <stdarg.h>
 
 int my_stridx(const char *str, char c);
-int my_strlen(char const *str);
+int my_strnlen(char const *str, int n);
 
 // Delivery
 int my_printf(const char *format, ...);

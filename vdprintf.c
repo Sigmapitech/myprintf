@@ -93,9 +93,10 @@ const char *handle_lookahead(conv_info_t *cinfo, const char *fmt)
 
 int vdprintf(int fd, const char *format, va_list ap)
 {
-    print_info_t pinfo = { .written = 0, .ap = ap, .fd = fd };
+    print_info_t pinfo = { .written = 0, .fd = fd };
     conv_info_t cinfo = { 0 };
 
+    va_copy(pinfo.ap, ap);
     for (; *format != '\0'; format++) {
         if (*format != '%') {
             format++;
