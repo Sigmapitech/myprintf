@@ -5,16 +5,18 @@
 ** vdprintf.c
 */
 #include <stdarg.h>
+#include <unistd.h>
 #include "internal.h"
+#include "my.h"
 
-char parse_flag(char **format)
+char parse_flag(const char **format)
 {
     char out = 0;
     char cmp[] = "+#0- ";
     int idx;
 
-    for (; **format != '\0'; *format++) {
-        idx = my_stridx(cmp, *format);
+    for (; **format != '\0'; (*format)++) {
+        idx = my_stridx(cmp, **format);
         if (idx == -1)
             return out;
         out |= 1 << idx;
@@ -23,11 +25,11 @@ char parse_flag(char **format)
 }
 
 static
-size_t parse_width(char **format)
+size_t parse_width(const char **format)
 {
     size_t out = 0;
 
-    for (;'0' <= **format && **format >= '9'; *format++) {
+    for (; '0' <= **format && **format <= '9'; (*format)++) {
         out *= 10;
         out += **format - '0';
     }
@@ -35,13 +37,13 @@ size_t parse_width(char **format)
 }
 
 static
-int parse_prec(char **format)
+int parse_prec(const char **format)
 {
     int out = 0;
 
     if (**format != '.')
-        return NULL;
-    for (;'0' <= **format && **format >= '9'; *format++) {
+        return -1;
+    for (;'0' <= **format && **format <= '9'; (*format)++) {
         out *= 10;
         out += **format - '0';
     }
@@ -49,21 +51,22 @@ int parse_prec(char **format)
 }
 
 static
-char *parse_leng_mod(char **format)
+char *parse_leng_mod(const char **format UNUSED)
 {
+    return NULL;
 }
 
 static
-int print_literal(int fd, char **format)
+int print_literal(int fd, const char **format)
 {
-    char *s = *format;
+    const char *s = *format;
 
-    for (; **format != '\0' && **format != '%'; *format++);
+    for (; **format != '\0' && **format != '%'; (*format)++);
     return write(fd, s, *format - s);
 }
 
 static
-conv_info_t handle_lookahead(print_info_t *pinfo, char **format)
+conv_info_t handle_lookahead(print_info_t *pinfo UNUSED, const char **format)
 {
     conv_info_t cinfo;
 
@@ -76,7 +79,7 @@ conv_info_t handle_lookahead(print_info_t *pinfo, char **format)
 
 int vdprintf(int fd, const char *format, va_list ap)
 {
-    print_info_t pinfo = {.written = 0, .ap = ap, .fd = fd};
+    print_info_t pinfo = { .written = 0, .ap = ap, .fd = fd };
     conv_info_t cinfo;
 
     for (; *format != '\0'; format++) {
@@ -85,7 +88,7 @@ int vdprintf(int fd, const char *format, va_list ap)
             pinfo.written += print_literal(fd, &format);
         } else {
             cinfo = handle_lookahead(&pinfo, &format);
-            CONVERSION_FUNCS[*format](&pinfo, &cinfo);
+            CONVERSION_FUNCS[(int)*format](&pinfo, &cinfo);
         }
     }
     return 0;

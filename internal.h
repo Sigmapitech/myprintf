@@ -32,7 +32,7 @@ typedef struct {
 
 typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
-char parse_flag(char **format);
+char parse_flag(const char **format);
 
 int put_nbr(int fd, int nb);
 int vdprintf(int fd, const char *format, va_list ap);
