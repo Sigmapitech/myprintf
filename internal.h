@@ -30,17 +30,12 @@ typedef struct {
     int prec;
 } conv_info_t;
 
-typedef int (*conv_func_t)(print_info_t, conv_info_t);
+typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
-typedef struct {
-    conv_func_t *handler;
-    type_t type;
-    char name[MAX_SPEC_LEN];
-} spec_t;
+char parse_flag(char **format);
 
 int put_nbr(int fd, int nb);
 int vdprintf(int fd, const char *format, va_list ap);
-
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);

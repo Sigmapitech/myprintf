@@ -7,57 +7,59 @@
 #include <stdarg.h>
 #include "internal.h"
 
-static
 char parse_flag(char **format)
 {
     char out = 0;
+    char cmp[] = "+#0- ";
+    int idx;
 
     for (; **format != '\0'; *format++) {
-        switch (*format) {
-            case '+':
-                out |= 1;
-                break;
-            case '#':
-                out |= 1 << 1;
-                break;
-            case '0':
-                out |= 1 << 2;
-                break;
-            case '-':
-                out |= 1 << 3;
-                break;
-            case ' ':
-                out |= 1 << 4;
-                break;
-            default:
-                return out;
-        }
+        idx = my_stridx(cmp, *format);
+        if (idx == -1)
+            return out;
+        out |= 1 << idx;
     }
-    return NULL;
+    return -1;
 }
 
 static
-size_t parse_width(void)
+size_t parse_width(char **format)
+{
+    size_t out = 0;
+
+    for (;'0' <= **format && **format >= '9'; *format++) {
+        out *= 10;
+        out += **format - '0';
+    }
+    return out;
+}
+
+static
+int parse_prec(char **format)
+{
+    int out = 0;
+
+    if (**format != '.')
+        return NULL;
+    for (;'0' <= **format && **format >= '9'; *format++) {
+        out *= 10;
+        out += **format - '0';
+    }
+    return out;
+}
+
+static
+char *parse_leng_mod(char **format)
 {
 }
 
 static
-int parse_prec(void)
-{
-}
-
-static
-char *parse_leng_mod(void)
-{
-}
-
-static
-int print_literal(char **format)
+int print_literal(int fd, char **format)
 {
     char *s = *format;
 
     for (; **format != '\0' && **format != '%'; *format++);
-    return += write(fd, s, *format - s);
+    return write(fd, s, *format - s);
 }
 
 static
@@ -65,10 +67,10 @@ conv_info_t handle_lookahead(print_info_t *pinfo, char **format)
 {
     conv_info_t cinfo;
 
-    cinfo.flag = parse_flag(format);
-    cinfo.width = parse_width();
-    cinfo.prec = parse_prec();
-    cinfo.len_mod = parse_leng_mod();
+    cinfo.flag = parse_flag(++format);
+    cinfo.width = parse_width(format);
+    cinfo.prec = parse_prec(format);
+    cinfo.len_mod = parse_leng_mod(format);
     return cinfo;
 }
 
@@ -78,11 +80,12 @@ int vdprintf(int fd, const char *format, va_list ap)
     conv_info_t cinfo;
 
     for (; *format != '\0'; format++) {
-        if (*format != '%')
-            pinfo.written += print_literal(&format);
-        else {
+        if (*format != '%') {
+            format++;
+            pinfo.written += print_literal(fd, &format);
+        } else {
             cinfo = handle_lookahead(&pinfo, &format);
-            conv_func_t[*format].handle(&pinfo, &cinfo);
+            CONVERSION_FUNCS[*format](&pinfo, &cinfo);
         }
     }
     return 0;
