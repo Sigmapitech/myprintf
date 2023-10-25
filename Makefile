@@ -47,23 +47,26 @@ TFLAGS += -lasan -lmy -lcriterion
 RM ?= rm -f
 AM ?= ar
 
+DIE := exit
+
 all: $(LIB)
 .PHONY: all
 
 $(LIB): $(OBJ)
-	$(AR) rc $@ $^
+	$(AR) rc $@ $^ || $(DIE)
 
 $(BUILD_DIR)/%.o: %.c
 	@ mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< || $(DIE)
 
 clean:
 	$(RM) $(SRC:.c=.gcda)
 	$(RM) $(SRC:.c=.gcno)
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(TOBJ)
 
 fclean: clean
 	$(RM) $(LIB)
+	$(RM) -r $(BUILD_DIR)
 
 .PHONY: clean fclean
 
@@ -78,10 +81,10 @@ ifeq ($(NO_COV),0)
 $(UNIT): CFLAGS += -g3 --coverage -fprofile-arcs
 endif
 $(UNIT): $(LIB) $(TOBJ)
-	$(CC) -g3 $(CFLAGS) -o $@ $(TOBJ) $(TFLAGS)
+	$(CC) -g3 $(CFLAGS) -o $@ $(TOBJ) $(TFLAGS) || $(DIE)
 
 tests_run: $(UNIT)
-	./$^ --verbose
+	./$^
 
 .PHONY: tests_run
 
