@@ -19,6 +19,11 @@ typedef enum {
     LENGTH_MODIFIER,
 } type_t;
 
+typedef enum {
+    F_LEFTPAD = 1,
+    F_ZERO = 2
+} flag_t;
+
 typedef struct {
     size_t written;
     va_list ap;
@@ -32,7 +37,7 @@ typedef struct {
     int prec;
 } conv_info_t;
 
-typedef int (*conv_func_t)(print_info_t, conv_info_t);
+typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
 typedef struct {
     conv_func_t *handler;
@@ -42,7 +47,7 @@ typedef struct {
 
 int put_nbr(int fd, int nb);
 int vdprintf(int fd, const char *restrict format, va_list ap);
-
+int putnchar(int fd, char c, int nb);
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
