@@ -11,25 +11,24 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
-#include "internal.h"
-#include "my.h"
+#include "test_conv_func.h"
 
-static
-void test_conv_func(conv_func_t convf, char *exp, ...)
+Test(conv_str, left_padded_string, .init = cr_redirect_stdout)
 {
-    print_info_t pinfo = { .fd = STDOUT_FILENO };
     conv_info_t cinfo = {
         .flag = F_PAD_LEFT,
         .width = 5
     };
 
-    va_start(pinfo.ap, exp);
-    convf(&pinfo, &cinfo);
-    va_end(pinfo.ap);
-    cr_assert_stdout_eq_str(exp);
+    test_conv_func(&cinfo, &conv_str, "  abc", "abc");
 }
 
-Test(conv_str, left_padded_string, .init = cr_redirect_stdout)
+Test(conv_str, right_padded_string, .init = cr_redirect_stdout)
 {
-    test_conv_func(&conv_str, "  abc", "abc");
+    conv_info_t cinfo = {
+        .flag = F_NO_FLAG,
+        .width = 5
+    };
+
+    test_conv_func(&cinfo, &conv_str, "abc  ", "abc");
 }
