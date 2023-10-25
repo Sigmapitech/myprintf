@@ -12,11 +12,16 @@
 
     #include <stdarg.h>
     #include <stddef.h>
-/* a faire
+
 typedef enum {
-    LENGTH_MODIFIER,
-} ;
-*/
+    F_NO_FLAG = 0,
+    F_PAD_LEFT = 1 << 0,
+    F_PAD_ZERO = 1 << 1,
+    F_ALT_FORM = 1 << 2,
+    F_PUT_SIGN = 1 << 3,
+    F_SET_SPACE = 1 << 4,
+} flag_t;
+
 typedef struct {
     size_t written;
     va_list ap;

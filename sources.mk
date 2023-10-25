@@ -54,4 +54,8 @@ SRC += my_swap.c
 
 VPATH += tests
 TSRC += test_setup.c
+
+VPATH += tests/handlers
+TSRC += test_handler_string.c
+TSRC += test_conversion_func.c
 TSRC += test_parse_handle_lookahead.c
