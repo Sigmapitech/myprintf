@@ -7,6 +7,18 @@
 
 #include <unistd.h>
 
+int putnchar(int fd, char c, int nb)
+{
+    int written;
+
+    for (int n = nb; n--;) {
+        written = write(fd, &c, sizeof(char));
+        if (written == -1)
+            return nb - n;
+    }
+    return nb;
+}
+
 int put_nbr(int fd, int nb)
 {
     int out = nb / 10;
