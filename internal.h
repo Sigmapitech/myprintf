@@ -32,10 +32,12 @@ typedef struct {
 
 typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
-char parse_flag(const char **format);
+const char *handle_lookahead(
+    print_info_t *pinfo,
+    conv_info_t *cinfo,
+    const char *fmt);
 
 int put_nbr(int fd, int nb);
-int vdprintf(int fd, const char *format, va_list ap);
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
