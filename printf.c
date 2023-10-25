@@ -10,13 +10,13 @@
 
 #include "internal.h"
 
-int printf(const char *format, ...)
+int my_printf(const char *format, ...)
 {
     int written;
     va_list ap;
 
     va_start(ap, format);
-    written = vdprintf(STDOUT_FILENO, format, ap);
+    written = my_vdprintf(STDOUT_FILENO, format, ap);
     va_end(ap);
     return written;
 }

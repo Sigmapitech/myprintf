@@ -63,7 +63,7 @@ void my_sort_int_array(int *array, int size);
 void my_swap(int *a, int *b);
 
 // Delivery
-int printf(const char *format, ...);
-int vdprintf(int fd, const char *restrict format, va_list ap);
+int my_printf(const char *format, ...);
+int my_vdprintf(int fd, const char *restrict format, va_list ap);
 
 #endif
