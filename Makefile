@@ -42,7 +42,7 @@ OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 TOBJ := $(TSRC:%.c=$(BUILD_DIR)/%.o)
 
 TFLAGS := -L .
-TFLAGS += -lmy -lcriterion
+TFLAGS += -lasan -lmy -lcriterion
 
 RM ?= rm -f
 AM ?= ar
@@ -74,7 +74,6 @@ re: fclean
 
 NO_COV ?= 0
 
-$(UNIT): LDFLAGS += -L ./lib/my -lmy -lcriterion
 ifeq ($(NO_COV),0)
 $(UNIT): CFLAGS += -g3 --coverage -fprofile-arcs
 endif
