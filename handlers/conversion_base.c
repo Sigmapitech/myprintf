@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include "internal.h"
+#include "my.h"
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
