@@ -14,12 +14,6 @@
     #include <stddef.h>
 
 typedef enum {
-    FLAG,
-    CONVERSION,
-    LENGTH_MODIFIER,
-} type_t;
-
-typedef enum {
     F_NO_FLAG = 0,
     F_PAD_LEFT = 1 << 0,
     F_PAD_ZERO = 1 << 1,
@@ -27,6 +21,18 @@ typedef enum {
     F_PUT_SIGN = 1 << 3,
     F_SET_SPACE = 1 << 4,
 } flag_t;
+
+typedef enum {
+    CONV_NO,        // default
+    CONV_CHAR,      // hh
+    CONV_SHORT,     // h
+    CONV_LONG,      // l
+    CONV_LONG_LONG, // ll & q
+    CONV_DOUBLE,    // L
+    CONV_INTMAX_T,  // j
+    CONV_SIZE_T,    // z & z
+    CONV_PTDRDIFF_T // t
+} len_mod_t;
 
 typedef struct {
     size_t written;
@@ -36,22 +42,17 @@ typedef struct {
 
 typedef struct {
     size_t width;
-    char *len_mod;
+    len_mod_t len_mod;
     char flag;
     int prec;
 } conv_info_t;
 
 typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
-typedef struct {
-    conv_func_t *handler;
-    type_t type;
-    char name[MAX_SPEC_LEN];
-} spec_t;
+int putnchar(int fd, char c, int nb);
+const char *handle_lookahead(conv_info_t *cinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
-int vdprintf(int fd, const char *restrict format, va_list ap);
-int putnchar(int fd, char c, int nb);
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);

@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #include "internal.h"
+#include "my.h"
 
 int my_printf(const char *format, ...)
 {

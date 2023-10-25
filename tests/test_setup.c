@@ -4,8 +4,9 @@
 ** File description:
 ** test_setup.c
 */
-#include "my.h"
 #include <criterion/criterion.h>
+
+#include "my.h"
 
 Test(test, test_setup)
 {

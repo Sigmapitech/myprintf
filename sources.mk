@@ -59,3 +59,4 @@ VPATH += tests/handlers
 TSRC += test_handler_string.c
 TSRC += test_handler_string_edge_cases.c
 TSRC += test_conversion_func.c
+TSRC += test_parse_handle_lookahead.c
