@@ -28,8 +28,12 @@ void test_handle(conv_info_t *exp, const char *input)
     };
 
     handle_lookahead(&got, input);
-    printf("%d:%d:%d:%s\n", got.flag, got.width, got.prec, got.len_mod);
-    printf("%d:%d:%d:%s\n", exp->flag, exp->width, exp->prec, exp->len_mod);
+    fprintf(
+        stderr, "got = (flag=%hhd, with=%zu, prec=%d, lenmod=%d)\n",
+        got.flag, got.width, got.prec, got.len_mod);
+    fprintf(
+        stderr, "exp = (flag=%hhd, with=%zu, prec=%d, lenmod=%d)\n",
+        exp->flag, exp->width, exp->prec, exp->len_mod);
     cr_assert_eq(exp->flag, got.flag);
     cr_assert_eq(exp->width, got.width);
     cr_assert_eq(exp->prec, got.prec);
