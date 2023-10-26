@@ -39,3 +39,4 @@ TSRC += test_handler_char.c
 TSRC += test_handler_num.c
 TSRC += test_handler_string.c
 TSRC += test_handler_string_edge_cases.c
+TSRC += test_handler_percent.c
