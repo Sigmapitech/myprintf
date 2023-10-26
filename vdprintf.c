@@ -102,17 +102,19 @@ const char *handle_lookahead(conv_info_t *cinfo, const char *fmt)
 
 int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
-    int written = 0;
-    int pad = cinfo->width;
     static char buf[64];
+    int pad = cinfo->width;
+    int written = 0;
+    char cpad;
 
     pinfo->buf.s = buf;
     pinfo->buf.written = 0;
     cinfo->conv = *fmt;
     CONVERSION_FUNCS[CONV_IDX(*fmt)](pinfo, cinfo);
     pad -= pinfo->buf.written;
+    cpad = cinfo->flag & F_PAD_ZERO ? '0' : ' ';
     if (pad > 0 && cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
+        written += putnchar(pinfo->fd, cpad, pad);
     written += write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
     if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
