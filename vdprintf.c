@@ -133,7 +133,7 @@ int vdprintf(int fd, const char *format, va_list ap)
         format = handle_lookahead(&cinfo, ++format);
         if (format == NULL)
             return -1;
-        CONVERSION_FUNCS[(unsigned)*format](&pinfo, &cinfo);
+        print_format(&pinfo, &cinfo, format);
     }
     return pinfo.written;
 }
