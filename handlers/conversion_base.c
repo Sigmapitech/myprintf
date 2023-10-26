@@ -17,7 +17,7 @@ int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
     int i = va_arg(pinfo->ap, int);
 
-    (void)cinfo;
+    cinfo->len_mod &= ~F_PAD_ZERO;
     pinfo->buf.s[0] = i;
     pinfo->buf.written = 1;
     return 0;
@@ -35,6 +35,7 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 
 int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 {
+    cinfo->len_mod &= ~F_PAD_ZERO;
     pinfo->buf.s = va_arg(pinfo->ap, char *);
     if (pinfo->buf.s == NULL) {
         pinfo->buf.s = (char *)"(null)";
@@ -57,9 +58,12 @@ int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
     return 0;
 }
 
+/* The percent conversion may only print a percent no matter the settings.
+ * Hencewhise, reset width & precision to cancel padding. */
 int conv_per(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    (void)cinfo;
+    cinfo->width = 1;
+    cinfo->prec = 1;
     pinfo->buf.s[0] = '%';
     pinfo->buf.written = 1;
     return 0;
