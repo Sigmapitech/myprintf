@@ -61,7 +61,7 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
 }
 
 static
-const char *parse_leng_mod(conv_info_t *cinfo, const char *fmt)
+const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
 {
     cinfo->len_mod = CONV_NO;
     return fmt;
@@ -80,7 +80,7 @@ __attribute__((optimize("unroll-loops")))
 const char *handle_lookahead(conv_info_t *cinfo, const char *fmt)
 {
     const char *(*parse_funcs[4])(conv_info_t *, const char *) = {
-        &parse_flag, &parse_width, &parse_prec, &parse_leng_mod
+        &parse_flag, &parse_width, &parse_prec, &parse_len_mod
     };
 
     for (int i = 0; i < 4; i++) {
