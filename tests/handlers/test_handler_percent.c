@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_handler_char.c
+** test_handler_percent.c
 */
 
 #include <limits.h>
