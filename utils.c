@@ -5,6 +5,7 @@
 ** utils.c
 */
 
+#include "my.h"
 #include <unistd.h>
 
 int putnchar(int fd, char c, int nb)
@@ -17,4 +18,13 @@ int putnchar(int fd, char c, int nb)
             return nb - n;
     }
     return nb;
+}
+
+void int_to_hex(char *buff, unsigned int input)
+{
+    for (int i = sizeof(int) * 2 -1; 0 <= i; i--) {
+        buff[i] = (input & 15);
+        buff[i] += buff[i] <= 9 ? '0' : 'a';
+        input >>= 4;
+    }
 }

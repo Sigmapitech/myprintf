@@ -40,5 +40,6 @@ int my_putnbr(char *s, int nb);
 // Delivery
 int my_printf(const char *format, ...);
 int my_vdprintf(int fd, const char *format, va_list ap);
+void my_int_to_hex(char *buff, int input);
 
 #endif
