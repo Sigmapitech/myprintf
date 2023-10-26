@@ -30,9 +30,14 @@ typedef enum {
     CONV_LONG_LONG, // ll & q
     CONV_DOUBLE,    // L
     CONV_INTMAX_T,  // j
-    CONV_SIZE_T,    // z & z
+    CONV_SIZE_T,    // z & Z
     CONV_PTDRDIFF_T // t
 } len_mod_t;
+
+typedef struct {
+    char[2] cmp;
+    eln_mod_t mod;
+} len_mod_comp_t;
 
 typedef struct {
     size_t written;
