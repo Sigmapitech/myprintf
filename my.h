@@ -30,6 +30,7 @@
 
     #include <stdarg.h>
 
+int my_intlen(int i);
 int my_stridx(const char *str, char c);
 int my_strnlen(char const *str, int n);
 int my_strncmp(char const *s1, char const *s2, int n);
