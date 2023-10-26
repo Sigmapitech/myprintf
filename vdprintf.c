@@ -7,6 +7,7 @@
 
 #include <limits.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <unistd.h>
 
 #include "internal.h"
@@ -99,6 +100,24 @@ const char *handle_lookahead(conv_info_t *cinfo, const char *fmt)
     return fmt;
 }
 
+int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
+{
+    int written = 0;
+    int pad = cinfo->width;
+    static char buf[64];
+
+    pinfo->buf.s = buf;
+    pinfo->buf.written = 0;
+    CONVERSION_FUNCS[CONV_IDX((int)*fmt)](pinfo, cinfo);
+    pad -= pinfo->buf.written;
+    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
+        written += putnchar(pinfo->fd, ' ', pad);
+    written += write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
+    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
+        written += putnchar(pinfo->fd, ' ', pad);
+    return written;
+}
+
 int vdprintf(int fd, const char *format, va_list ap)
 {
     print_info_t pinfo = { .written = 0, .fd = fd };
@@ -114,7 +133,7 @@ int vdprintf(int fd, const char *format, va_list ap)
         format = handle_lookahead(&cinfo, ++format);
         if (format == NULL)
             return -1;
-        CONVERSION_FUNCS[(int)*format](&pinfo, &cinfo);
+        CONVERSION_FUNCS[(unsigned)*format](&pinfo, &cinfo);
     }
     return pinfo.written;
 }

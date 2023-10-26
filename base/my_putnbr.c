@@ -5,26 +5,17 @@
 ** my_putnbr.c
 */
 
+#include <stdio.h>
 #include <unistd.h>
 #include "my.h"
 
-static
-void cycle_print(int fd, int n)
-{
-    char c;
-
-    if (n < -9)
-        cycle_print(fd, n / 10);
-    c = '0' - (n % 10);
-    write(fd, &c, sizeof(char));
-}
-
-int my_putnbr(int fd, int n)
+int my_putnbr(char *s, int n)
 {
     if (n >= 0)
         n = -n;
     else
-        write(fd, "-", sizeof(char));
-    cycle_print(fd, n);
+        *s++ = '-';
+    for (int i = my_intlen(n); i != 0; n /= 10)
+        s[--i] = -ABS((n % 10)) | '0';
     return 0;
 }

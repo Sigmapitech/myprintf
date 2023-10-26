@@ -8,6 +8,7 @@
 #ifndef LIB_MY_H
     #define LIB_MY_H
 
+    #define ABS(x) (((x) > 0) ? (-x) : (x))
     #define MIN(x, y) ((x > y) ? (y) : (x))
 
     #define C_UP(c) ((c) | ' ')
@@ -34,7 +35,7 @@ int my_intlen(int i);
 int my_stridx(const char *str, char c);
 int my_strnlen(char const *str, int n);
 int my_strncmp(char const *s1, char const *s2, int n);
-int my_putnbr(int fd, int nb);
+int my_putnbr(char *s, int nb);
 
 // Delivery
 int my_printf(const char *format, ...);

@@ -14,48 +14,34 @@
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    char c = (char)va_arg(pinfo->ap, int);
-    int pad = cinfo->width - 1;
-    int written = 0;
+    int i = va_arg(pinfo->ap, int);
 
-    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
-    written += write(pinfo->fd, &c, 1);
-    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
-    return written;
+    (void)cinfo;
+    pinfo->buf.s[0] = i;
+    pinfo->buf.written = 1;
+    return 0;
 }
 
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
     int i = va_arg(pinfo->ap, int);
-    int pad = cinfo->width - my_intlen(i) - (i < 0);
-    int written = 0;
 
-    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
-    written += my_putnbr(pinfo->fd, i);
-    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
-    return written;
+    (void)cinfo;
+    my_putnbr(pinfo->buf.s, i);
+    pinfo->buf.written = my_intlen(i) + (i < 0);
+    return 0;
 }
 
 int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    char *s = va_arg(pinfo->ap, char *);
-    int len = MIN(my_strnlen(s, cinfo->width), cinfo->prec);
-    int pad = cinfo->width - ((len != -1) ? len : (int)SSTR_LEN("(null)"));
-    int written = 0;
-
-    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
-    if (s != NULL)
-        written += write(pinfo->fd, s, len);
-    else
-        written += write(pinfo->fd, "(null)", (int)SSTR_LEN("(null)"));
-    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
-        written += putnchar(pinfo->fd, ' ', pad);
-    return written;
+    pinfo->buf.s = va_arg(pinfo->ap, char *);
+    if (pinfo->buf.s == NULL) {
+        pinfo->buf.s = (char *)"(null)";
+        pinfo->buf.written = 6;
+        return 0;
+    }
+    pinfo->buf.written = my_strnlen(pinfo->buf.s, cinfo->prec);
+    return 0;
 }
 
 int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
@@ -68,5 +54,7 @@ int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
 int conv_per(print_info_t *pinfo, conv_info_t *cinfo)
 {
     (void)cinfo;
-    return write(pinfo->fd, "%", sizeof(char));
+    pinfo->buf.s[0] = '%';
+    pinfo->buf.written = 1;
+    return 0;
 }
