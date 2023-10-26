@@ -63,28 +63,18 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
 static
 const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
 {
-    const len_mod_comp_t cmp[10] = {
-        {"hh", CONV_CHAR},
-        {"h", CONV_SHORT},
-        {"l", CONV_LONG},
-        {"ll", CONV_LONG_LONG}, {"q", CONV_LONG_LONG},
-        {"L", CONV_DOUBLE},
-        {"j", CONV_INTMAX_T},
-        {"z", CONV_SIZE_T}, {"Z", CONV_SIZE_T},
-        {"t", CONV_PTDRDIFF_T}
-    };
-
     cinfo->len_mod = CONV_NO;
+    if (*fmt == '\0')
+        return NULL;
     for (int i = 0; i < 10; i++) {
-        if (!strncmp(fmt, cmp[i].cmp, strnlen(cmp[i].cmp))) {
+        if (!my_strncmp(fmt, cmp[i].cmp, my_strnlen(cmp[i].cmp, 2))) {
             cinfo->len_mod = cmp[i].mod;
-            return fmt += strnlen(cmp[i].cmp);
+            return fmt += my_strnlen(cmp[i].cmp, 2);
         }
     }
     return fmt;
 }
 
-static
 const char *print_literal(print_info_t *pinfo, const char *fmt)
 {
     const char *s = fmt;

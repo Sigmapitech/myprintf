@@ -35,8 +35,8 @@ typedef enum {
 } len_mod_t;
 
 typedef struct {
-    char[2] cmp;
-    eln_mod_t mod;
+    char cmp[2];
+    len_mod_t mod;
 } len_mod_comp_t;
 
 typedef struct {
@@ -98,4 +98,15 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
     [ CONV_IDX('n') ] = &conv_num
 };
 
+static
+const len_mod_comp_t cmp[10] = {
+    {"hh", CONV_CHAR},
+    {"h", CONV_SHORT},
+    {"l", CONV_LONG},
+    {"ll", CONV_LONG_LONG}, {"q", CONV_LONG_LONG},
+    {"L", CONV_DOUBLE},
+    {"j", CONV_INTMAX_T},
+    {"z", CONV_SIZE_T}, {"Z", CONV_SIZE_T},
+    {"t", CONV_PTDRDIFF_T}
+};
 #endif
