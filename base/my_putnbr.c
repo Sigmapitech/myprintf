@@ -16,6 +16,6 @@ int my_putnbr(char *s, int n)
     else
         *s++ = '-';
     for (int i = my_intlen(n); i != 0; n /= 10)
-        s[--i] = -ABS((n % 10)) | '0';
+        s[--i] = -(n % 10) | '0';
     return 0;
 }

@@ -8,7 +8,6 @@
 #ifndef LIB_MY_H
     #define LIB_MY_H
 
-    #define ABS(x) (((x) > 0) ? (-x) : (x))
     #define MIN(x, y) ((x > y) ? (y) : (x))
 
     #define C_UP(c) ((c) | ' ')

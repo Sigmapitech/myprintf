@@ -28,6 +28,6 @@ int my_putnbr_base(char *s, const char *sbase, int n)
     else
         *s++ = '-';
     for (int i = my_base_len(base, n); i != 0; n /= base)
-        s[--i] = sbase[-ABS((n % base))];
+        s[--i] = sbase[-(n % base)];
     return 0;
 }
