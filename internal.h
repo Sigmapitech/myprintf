@@ -51,6 +51,7 @@ typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
 int putnchar(int fd, char c, int nb);
 const char *handle_lookahead(conv_info_t *cinfo, const char *fmt);
+const char *print_literal(print_info_t *pinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
 

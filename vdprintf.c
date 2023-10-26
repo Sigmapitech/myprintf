@@ -67,7 +67,6 @@ const char *parse_leng_mod(conv_info_t *cinfo, const char *fmt)
     return fmt;
 }
 
-static
 const char *print_literal(print_info_t *pinfo, const char *fmt)
 {
     const char *s = fmt;
