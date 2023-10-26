@@ -10,6 +10,7 @@
 *.gc??
 
 compile_commands.json
+.cache
 
 # tests
 unit_tests
