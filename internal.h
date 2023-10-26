@@ -56,6 +56,7 @@ typedef struct {
     len_mod_t len_mod;
     char flag;
     int prec;
+    char conv;
 } conv_info_t;
 
 typedef int (*conv_func_t)(print_info_t *, conv_info_t *);

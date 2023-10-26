@@ -53,7 +53,7 @@ int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
     (void)cinfo;
     pinfo->buf.s[0] = '0';
     pinfo->buf.s[1] = 'x';
-    my_putnbr_base(pinfo->buf.s + 2, "0123456789abcdef", ptr);
+    my_putnbr_base(pinfo->buf.s + 2, 16, ptr);
     pinfo->buf.written = my_base_len(0x10, ptr) + 2;
     return 0;
 }
