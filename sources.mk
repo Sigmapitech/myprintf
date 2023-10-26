@@ -25,9 +25,11 @@ VPATH += tests
 TSRC += test_setup.c
 
 VPATH += tests/handlers
+
 TSRC += test_my_putnbr.c
 TSRC += test_my_strnlen.c
 TSRC += test_my_stridx.c
+TSRC += test_handler_char.c
 TSRC += test_handler_string.c
 TSRC += test_handler_string_edge_cases.c
 TSRC += test_conversion_func.c

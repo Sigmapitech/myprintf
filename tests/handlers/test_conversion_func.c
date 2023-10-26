@@ -26,7 +26,7 @@ void log_to_stderr(
     setbuf(stderr, NULL);
     fprintf(
         stderr,
-        "(flagv=%d, prec=%d, width=%zu) : [",
+        "(flagv=%d, prec=%d, width=%d) : [",
         cinfo->flag, cinfo->prec, cinfo->width);
     va_copy(pinfo.ap, *ap);
     convf(&pinfo, cinfo);
