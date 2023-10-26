@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_printf.c
+** test_printf_hex.c
 */
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
