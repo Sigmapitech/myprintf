@@ -10,6 +10,7 @@ SRC += printf.c
 SRC += utils.c
 
 VPATH += base
+SRC += my_putnbr.c
 SRC += my_strnlen.c
 SRC += my_stridx.c
 
@@ -23,6 +24,7 @@ VPATH += tests
 TSRC += test_setup.c
 
 VPATH += tests/handlers
+TSRC += test_my_putnbr.c
 TSRC += test_handler_string.c
 TSRC += test_handler_string_edge_cases.c
 TSRC += test_conversion_func.c

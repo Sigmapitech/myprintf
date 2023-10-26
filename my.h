@@ -32,6 +32,7 @@
 
 int my_stridx(const char *str, char c);
 int my_strnlen(char const *str, int n);
+int my_putnbr(int fd, int nb);
 
 // Delivery
 int my_printf(const char *format, ...);
