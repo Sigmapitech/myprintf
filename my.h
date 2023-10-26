@@ -37,6 +37,9 @@ int my_strnlen(char const *str, int n);
 int my_strncmp(char const *s1, char const *s2, int n);
 int my_putnbr(char *s, int nb);
 
+int my_putnbr_base(char *s, const char *sbase, int n);
+int my_base_len(int base, int n);
+
 // Delivery
 int my_printf(const char *format, ...);
 int my_vdprintf(int fd, const char *format, va_list ap);
