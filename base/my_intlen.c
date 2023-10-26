@@ -10,11 +10,9 @@
 
 int my_intlen(int i)
 {
-    int n = 0;
+    int n = 1;
 
-    if (i == 0)
-        return 1;
-    for (; i != 0; i /= 10)
+    for (i /= 10; i != 0; i /= 10)
         n++;
     return n;
 }
