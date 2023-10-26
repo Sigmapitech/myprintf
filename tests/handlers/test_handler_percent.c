@@ -15,7 +15,7 @@
 #include "internal.h"
 #include "test_conv_func.h"
 
-Test(conv_per, precent, .init = cr_redirect_stdout)
+Test(conv_per, precent)
 {
     conv_info_t cinfo = {
         .width = 1,
@@ -25,7 +25,7 @@ Test(conv_per, precent, .init = cr_redirect_stdout)
     test_conv_func(&cinfo, &conv_per, "%");
 }
 
-Test(conv_per, precent_is_always_percent, .init = cr_redirect_stdout)
+Test(conv_per, precent_is_always_percent)
 {
     conv_info_t cinfo = {
         .width = 5,

@@ -21,8 +21,10 @@ void log_to_stderr(
     conv_func_t convf,
     va_list *ap)
 {
+    char buf[64];
     print_info_t pinfo = { .fd = STDERR_FILENO };
 
+    pinfo.buf.s = buf;
     setbuf(stderr, NULL);
     fprintf(
         stderr,
@@ -40,11 +42,15 @@ void test_conv_func(
     char const *exp,
     ...)
 {
+    char buf[64];
     print_info_t pinfo = { .fd = STDOUT_FILENO };
 
+    pinfo.buf.s = buf;
+    pinfo.buf.written = 0;
+    memset(pinfo.buf.s, '\0', 64);
     va_start(pinfo.ap, exp);
     log_to_stderr(exp, cinfo, convf, &pinfo.ap);
     convf(&pinfo, cinfo);
     va_end(pinfo.ap);
-    cr_assert_stdout_eq_str(exp);
+    cr_assert_str_eq(pinfo.buf.s, exp);
 }

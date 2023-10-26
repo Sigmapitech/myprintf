@@ -33,10 +33,10 @@ TSRC += test_my_putnbr.c
 TSRC += test_my_strnlen.c
 TSRC += test_my_intlen.c
 TSRC += test_my_stridx.c
+TSRC += test_print_format.c
 
 VPATH += tests/handlers
 TSRC += test_handler_char.c
 TSRC += test_handler_num.c
 TSRC += test_handler_string.c
-TSRC += test_handler_string_edge_cases.c
 TSRC += test_handler_percent.c
