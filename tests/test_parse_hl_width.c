@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_parse_handle_lookahead_width.c
+** test_parse_hl_width.c
 */
 
 #include <limits.h>
