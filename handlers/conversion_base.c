@@ -6,6 +6,7 @@
 */
 
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -46,8 +47,13 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
 
 int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    (void)pinfo;
+    size_t ptr = (size_t)va_arg(pinfo->ap, void *);
+
     (void)cinfo;
+    pinfo->buf.s[0] = '0';
+    pinfo->buf.s[1] = 'x';
+    my_putnbr_base(pinfo->buf.s + 2, "0123456789abcdef", ptr);
+    pinfo->buf.written = my_base_len(0x10, ptr) + 2;
     return 0;
 }
 

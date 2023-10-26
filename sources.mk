@@ -44,3 +44,4 @@ TSRC += test_handler_char.c
 TSRC += test_handler_num.c
 TSRC += test_handler_percent.c
 TSRC += test_handler_string.c
+TSRC += test_handler_ptr.c
