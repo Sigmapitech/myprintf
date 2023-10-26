@@ -18,7 +18,7 @@ const char *parse_flag(conv_info_t *cinfo, const char *fmt)
 {
     cinfo->flag = 0;
     for (int idx; *fmt != '\0'; fmt++) {
-        idx = my_stridx("+#0- ", *fmt);
+        idx = my_stridx("-0#+ ", *fmt);
         if (idx == -1)
             return fmt;
         cinfo->flag |= 1 << idx;
@@ -118,15 +118,14 @@ int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
     return written;
 }
 
-int vdprintf(int fd, const char *format, va_list ap)
+int my_vdprintf(int fd, const char *format, va_list ap)
 {
     print_info_t pinfo = { .written = 0, .fd = fd };
     conv_info_t cinfo = { 0 };
 
     va_copy(pinfo.ap, ap);
-    for (; *format != '\0'; format++) {
+    while (*format != '\0') {
         if (*format != '%') {
-            format++;
             format = print_literal(&pinfo, format);
             continue;
         }
@@ -134,6 +133,7 @@ int vdprintf(int fd, const char *format, va_list ap)
         if (format == NULL)
             return -1;
         print_format(&pinfo, &cinfo, format);
+        format++;
     }
     return pinfo.written;
 }
