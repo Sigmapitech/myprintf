@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** C Workshop Lib
+** my_printf
 ** File description:
 ** test_my_putnbr_base.c
 */

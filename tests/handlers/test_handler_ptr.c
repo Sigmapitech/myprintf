@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_handler_num.c
+** test_handler_ptr.c
 */
 
 #include <limits.h>
