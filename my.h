@@ -29,6 +29,7 @@
     #define SSTR_LEN(s) (sizeof(s) - 1)
 
     #include <stdarg.h>
+    #include <stddef.h>
 
 int my_intlen(int i);
 int my_stridx(const char *str, char c);
@@ -36,8 +37,8 @@ int my_strnlen(char const *str, int n);
 int my_strncmp(char const *s1, char const *s2, int n);
 int my_putnbr(char *s, int nb);
 
-int my_putnbr_base(char *s, const char *sbase, int n);
-int my_base_len(int base, int n);
+int my_putnbr_base(char *s, const char *sbase, size_t n);
+int my_base_len(int base, size_t n);
 
 // Delivery
 int my_printf(const char *format, ...);

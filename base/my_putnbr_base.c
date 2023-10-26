@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "my.h"
 
-int my_base_len(int base, int n)
+int my_base_len(int base, size_t n)
 {
     int i = 1;
 
@@ -17,17 +17,13 @@ int my_base_len(int base, int n)
     return i;
 }
 
-int my_putnbr_base(char *s, const char *sbase, int n)
+int my_putnbr_base(char *s, const char *sbase, size_t n)
 {
     int base = 0;
 
     for (const char *p = sbase; *p != '\0'; ++p)
         base++;
-    if (n >= 0)
-        n = -n;
-    else
-        *s++ = '-';
-    for (int i = my_base_len(base, n); i != 0; n /= base)
-        s[--i] = sbase[-(n % base)];
+    for (int i = my_base_len(base, n); i > 0; n /= base)
+        s[--i] = sbase[n % base];
     return 0;
 }
