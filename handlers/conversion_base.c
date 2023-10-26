@@ -14,9 +14,16 @@
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    (void)pinfo;
-    (void)cinfo;
-    return 0;
+    char c = (char)va_arg(pinfo->ap, int);
+    int pad = cinfo->width - 1;
+    int written = 0;
+
+    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
+        written += putnchar(pinfo->fd, ' ', pad);
+    written += write(pinfo->fd, &c, 1);
+    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
+        written += putnchar(pinfo->fd, ' ', pad);
+    return written;
 }
 
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
