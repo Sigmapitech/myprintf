@@ -30,9 +30,14 @@ typedef enum {
     CONV_LONG_LONG, // ll & q
     CONV_DOUBLE,    // L
     CONV_INTMAX_T,  // j
-    CONV_SIZE_T,    // z & z
+    CONV_SIZE_T,    // z & Z
     CONV_PTDRDIFF_T // t
 } len_mod_t;
+
+typedef struct {
+    char cmp[2];
+    len_mod_t mod;
+} len_mod_comp_t;
 
 typedef struct {
     size_t written;
@@ -51,6 +56,7 @@ typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
 int putnchar(int fd, char c, int nb);
 const char *handle_lookahead(conv_info_t *cinfo, const char *fmt);
+const char *print_literal(print_info_t *pinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
 
@@ -92,4 +98,15 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
     [ CONV_IDX('n') ] = &conv_num
 };
 
+static
+const len_mod_comp_t cmp[10] = {
+    {"hh", CONV_CHAR},
+    {"h", CONV_SHORT},
+    {"l", CONV_LONG},
+    {"ll", CONV_LONG_LONG}, {"q", CONV_LONG_LONG},
+    {"L", CONV_DOUBLE},
+    {"j", CONV_INTMAX_T},
+    {"z", CONV_SIZE_T}, {"Z", CONV_SIZE_T},
+    {"t", CONV_PTDRDIFF_T}
+};
 #endif
