@@ -8,6 +8,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <limits.h>
 #include <unistd.h>
 
 #include "internal.h"
@@ -27,7 +28,8 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
     int i = va_arg(pinfo->ap, int);
 
-    (void)cinfo;
+    if (!i && cinfo->prec == 0)
+        return 0;
     my_putnbr(pinfo->buf.s, i);
     pinfo->buf.written = my_intlen(i) + (i < 0);
     return 0;
