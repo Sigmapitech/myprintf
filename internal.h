@@ -93,6 +93,7 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
     [ CONV_IDX('s') ] = &conv_str,
     [ CONV_IDX('p') ] = &conv_ptr,
     [ CONV_IDX('o') ] = &conv_oct,
+    [ CONV_IDX('u') ] = &conv_uint,
     [ CONV_IDX('x') ] = &conv_hex,
     [ CONV_IDX('X') ] = &conv_hex,
     [ CONV_IDX('e') ] = &conv_nota_sci,

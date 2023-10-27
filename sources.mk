@@ -39,6 +39,7 @@ TSRC += test_print_literal.c
 TSRC += test_printf.c
 TSRC += test_printf_hex.c
 TSRC += test_printf_int.c
+TSRC += test_printf_num_prec_zero.c
 TSRC += test_printf_oct.c
 TSRC += test_setup.c
 

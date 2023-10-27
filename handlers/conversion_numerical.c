@@ -24,6 +24,8 @@ int conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
 {
     size_t n = (size_t)va_arg(pinfo->ap, size_t);
 
+    if (!n && cinfo->prec == 0)
+        return 0;
     if (cinfo->flag & F_ALT_FORM && n) {
         pinfo->buf.s[0] = '0';
         pinfo->buf.written++;
@@ -35,6 +37,8 @@ int conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
 {
     size_t n = (size_t)va_arg(pinfo->ap, size_t);
 
+    if (!n && cinfo->prec == 0)
+        return 0;
     if (cinfo->flag & F_ALT_FORM && n) {
         pinfo->buf.s[0] = '0';
         pinfo->buf.s[1] = 'x';
@@ -51,6 +55,7 @@ int conv_uint(print_info_t *pinfo, conv_info_t *cinfo)
 {
     size_t n = (size_t)va_arg(pinfo->ap, size_t);
 
-    (void)cinfo;
+    if (!n && cinfo->prec == 0)
+        return 0;
     return conv_base(pinfo, 10, n);
 }
