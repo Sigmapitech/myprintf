@@ -38,6 +38,7 @@ TSRC += test_print_format.c
 TSRC += test_print_literal.c
 TSRC += test_printf.c
 TSRC += test_printf_hex.c
+TSRC += test_printf_oct.c
 TSRC += test_setup.c
 
 VPATH += tests/handlers
