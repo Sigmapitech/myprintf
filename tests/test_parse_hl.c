@@ -47,8 +47,12 @@ Test(parse, empty_str)
 
 Test(parse, all_flags_enabled)
 {
+    int mutally_exclusive = F_PAD_LEFT | F_PAD_ZERO;
     conv_info_t expected = {
-        .flag = 31, .width = 0, .prec = INT_MAX, .len_mod = CONV_NO
+        .flag = 31 - mutally_exclusive,
+        .width = 0,
+        .prec = INT_MAX,
+        .len_mod = CONV_NO
     };
 
     test_handle(&expected, "+#0- i!!!!!/n");
@@ -57,7 +61,10 @@ Test(parse, all_flags_enabled)
 Test(parse, prec)
 {
     conv_info_t expected = {
-        .flag = 0, .width = 0, .prec = 69420, .len_mod = CONV_NO
+        .flag = 0,
+        .width = 0,
+        .prec = 69420,
+        .len_mod = CONV_NO
     };
 
     test_handle(&expected, ".69420i!!!!!/n");
