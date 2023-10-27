@@ -26,9 +26,9 @@ Test(test_printf, hex_alt, .init = cr_redirect_stdout)
     cr_assert_stdout_eq_str("[0XCE5][0xce5][0][0]\n");
 }
 
-Test(test_printf, hex_dash_zero_exclusion)//, .init = cr_redirect_stdout)
+Test(test_printf, hex_dash_zero_exclusion, .init = cr_redirect_stdout)
 {
     my_printf("[%0-4x]", 3301);
     my_printf("[%-04X]\n", 3301);
-    // cr_assert_stdout_eq_str("[ce5 ][CE5 ]\n");
+    cr_assert_stdout_eq_str("[ce5 ][CE5 ]\n");
 }
