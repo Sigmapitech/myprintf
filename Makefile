@@ -10,16 +10,15 @@
 
 CC ?= gcc
 
-CFLAGS += -std=gnu11
+CFLAGS += -std=c99
 
 CFLAGS += -fno-builtin
 CFLAGS += -fno-tree-loop-distribute-patterns
 CFLAGS += -pipe
 
-CFLAGS += -U_FORTIFY_SOURCE -Wformat=2
+CFLAGS += -U_FORTIFY_SOURCE -Wformat=1
 CFLAGS += -O2 -march=native -mtune=native
 
-CFLAGS += -Waggregate-return
 CFLAGS += -Wall -Wextra -pedantic
 CFLAGS += -Winit-self -Wredundant-decls
 CFLAGS += -Winline -Wundef -Wshadow
