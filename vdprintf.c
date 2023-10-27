@@ -114,9 +114,11 @@ int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
     cinfo->conv = *fmt;
     CONVERSION_FUNCS[CONV_IDX(*fmt)](pinfo, cinfo);
     pad -= pinfo->buf.written;
-    cpad = cinfo->flag & F_PAD_ZERO ? '0' : ' ';
-    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
+    if (pad > 0 && cinfo->flag & (F_PAD_LEFT | F_PAD_ZERO)) {
+        cpad = cinfo->flag & F_PAD_ZERO ? '0' : ' ';
         written += putnchar(pinfo->fd, cpad, pad);
+        pad = 0;
+    }
     written += write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
     if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
