@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_printf_hex.c
+** test_printf_int.c
 */
 
 #include <stdio.h>
