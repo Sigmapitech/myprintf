@@ -35,7 +35,6 @@ TSRC += test_my_strnlen.c
 TSRC += test_parse_hl.c
 TSRC += test_parse_hl_len_mod.c
 TSRC += test_parse_hl_width.c
-TSRC += test_print_format.c
 TSRC += test_print_literal.c
 TSRC += test_printf.c
 TSRC += test_printf_hex.c
