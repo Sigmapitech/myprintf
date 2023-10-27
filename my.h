@@ -34,11 +34,13 @@
 ATTR(used) static
 const char *BASE_CHARSET = "0123456789abcdef";
 
+int my_compute_power_rec(int nb, int p);
 int my_intlen(int i);
-int my_stridx(const char *str, char c);
-int my_strnlen(char const *str, int n);
-int my_strncmp(char const *s1, char const *s2, int n);
 int my_putnbr(char *s, int nb);
+int my_stridx(const char *str, char c);
+int my_strncmp(char const *s1, char const *s2, int n);
+int my_strnlen(char const *str, int n);
+int double_to_str(char *out, double d, unsigned int prec);
 
 int my_putnbr_base(char *s, size_t base, size_t n);
 int my_base_len(int base, size_t n);

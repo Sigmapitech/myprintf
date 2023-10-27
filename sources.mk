@@ -17,6 +17,7 @@ SRC += my_putnbr_base.c
 SRC += my_stridx.c
 SRC += my_strncmp.c
 SRC += my_strnlen.c
+SRC += my_pow.c
 
 VPATH += handlers
 SRC += conversion_base.c
@@ -43,6 +44,7 @@ TSRC += test_printf_int.c
 TSRC += test_printf_num_prec_zero.c
 TSRC += test_printf_oct.c
 TSRC += test_setup.c
+TSRC += test_double_to_str.c
 
 VPATH += tests/handlers
 TSRC += test_handler_char.c
