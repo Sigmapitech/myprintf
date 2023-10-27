@@ -17,7 +17,7 @@ void test_handle_out(char *expected, const char *input)
 {
     conv_info_t cinfo = { 0 };
 
-    cr_assert_eq(expected, handle_lookahead(&cinfo, input));
+    cr_assert_eq(expected, parse_specifier(&cinfo, input));
 }
 
 static
@@ -27,7 +27,7 @@ void test_handle(conv_info_t *exp, const char *input)
         0, .len_mod = CONV_NO
     };
 
-    handle_lookahead(&got, input);
+    parse_specifier(&got, input);
     fprintf(
         stderr, "got = (flag=%hhd, with=%d, prec=%d, lenmod=%d)\n",
         got.flag, got.width, got.prec, got.len_mod);
