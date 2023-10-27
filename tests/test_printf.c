@@ -24,6 +24,6 @@ Test(test_vdprintf, test_str, .init = cr_redirect_stdout)
 
 Test(test_vdprintf, test_string_hard, .init = cr_redirect_stdout)
 {
-    my_printf("this is%-5.4s\n", "hello world");
+    my_printf("%-5.4s%# c%.1s%5.4s\n", "this!", 'i', "s", "hello world");
     cr_assert_stdout_eq_str("this is hell\n");
 }

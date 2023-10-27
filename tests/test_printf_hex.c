@@ -14,7 +14,7 @@ Test(test_printf, hex_pad_values, .init = cr_redirect_stdout)
 {
     my_printf("[%-4x]", 3301);
     my_printf("[%4X]\n", 3301);
-    cr_assert_stdout_eq_str("[ ce5][CE5 ]\n");
+    cr_assert_stdout_eq_str("[ce5 ][ CE5]\n");
 }
 
 Test(test_printf, hex_alt, .init = cr_redirect_stdout)
@@ -30,5 +30,5 @@ Test(test_printf, hex_dash_zero_exclusion, .init = cr_redirect_stdout)
 {
     my_printf("[%0-4x]", 3301);
     my_printf("[%-04X]\n", 3301);
-    cr_assert_stdout_eq_str("[ce5 ][CE5 ]\n");
+    cr_assert_stdout_eq_str("[ ce5][ CE5]\n");
 }

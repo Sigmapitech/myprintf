@@ -78,20 +78,6 @@ const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
     return fmt;
 }
 
-__attribute__((optimize("unroll-loops")))
-const char *handle_lookahead(conv_info_t *cinfo, const char *fmt)
-{
-    const char *(*parse_funcs[4])(conv_info_t *, const char *) = {
-        &parse_flag, &parse_width, &parse_prec, &parse_len_mod
-    };
-
-    for (int i = 0; i < 4; i++) {
-        fmt = parse_funcs[i](cinfo, fmt);
-        if (fmt == NULL)
-            return NULL;
-    }
-    return fmt;
-}
 const char *print_literal(print_info_t *pinfo, const char *fmt)
 {
     const char *s = fmt;
@@ -113,13 +99,13 @@ int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
     cinfo->conv = *fmt;
     CONVERSION_FUNCS[CONV_IDX(*fmt)](pinfo, cinfo);
     pad -= pinfo->buf.written;
-    if (pad > 0 && cinfo->flag & (F_PAD_LEFT | F_PAD_ZERO)) {
+    if (pad > 0 && ((cinfo->flag & F_PAD_ZERO) || ~cinfo->flag & F_PAD_LEFT)) {
         cpad = cinfo->flag & F_PAD_ZERO ? '0' : ' ';
         written += putnchar(pinfo->fd, cpad, pad);
         pad = 0;
     }
     written += write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
-    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT)
+    if (pad > 0 && cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
     return written;
 }
@@ -135,7 +121,7 @@ int my_vdprintf(int fd, const char *format, va_list ap)
             format = print_literal(&pinfo, format);
             continue;
         }
-        format = handle_lookahead(&cinfo, ++format);
+        format = parse_specifier(&cinfo, ++format);
         if (format == NULL)
             return -1;
         print_format(&pinfo, &cinfo, format);

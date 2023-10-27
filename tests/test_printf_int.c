@@ -22,7 +22,7 @@ Test(test_printf, simple_padding, .init = cr_redirect_stdout)
 {
     my_printf("[%-4d]", 123);
     my_printf("[%4d]\n", 123);
-    cr_assert_stdout_eq_str("[ 123][123 ]\n");
+    cr_assert_stdout_eq_str("[123 ][ 123]\n");
 }
 
 Test(test_printf, zero_padding, .init = cr_redirect_stdout)
