@@ -32,6 +32,11 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
         return 0;
     my_putnbr(pinfo->buf.s, i);
     pinfo->buf.written = my_intlen(i) + (i < 0);
+    if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
+        cinfo->flag |= F_PAD_ZERO;
+        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->width = cinfo->prec;
+    }
     return 0;
 }
 

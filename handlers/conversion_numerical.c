@@ -5,6 +5,7 @@
 ** conversion_numerical.c
 */
 
+#include <limits.h>
 #include <unistd.h>
 
 #include "internal.h"
@@ -30,6 +31,11 @@ int conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
         pinfo->buf.s[0] = '0';
         pinfo->buf.written++;
     }
+    if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
+        cinfo->flag |= F_PAD_ZERO;
+        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->width = cinfo->prec;
+    }
     return conv_base(pinfo, 8, n);
 }
 
@@ -44,6 +50,11 @@ int conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
         pinfo->buf.s[1] = 'x';
         pinfo->buf.written += 2;
     }
+    if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
+        cinfo->flag |= F_PAD_ZERO;
+        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->width = cinfo->prec;
+    }
     conv_base(pinfo, 16, n);
     for (int i = 0; i < pinfo->buf.written; i++)
         if (~cinfo->conv & (1 << 5) && IS_ALPHA(pinfo->buf.s[i]))
@@ -57,5 +68,10 @@ int conv_uint(print_info_t *pinfo, conv_info_t *cinfo)
 
     if (!n && cinfo->prec == 0)
         return 0;
+    if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
+        cinfo->flag |= F_PAD_ZERO;
+        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->width = cinfo->prec;
+    }
     return conv_base(pinfo, 10, n);
 }
