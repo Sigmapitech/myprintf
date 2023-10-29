@@ -6,6 +6,7 @@
 */
 
 #include "my.h"
+#include <stdio.h>
 #include <unistd.h>
 
 int putnchar(int fd, char c, int nb)
@@ -20,11 +21,17 @@ int putnchar(int fd, char c, int nb)
     return nb;
 }
 
-void int_to_hex(char *buff, unsigned int input)
+int double_to_str(char *out, double d, unsigned int prec)
 {
-    for (int i = sizeof(int) * 2 -1; 0 <= i; i--) {
-        buff[i] = (input & 15);
-        buff[i] += buff[i] <= 9 ? '0' : 'a';
-        input >>= 4;
+    int itgr = (int)(d + 1e-10);
+    int i;
+
+    d -= itgr;
+    i = my_putnbr(out, itgr);
+    if (prec) {
+        out[i] = '.';
+        d = d * my_compute_power_rec(10, prec) + 0.1;
+        i += my_putnbr(out + i + 1, (int)(d));
     }
+    return i;
 }
