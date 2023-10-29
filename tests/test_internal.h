@@ -43,6 +43,11 @@ typedef struct printf_test {
 static __attribute__((used))
 const printf_test_t TESTS[] = {
     TEST_NO_ARG(""),
+    TEST_NO_ARG("%"),
+    TEST_NO_ARG("%0"),
+    TEST_NO_ARG("%#-12"),
+    TEST_NO_ARG("%+."),
+    TEST_NO_ARG("% .8"),
     TEST_NO_ARG("Hello"),
     TEST_NO_ARG("\n"),
     TEST_NO_ARG("%%"),
@@ -64,6 +69,9 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%5d", .i = 3301, INT),
     TEST_ENTRY("%-5d", .i = 3301, INT),
     TEST_ENTRY("%0d", .i = 3301, INT),
+    TEST_ENTRY("%.1d", .i = 0, INT),
+    TEST_ENTRY("%.0d", .i = 0, INT),
+    TEST_ENTRY("%.d", .i = 0, INT),
     TEST_ENTRY("%010d", .i = 3301, INT),
     TEST_ENTRY("%-010d", .i = 3301, INT),
     TEST_ENTRY("%0-10d", .i = 3301, INT),
