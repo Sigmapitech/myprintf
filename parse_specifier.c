@@ -70,9 +70,10 @@ const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
     if (*fmt == '\0')
         return NULL;
     for (int i = 0; i < 10; i++) {
-        if (!my_strncmp(fmt, cmp[i].cmp, my_strnlen(cmp[i].cmp, 2))) {
+        if (!my_strncmp(fmt, cmp[i].cmp, 1 + cmp[i].cmp[1] != '\0')) {
             cinfo->len_mod = cmp[i].mod;
-            return fmt += my_strnlen(cmp[i].cmp, 2);
+            fmt += my_strnlen(cmp[i].cmp, 2);
+            return fmt;
         }
     }
     return fmt;

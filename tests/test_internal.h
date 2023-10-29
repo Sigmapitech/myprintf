@@ -47,6 +47,7 @@ const printf_test_t TESTS[] = {
     TEST_NO_ARG("\n"),
     TEST_NO_ARG("%%"),
     TEST_NO_ARG("%10%"),
+    TEST_NO_ARG("%#-0+ 6.3ll%"),
     TEST_ENTRY("%c", .c = '!', CHAR),
     TEST_ENTRY("%s", .s = "Hello world", CHAR_P),
     TEST_ENTRY("%u", .i = -3, INT),
