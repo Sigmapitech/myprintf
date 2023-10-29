@@ -22,8 +22,8 @@ const char *parse_flag(conv_info_t *cinfo, const char *fmt)
         if (idx == -1)
             return fmt;
         cinfo->flag |= 1 << idx;
-        if ((cinfo->flag & F_PAD_ZERO) && (cinfo->flag & F_PAD_LEFT))
-            cinfo->flag &= ~(F_PAD_ZERO | F_PAD_LEFT);
+        if (cinfo->flag & F_PAD_LEFT)
+            cinfo->flag &= ~F_PAD_ZERO;
     }
     return NULL;
 }
@@ -56,7 +56,7 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
         if (cinfo->prec > (INT_MAX / 10))
             return NULL;
         cinfo->prec *= 10;
-        if (cinfo->width > INT_MAX - (*fmt - '0'))
+        if (cinfo->prec > INT_MAX - (*fmt - '0'))
             return NULL;
         cinfo->prec += *fmt - '0';
     }
@@ -70,9 +70,10 @@ const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
     if (*fmt == '\0')
         return NULL;
     for (int i = 0; i < 10; i++) {
-        if (!my_strncmp(fmt, cmp[i].cmp, my_strnlen(cmp[i].cmp, 2))) {
+        if (!my_strncmp(fmt, cmp[i].cmp, 1 + cmp[i].cmp[1] != '\0')) {
             cinfo->len_mod = cmp[i].mod;
-            return fmt += my_strnlen(cmp[i].cmp, 2);
+            fmt += my_strnlen(cmp[i].cmp, 2);
+            return fmt;
         }
     }
     return fmt;

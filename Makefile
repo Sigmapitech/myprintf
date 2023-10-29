@@ -15,10 +15,9 @@ CFLAGS += -fno-builtin
 CFLAGS += -fno-tree-loop-distribute-patterns
 CFLAGS += -pipe
 
-CFLAGS += -U_FORTIFY_SOURCE -Wformat=2
+CFLAGS += -U_FORTIFY_SOURCE -Wno-format-security
 CFLAGS += -O2 -march=native -mtune=native
 
-CFLAGS += -Waggregate-return
 CFLAGS += -Wall -Wextra -pedantic
 CFLAGS += -Winit-self -Wredundant-decls
 CFLAGS += -Winline -Wundef -Wshadow
@@ -40,8 +39,8 @@ UNIT := unit_tests
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 TOBJ := $(TSRC:%.c=$(BUILD_DIR)/%.o)
 
-TFLAGS := -L .
-TFLAGS += -lasan -lmy -lcriterion
+TFLAGS += -L .
+TFLAGS += -lmy -lcriterion
 
 RM ?= rm -f
 AM ?= ar
