@@ -27,6 +27,7 @@ SRC += conversion_numerical.c
 
 VPATH += tests
 TSRC += test_double_to_str.c
+TSRC += test_my_pow.c
 TSRC += test_my_intlen.c
 TSRC += test_my_putnbr.c
 TSRC += test_my_putnbr_base.c
