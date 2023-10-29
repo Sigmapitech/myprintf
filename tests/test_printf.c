@@ -32,13 +32,14 @@ char *clean(char *dest, const char *s)
 static
 void print_clean(char const *name, const char *out, const char *exp)
 {
+    static char cname[500];
     static char cexp[500];
     static char cout[500];
 
     fprintf(
         stderr,
-        "[%s] out (%s) <=> exp (%s)\n",
-        name, clean(cout, out), clean(cexp, exp)
+        "[%12s]: [out: %-20s] [exp: %-20s]\n",
+        clean(cname, name), clean(cout, out), clean(cexp, exp)
     );
 }
 
@@ -93,6 +94,6 @@ ParameterizedTest(
     run_printf(p);
     f = cr_get_redirected_stdout();
     fread(out, 500, 500, f);
-    print_clean(p->name, out, exp);
+    print_clean(p->fmt, out, exp);
     cr_assert_str_eq(out, exp);
 }
