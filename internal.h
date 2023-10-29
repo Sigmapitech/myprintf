@@ -7,11 +7,11 @@
 #ifndef NO_USE_INTERNAL
     #define NO_USE_INTERNAL
 
-    #define MAX_SPEC_LEN 2
-    #define CONV_IDX(c) (c - 'A')
-
     #include <stdarg.h>
     #include <stddef.h>
+
+    #define MAX_SPEC_LEN 2
+    #define CONV_IDX(c) (c - 'A')
 
 typedef enum {
     F_NO_FLAG = 0,

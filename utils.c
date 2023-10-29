@@ -5,9 +5,10 @@
 ** utils.c
 */
 
-#include "my.h"
 #include <stdio.h>
 #include <unistd.h>
+
+#include "my.h"
 
 int putnchar(int fd, char c, int nb)
 {
@@ -30,7 +31,7 @@ int double_to_str(char *out, double d, unsigned int prec)
     i = my_putnbr(out, itgr);
     if (prec) {
         out[i] = '.';
-        d = d * my_compute_power_rec(10, prec) + 0.1;
+        d = d * my_pow(10, prec) + 0.1;
         i += my_putnbr(out + i + 1, (int)(d));
     }
     return i;
