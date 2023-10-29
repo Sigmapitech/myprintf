@@ -22,7 +22,11 @@ ParameterizedTestParameters(test_myprintf, auto_tests)
 static
 char *clean(char *dest, const char *s)
 {
-    strncpy(dest, s, 500);
+    int len = strlen(s);
+
+    memcpy(dest, s, 20);
+    if (len < 20)
+        memset(dest + len, '_', (20 - len));
     for (char *p = dest; *p != '\0'; p++)
         if (!IS_PRINT(*p))
             *p = '.';
@@ -36,13 +40,15 @@ void print_clean(
     const char *exp,
     int ret[2])
 {
-    static char cname[500];
-    static char cexp[500];
-    static char cout[500];
+    static char cname[20];
+    static char cexp[20];
+    static char cout[20];
 
+    memset(cexp, '_', 20);
+    memset(cout, '_', 20);
     fprintf(
         stderr,
-        "[%14s]: [out: %-20s] (%3d) | [exp: %-20s] (%3d)\n",
+        "[%14s]: [out: %s] (%3d) | [exp: %s] (%3d)\n",
         clean(cname, name),
         clean(cout, out), ret[1],
         clean(cexp, exp), ret[0]
@@ -83,8 +89,8 @@ ParameterizedTest(
     printf_test_t *p, test_myprintf, auto_tests, .init = cr_redirect_stdout)
 {
     int ret[2];
-    static char exp[500];
-    static char out[500];
+    static char exp[20];
+    static char out[20];
     FILE *f;
 
     memset(out, '\0', sizeof(out));
@@ -92,12 +98,12 @@ ParameterizedTest(
     if (p->exp == CMP_PRINTF)
         ret[0] = run_snprintf(p, exp);
     else {
-        strncpy(exp, p->exp, 500);
+        strncpy(exp, p->exp, 20);
         ret[0] = strlen(exp);
     }
     ret[1] = run_printf(p);
     f = cr_get_redirected_stdout();
-    fread(out, 500, 500, f);
+    fread(out, 20, 20, f);
     print_clean(p->fmt, out, exp, ret);
     cr_assert_str_eq(out, exp);
     cr_assert_eq(ret[0], ret[1]);
