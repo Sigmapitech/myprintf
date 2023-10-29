@@ -38,7 +38,7 @@ void print_clean(char const *name, const char *out, const char *exp)
 
     fprintf(
         stderr,
-        "[%12s]: [out: %-20s] [exp: %-20s]\n",
+        "[%14s]: [out: %-20s] [exp: %-20s]\n",
         clean(cname, name), clean(cout, out), clean(cexp, exp)
     );
 }

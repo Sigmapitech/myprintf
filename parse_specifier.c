@@ -56,7 +56,7 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
         if (cinfo->prec > (INT_MAX / 10))
             return NULL;
         cinfo->prec *= 10;
-        if (cinfo->width > INT_MAX - (*fmt - '0'))
+        if (cinfo->prec > INT_MAX - (*fmt - '0'))
             return NULL;
         cinfo->prec += *fmt - '0';
     }
