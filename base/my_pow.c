@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** Day05-Recursivity
+** my_printf
 ** File description:
-** Task03 - return nb to the power of p
+** my_pow.c
 */
 int my_compute_power_rec(int nb, int p)
 {
