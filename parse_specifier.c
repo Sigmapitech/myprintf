@@ -22,8 +22,8 @@ const char *parse_flag(conv_info_t *cinfo, const char *fmt)
         if (idx == -1)
             return fmt;
         cinfo->flag |= 1 << idx;
-        if ((cinfo->flag & F_PAD_ZERO) && (cinfo->flag & F_PAD_LEFT))
-            cinfo->flag &= ~(F_PAD_ZERO | F_PAD_LEFT);
+        if (cinfo->flag & F_PAD_LEFT)
+            cinfo->flag &= ~F_PAD_ZERO;
     }
     return NULL;
 }
