@@ -119,3 +119,12 @@ Test(my_printf, n_conversion, .init = cr_redirect_stdout)
     cr_assert_eq(out[0], out[1]);
     cr_assert_eq(ret[0], ret[1]);
 }
+
+Test(my_printf, null_format, .init = cr_redirect_stdout)
+{
+    int ret[2];
+
+    ret[0] = printf(NULL);
+    ret[1] = my_printf(NULL);
+    cr_assert_eq(ret[0], ret[1]);
+}

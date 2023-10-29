@@ -10,6 +10,7 @@
 
     #include <stdio.h>
     #include <float.h>
+
     #define CMP_PRINTF NULL
 
     #define MK_SCOPE(l, r, ...) l __VA_ARGS__ r
