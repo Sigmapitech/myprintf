@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_handler_string.c
+** test_printf.c
 */
 
 #include "my.h"

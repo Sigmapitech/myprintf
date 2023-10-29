@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** my_printf
 ** File description:
-** _
+** test_internal.h
 */
 
 #ifndef TEST_INTERNAL_H
