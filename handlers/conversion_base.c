@@ -69,7 +69,7 @@ int conv_per(print_info_t *pinfo, conv_info_t *cinfo)
 {
     cinfo->width = 1;
     cinfo->prec = 1;
-    pinfo->buf.s[0] = '%';
+    pinfo->buf.s = (char *)"%";
     pinfo->buf.written = 1;
     return 0;
 }

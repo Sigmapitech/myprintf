@@ -22,21 +22,34 @@ const char *print_literal(print_info_t *pinfo, const char *fmt)
     return fmt;
 }
 
-int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
+static
+int run_converter(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
     static char buf[64];
-    int pad = cinfo->width;
-    int written = 0;
-    char cpad;
 
     pinfo->buf.s = buf;
     pinfo->buf.written = 0;
     cinfo->conv = *fmt;
-    CONVERSION_FUNCS[CONV_IDX(*fmt)](pinfo, cinfo);
-    pad -= pinfo->buf.written;
+    if (*fmt == '%')
+        conv_per(pinfo, cinfo);
+    else
+        CONVERSION_FUNCS[CONV_IDX(*fmt)](pinfo, cinfo);
+    return pinfo->buf.written;
+}
+
+int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
+{
+    int pad;
+    int written = 0;
+
+    pad = run_converter(pinfo, cinfo, fmt);
+    pad = cinfo->width - pad;
     if (pad > 0 && ((cinfo->flag & F_PAD_ZERO) || ~cinfo->flag & F_PAD_LEFT)) {
-        cpad = cinfo->flag & F_PAD_ZERO ? '0' : ' ';
-        written += putnchar(pinfo->fd, cpad, pad);
+        written += putnchar(
+            pinfo->fd,
+            cinfo->flag & F_PAD_ZERO ? '0' : ' ',
+            pad
+        );
         pad = 0;
     }
     written += write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
