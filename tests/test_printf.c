@@ -108,3 +108,14 @@ ParameterizedTest(
     cr_assert_str_eq(out, exp);
     cr_assert_eq(ret[0], ret[1]);
 }
+
+Test(my_printf, n_conversion, .init = cr_redirect_stdout)
+{
+    int out[2];
+    int ret[2];
+
+    ret[0] = my_printf("Hello%n world!", &out[0]);
+    ret[1] = printf("Hello%n world!", &out[1]);
+    cr_assert_eq(out[0], out[1]);
+    cr_assert_eq(ret[0], ret[1]);
+}
