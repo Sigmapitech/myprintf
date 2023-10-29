@@ -31,5 +31,6 @@ TSRC += test_my_putnbr_base.c
 TSRC += test_my_putnbr_base_16.c
 TSRC += test_my_stridx.c
 TSRC += test_my_strnlen.c
+TSRC += test_my_strncmp.c
 TSRC += test_printf.c
 TSRC += test_setup.c
