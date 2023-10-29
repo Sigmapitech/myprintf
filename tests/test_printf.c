@@ -52,6 +52,7 @@ void run_printf(printf_test_t *p)
         case CHAR_P:
             my_printf(p->fmt, p->arg->s);
             break;
+        case CHAR:
         case INT:
             my_printf(p->fmt, p->arg->i);
             break;
@@ -68,6 +69,7 @@ void run_snprintf(printf_test_t *p, char *exp)
         case CHAR_P:
             snprintf(exp, 500, p->fmt, p->arg->s);
             break;
+        case CHAR:
         case INT:
             snprintf(exp, 500, p->fmt, p->arg->i);
             break;
