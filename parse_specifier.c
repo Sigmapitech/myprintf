@@ -67,8 +67,6 @@ static
 const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
 {
     cinfo->len_mod = CONV_NO;
-    if (*fmt == '\0')
-        return NULL;
     for (int i = 0; i < 10; i++) {
         if (!my_strncmp(fmt, cmp[i].cmp, 1 + cmp[i].cmp[1] != '\0')) {
             cinfo->len_mod = cmp[i].mod;
