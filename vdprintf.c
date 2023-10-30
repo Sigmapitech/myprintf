@@ -67,15 +67,11 @@ int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
     int written = run_converter(pinfo, cinfo, fmt) + cinfo->prefix.written;
     int pad = cinfo->width - written;
 
-    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT && ~cinfo->flag & F_PAD_ZERO) {
+    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT && ~cinfo->flag & F_PAD_ZERO)
         written += putnchar(pinfo->fd, ' ', pad);
-        pad = 0;
-    }
     write(pinfo->fd, cinfo->prefix.s, cinfo->prefix.written);
-    if (pad > 0 && cinfo->flag & F_PAD_ZERO) {
+    if (pad > 0 && cinfo->flag & F_PAD_ZERO)
         written += putnchar(pinfo->fd, '0', pad);
-        pad = 0;
-    }
     write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
     if (pad > 0 && cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
