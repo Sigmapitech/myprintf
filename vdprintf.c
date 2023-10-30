@@ -25,15 +25,23 @@ const char *print_literal(print_info_t *pinfo, const char *fmt)
 static
 int run_converter(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
+    int jmp = CONV_IDX(*fmt);
     static char buf[64];
+    conv_func_t handler;
 
     pinfo->buf.s = buf;
     pinfo->buf.written = 0;
     cinfo->conv = *fmt;
-    if (*fmt == '%')
+    if (*fmt == '%') {
         conv_per(pinfo, cinfo);
-    else
-        CONVERSION_FUNCS[CONV_IDX(*fmt)](pinfo, cinfo);
+        return pinfo->buf.written;
+    }
+    if (!BOUNDS(*fmt, 'A', 'z'))
+        return 0;
+    handler = CONVERSION_FUNCS[jmp];
+    if (handler == NULL)
+        return 0;
+    handler(pinfo, cinfo);
     return pinfo->buf.written;
 }
 
