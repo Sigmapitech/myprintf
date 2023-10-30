@@ -23,6 +23,17 @@ const char *print_literal(print_info_t *pinfo, const char *fmt)
 }
 
 static
+int print_invalid_format(
+    print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
+{
+    cinfo->width = 0;
+    pinfo->buf.s[0] = '%';
+    pinfo->buf.s[1] = *fmt;
+    pinfo->buf.written = 2;
+    return pinfo->buf.written;
+}
+
+static
 int run_converter(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
     int jmp = CONV_IDX(*fmt);
@@ -37,10 +48,10 @@ int run_converter(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
         return pinfo->buf.written;
     }
     if (!BOUNDS(*fmt, 'A', 'z'))
-        return 0;
+        return print_invalid_format(pinfo, cinfo, fmt);
     handler = CONVERSION_FUNCS[jmp];
     if (handler == NULL)
-        return 0;
+        return print_invalid_format(pinfo, cinfo, fmt);
     handler(pinfo, cinfo);
     return pinfo->buf.written;
 }
