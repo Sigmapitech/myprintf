@@ -12,13 +12,8 @@
 
 int putnchar(int fd, char c, int nb)
 {
-    int written;
-
-    for (int n = nb; n--;) {
-        written = write(fd, &c, sizeof(char));
-        if (written == -1)
-            return nb - n;
-    }
+    for (int n = nb; n--;)
+        write(fd, &c, sizeof(char));
     return nb;
 }
 
