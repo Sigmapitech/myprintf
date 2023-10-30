@@ -19,6 +19,7 @@
     #define TEST_CMP(f, e, a, t) STRUCT(f, e, &(union arg){a}, t)
     #define TEST_ENTRY(f, a, t) TEST_CMP(f, CMP_PRINTF, a, t)
     #define TEST_NO_ARG(f) TEST_ENTRY(f, .p = NULL, VOID_P)
+    #define TEST_CMP_NO_ARG(f, e) TEST_CMP(f, e, .p = NULL, VOID_P)
 
 enum type {
     CHAR,
@@ -44,16 +45,6 @@ typedef struct printf_test {
 static __attribute__((used))
 const printf_test_t TESTS[] = {
     TEST_NO_ARG(""),
-    TEST_NO_ARG("%"),
-    TEST_NO_ARG("%0"),
-    TEST_NO_ARG("%."),
-    TEST_NO_ARG("%\n"),
-    TEST_NO_ARG("%y"),
-    TEST_NO_ARG("%@"),
-    TEST_NO_ARG("%&"),
-    TEST_NO_ARG("%#-12"),
-    TEST_NO_ARG("%+."),
-    TEST_NO_ARG("% .8"),
     TEST_NO_ARG("Hello"),
     TEST_NO_ARG("\n"),
     TEST_NO_ARG("%%"),

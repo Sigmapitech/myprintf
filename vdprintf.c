@@ -26,10 +26,15 @@ static
 int print_invalid_format(
     print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
+    int conv_len = 1;
+    const char *p = fmt;
+
     cinfo->width = 0;
-    pinfo->buf.s[0] = '%';
-    pinfo->buf.s[1] = *fmt;
-    pinfo->buf.written = 2;
+    for (; *p != '%'; --p)
+        conv_len++;
+    pinfo->buf.written = conv_len;
+    for (char *s = pinfo->buf.s; conv_len--; ++p)
+        *s++ = *p;
     return pinfo->buf.written;
 }
 

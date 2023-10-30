@@ -128,3 +128,16 @@ Test(my_printf, null_format, .init = cr_redirect_stdout)
     ret[1] = my_printf(NULL);
     cr_assert_eq(ret[0], ret[1]);
 }
+
+/* Only test that the the code is crash-free
+ * C99: If a conversion specification is invalid, the behavior is undefined */
+Test(my_printf, invalid_conv_specifier, .init = cr_redirect_stdout)
+{
+    my_printf("[%&] [%.R] [%#1M] [%9.2~] [% +!]");
+    my_printf("%");
+    my_printf("%0");
+    my_printf("%.");
+    my_printf("%#-12");
+    my_printf("%+.");
+    my_printf("% .8");
+}
