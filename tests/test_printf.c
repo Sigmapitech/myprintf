@@ -29,7 +29,7 @@ char *clean(char *dest, const char *s)
         memset(dest + len, '_', (20 - len));
     for (char *p = dest; *p != '\0'; p++)
         if (!IS_PRINT(*p))
-            *p = '.';
+            *p = (*p == '\n') ? '$' : '?';
     return dest;
 }
 
