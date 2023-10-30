@@ -69,10 +69,10 @@ const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
     char cmp_len;
 
     cinfo->len_mod = CONV_NO;
-    for (int i = 0; i < 10; i++) {
-        cmp_len = 1 + (cmp[i].cmp[1] != '\0');
-        if (!my_strncmp(fmt, cmp[i].cmp, cmp_len)) {
-            cinfo->len_mod = cmp[i].mod;
+    for (int i = 0; i < 8; i++) {
+        cmp_len = 1 + (LENGTH_MODIFIERS[i].cmp[1] != '\0');
+        if (!my_strncmp(fmt, LENGTH_MODIFIERS[i].cmp, cmp_len)) {
+            cinfo->len_mod = LENGTH_MODIFIERS[i].mod;
             fmt += cmp_len;
             return fmt;
         }

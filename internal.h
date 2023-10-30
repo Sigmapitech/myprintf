@@ -109,16 +109,14 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
 };
 
 static
-const len_mod_comp_t cmp[10] = {
+const len_mod_comp_t LENGTH_MODIFIERS[8] = {
     { "hh", CONV_CHAR },
     { "h", CONV_SHORT },
     { "ll", CONV_LONG_LONG },
     { "l", CONV_LONG },
-    { "q", CONV_LONG_LONG },
     { "L", CONV_DOUBLE },
     { "j", CONV_INTMAX_T },
     { "z", CONV_SIZE_T },
-    { "Z", CONV_SIZE_T },
     { "t", CONV_PTDRDIFF_T }
 };
 #endif
