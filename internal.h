@@ -23,15 +23,15 @@ typedef enum {
 } flag_t;
 
 typedef enum {
-    CONV_NO,        // default
-    CONV_CHAR,      // hh
-    CONV_SHORT,     // h
-    CONV_LONG,      // l
-    CONV_LONG_LONG, // ll & q
-    CONV_DOUBLE,    // L
-    CONV_INTMAX_T,  // j
-    CONV_SIZE_T,    // z & Z
-    CONV_PTDRDIFF_T // t
+    CONV_NO = 0,
+    CONV_CHAR = 1,
+    CONV_SHORT = 2,
+    CONV_LONG_LONG = 3,
+    CONV_LONG = 4,
+    CONV_INTMAX_T = 5,
+    CONV_SIZE_T = 6,
+    CONV_DOUBLE = 7,
+    CONV_PTDRDIFF_T = 8
 } len_mod_t;
 
 typedef struct {
@@ -109,14 +109,32 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
 };
 
 static
+const unsigned char UBTABLE[ CONV_IDX('z') - CONV_IDX('A') ] = {
+    [ CONV_IDX('p') ] = 0,
+    [ CONV_IDX('c') ] = 0x02,
+    [ CONV_IDX('s') ] = 0x02,
+    [ CONV_IDX('d') ] = 0xfe,
+    [ CONV_IDX('i') ] = 0xfe,
+    [ CONV_IDX('n') ] = 0xfe,
+    [ CONV_IDX('o') ] = 0xfe,
+    [ CONV_IDX('u') ] = 0xfe,
+    [ CONV_IDX('x') ] = 0xfe,
+    [ CONV_IDX('e') ] = 0x03,
+    [ CONV_IDX('f') ] = 0x03,
+    [ CONV_IDX('g') ] = 0x03,
+    [ CONV_IDX('a') ] = 0x03,
+};
+
+static
 const len_mod_comp_t LENGTH_MODIFIERS[8] = {
     { "hh", CONV_CHAR },
     { "h", CONV_SHORT },
     { "ll", CONV_LONG_LONG },
     { "l", CONV_LONG },
-    { "L", CONV_DOUBLE },
     { "j", CONV_INTMAX_T },
     { "z", CONV_SIZE_T },
+    { "L", CONV_DOUBLE },
     { "t", CONV_PTDRDIFF_T }
 };
+
 #endif
