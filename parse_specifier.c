@@ -66,11 +66,14 @@ const char *parse_prec(conv_info_t *cinfo, const char *fmt)
 static
 const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
 {
+    char cmp_len;
+
     cinfo->len_mod = CONV_NO;
     for (int i = 0; i < 10; i++) {
-        if (!my_strncmp(fmt, cmp[i].cmp, 1 + cmp[i].cmp[1] != '\0')) {
+        cmp_len = 1 + (cmp[i].cmp[1] != '\0');
+        if (!my_strncmp(fmt, cmp[i].cmp, cmp_len)) {
             cinfo->len_mod = cmp[i].mod;
-            fmt += my_strnlen(cmp[i].cmp, 2);
+            fmt += cmp_len;
             return fmt;
         }
     }
