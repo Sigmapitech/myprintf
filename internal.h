@@ -52,11 +52,12 @@ typedef struct {
 } print_info_t;
 
 typedef struct {
+    small_buf_t prefix;
     int width;
-    len_mod_t len_mod;
-    char flag;
     int prec;
+    char flag;
     char conv;
+    len_mod_t len_mod;
 } conv_info_t;
 
 typedef int (*conv_func_t)(print_info_t *, conv_info_t *);

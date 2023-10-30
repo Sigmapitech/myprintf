@@ -107,6 +107,8 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%X", .i = 57893, INT),
     TEST_ENTRY("%#X", .i = 42, INT),
     TEST_ENTRY("%#x", .i = 0, INT),
+    TEST_ENTRY("%#015x", .i = 1, INT),
+    TEST_ENTRY("%#015o", .i = -1, INT),
 };
 
 static

@@ -43,11 +43,12 @@ int run_converter(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
     int jmp = CONV_IDX(*fmt);
     static char buf[64];
+    static char prefix[4];
     conv_func_t handler;
 
-    pinfo->buf.s = buf;
-    pinfo->buf.written = 0;
     cinfo->conv = *fmt;
+    pinfo->buf = (small_buf_t){ buf, 0 };
+    cinfo->prefix = (small_buf_t){ prefix, 0 };
     if (*fmt == '%') {
         conv_per(pinfo, cinfo);
         return pinfo->buf.written;
@@ -63,20 +64,19 @@ int run_converter(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 
 int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
-    int pad;
-    int written = 0;
+    int written = run_converter(pinfo, cinfo, fmt) + cinfo->prefix.written;
+    int pad = cinfo->width - written;
 
-    pad = run_converter(pinfo, cinfo, fmt);
-    pad = cinfo->width - pad;
-    if (pad > 0 && ((cinfo->flag & F_PAD_ZERO) || ~cinfo->flag & F_PAD_LEFT)) {
-        written += putnchar(
-            pinfo->fd,
-            cinfo->flag & F_PAD_ZERO ? '0' : ' ',
-            pad
-        );
+    if (pad > 0 && ~cinfo->flag & F_PAD_LEFT && ~cinfo->flag & F_PAD_ZERO) {
+        written += putnchar(pinfo->fd, ' ', pad);
         pad = 0;
     }
-    written += write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
+    write(pinfo->fd, cinfo->prefix.s, cinfo->prefix.written);
+    if (pad > 0 && cinfo->flag & F_PAD_ZERO) {
+        written += putnchar(pinfo->fd, '0', pad);
+        pad = 0;
+    }
+    write(pinfo->fd, pinfo->buf.s, pinfo->buf.written);
     if (pad > 0 && cinfo->flag & F_PAD_LEFT)
         written += putnchar(pinfo->fd, ' ', pad);
     return written;

@@ -28,8 +28,8 @@ int conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
     if (!n && cinfo->prec == 0)
         return 0;
     if (cinfo->flag & F_ALT_FORM && n) {
-        pinfo->buf.s[0] = '0';
-        pinfo->buf.written++;
+        cinfo->prefix.s[0] = '0';
+        cinfo->prefix.written++;
     }
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
         cinfo->flag |= F_PAD_ZERO;
@@ -46,9 +46,9 @@ int conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
     if (!n && cinfo->prec == 0)
         return 0;
     if (cinfo->flag & F_ALT_FORM && n) {
-        pinfo->buf.s[0] = '0';
-        pinfo->buf.s[1] = 'x';
-        pinfo->buf.written += 2;
+        cinfo->prefix.s[0] = '0';
+        cinfo->prefix.s[1] = (~cinfo->conv & (1 << 5)) ? 'X' : 'x';
+        cinfo->prefix.written = 2;
     }
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
         cinfo->flag |= F_PAD_ZERO;
