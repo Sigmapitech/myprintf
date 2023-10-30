@@ -59,11 +59,8 @@ static
 int run_printf(printf_test_t *p)
 {
     switch (p->type) {
-        case VOID_P:
+        case PTR:
             return my_printf(p->fmt, p->arg->p);
-        case CHAR_P:
-            return my_printf(p->fmt, p->arg->s);
-        case CHAR:
         case INT:
             return my_printf(p->fmt, p->arg->i);
     }
@@ -74,11 +71,8 @@ static
 int run_snprintf(printf_test_t *p, char *exp)
 {
     switch (p->type) {
-        case VOID_P:
+        case PTR:
             return snprintf(exp, 500, p->fmt, p->arg->p);
-        case CHAR_P:
-            return snprintf(exp, 500, p->fmt, p->arg->s);
-        case CHAR:
         case INT:
             return snprintf(exp, 500, p->fmt, p->arg->i);
     }
