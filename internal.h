@@ -116,23 +116,6 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
 };
 
 static
-const unsigned char UBTABLE[ CONV_IDX('z') - CONV_IDX('A') ] = {
-    [ CONV_IDX('p') ] = 0,
-    [ CONV_IDX('c') ] = 0x02,
-    [ CONV_IDX('s') ] = 0x02,
-    [ CONV_IDX('d') ] = 0xfe,
-    [ CONV_IDX('i') ] = 0xfe,
-    [ CONV_IDX('n') ] = 0xfe,
-    [ CONV_IDX('o') ] = 0xfe,
-    [ CONV_IDX('u') ] = 0xfe,
-    [ CONV_IDX('x') ] = 0xfe,
-    [ CONV_IDX('e') ] = 0x03,
-    [ CONV_IDX('f') ] = 0x03,
-    [ CONV_IDX('g') ] = 0x03,
-    [ CONV_IDX('a') ] = 0x03,
-};
-
-static
 const len_mod_comp_t LENGTH_MODIFIERS[8] = {
     { "hh", CONV_CHAR },
     { "h", CONV_SHORT },
