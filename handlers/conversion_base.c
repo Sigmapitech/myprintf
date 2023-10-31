@@ -35,6 +35,10 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->prefix.s[0] = '+';
         cinfo->prefix.written = i > 0;
     }
+    if (cinfo->flag & F_SET_SPACE) {
+        cinfo->prefix.s[0] = ' ';
+        cinfo->prefix.written = i > 0;
+    }
     pinfo->buf.written = my_intlen(i) + (i < 0);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
         cinfo->flag |= F_PAD_ZERO;

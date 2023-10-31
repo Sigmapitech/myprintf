@@ -113,6 +113,12 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%+5d", .i = -42, INT),
     TEST_ENTRY("%+5x", .i = 3301, INT),
     TEST_ENTRY("%+5x", .i = -42, INT),
+    TEST_ENTRY("% d", .i = -42, INT),
+    TEST_ENTRY("% d", .i = 3301, INT),
+    TEST_ENTRY("% 5d", .i = 3301, INT),
+    TEST_ENTRY("% 5d", .i = -42, INT),
+    TEST_ENTRY("% x", .i = -42, INT),
+    TEST_ENTRY("% x", .i = 3301, INT),
 };
 
 static
