@@ -16,7 +16,7 @@
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    int i = va_arg(pinfo->ap, int);
+    unsigned char i = (unsigned char)va_arg(pinfo->ap, int);
 
     cinfo->len_mod &= ~F_PAD_ZERO;
     pinfo->buf.s[0] = i;
