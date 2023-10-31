@@ -29,9 +29,9 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
     union arg a;
 
     pop_length_modifier(&a, &pinfo->ap, cinfo->len_mod);
-    if (cinfo->flag & F_PUT_SIGN) {
-        cinfo->prefix.s[0] = '+';
-        cinfo->prefix.written = a.i >= 0;
+    if (cinfo->flag & F_PUT_SIGN && a.i >= 0) {
+        cinfo->prefix.s[cinfo->prefix.written++] = '+';
+        cinfo->prec += a.i > 0;
     }
     if (cinfo->flag & F_SET_SPACE) {
         cinfo->prefix.s[0] = ' ';

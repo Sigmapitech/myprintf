@@ -130,7 +130,9 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%+0.d", .i = 0, INT),
     TEST_ENTRY("% .d", .i = 0, INT),
     TEST_ENTRY("%ld", .l = LONG_MAX, LONG),
-    TEST_ENTRY("%#-4.16ld", .l = LONG_MAX / 100000, LONG),
+    TEST_ENTRY("%#-4.16ld", .l = LONG_MAX >> 13, LONG),
+    TEST_ENTRY("%#-+4.16ld", .l = LONG_MAX >> 13, LONG),
+    TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MAX >> 13, LONG),
 };
 
 static
