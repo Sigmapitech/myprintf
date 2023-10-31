@@ -10,6 +10,7 @@
 
     #include <stdarg.h>
     #include <stddef.h>
+    #include <stdint.h>
 
     #define MIN(x, y) ((x > y) ? (y) : (x))
 
@@ -36,9 +37,9 @@ const char *BASE_CHARSET = "0123456789abcdef";
 
 int double_to_str(char *out, double d, unsigned int prec);
 int my_base_len(int base, size_t n);
-int my_intlen(int i);
+int my_intlen(intmax_t i);
 int my_pow(int nb, int p);
-int my_putnbr(char *s, int nb);
+int my_putnbr(char *s, intmax_t nb);
 int my_putnbr_base(char *s, size_t base, size_t n);
 int my_stridx(const char *str, char c);
 int my_strncmp(char const *s1, char const *s2, int n);

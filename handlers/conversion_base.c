@@ -26,23 +26,23 @@ int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    int i = va_arg(pinfo->ap, int);
+    union arg a;
 
+    pop_length_modifier(&a, &pinfo->ap, cinfo->len_mod);
     if (cinfo->flag & F_PUT_SIGN) {
         cinfo->prefix.s[0] = '+';
-        cinfo->prefix.written = i >= 0;
+        cinfo->prefix.written = a.i >= 0;
     }
     if (cinfo->flag & F_SET_SPACE) {
         cinfo->prefix.s[0] = ' ';
-        cinfo->prefix.written = i >= 0;
+        cinfo->prefix.written = a.i >= 0;
     }
-    if (!i && cinfo->prec == 0)
+    if (!a.i && cinfo->prec == 0)
         return 0;
-    my_putnbr(pinfo->buf.s, i);
-    pinfo->buf.written = my_intlen(i) + (i < 0);
+    my_putnbr(pinfo->buf.s, a.i);
+    pinfo->buf.written = my_intlen(a.i) + (a.i < 0);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag |= F_PAD_ZERO;
-        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
     return 0;

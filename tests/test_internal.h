@@ -8,6 +8,7 @@
 #ifndef TEST_INTERNAL_H
     #define TEST_INTERNAL_H
 
+    #include <limits.h>
     #include <stdio.h>
     #include <float.h>
 
@@ -24,11 +25,13 @@
 enum type {
     PTR,
     INT,
+    LONG,
 };
 
 union arg {
     const char c;
     const int i;
+    const long l;
     const void *p;
 };
 
@@ -126,6 +129,8 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%+.0d", .i = 0, INT),
     TEST_ENTRY("%+0.d", .i = 0, INT),
     TEST_ENTRY("% .d", .i = 0, INT),
+    TEST_ENTRY("%ld", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%#-4.16ld", .l = LONG_MAX / 100000, LONG),
 };
 
 static

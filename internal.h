@@ -8,10 +8,16 @@
     #define NO_USE_INTERNAL
 
     #include <stdarg.h>
+    #include <stdint.h>
     #include <stddef.h>
 
     #define MAX_SPEC_LEN 2
     #define CONV_IDX(c) (c - 'A')
+
+union arg {
+    intmax_t i;
+    void *p;
+};
 
 typedef enum {
     F_NO_FLAG = 0,
@@ -68,6 +74,7 @@ const char *print_literal(print_info_t *pinfo, const char *fmt);
 int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
+void pop_length_modifier(union arg *argp, va_list *ap, len_mod_t lm);
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
