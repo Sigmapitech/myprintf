@@ -40,14 +40,14 @@ int double_to_str(char *out, double d, unsigned int prec)
             return put_in_str(out, (char *)(dpart.sign ? "-inf" : "inf"));
         return put_in_str(out, (char *)"nan");
     }
-    if (dpart.sign)
-        i += put_in_str(out, (char *)"-");
     d -= itgr;
-    i += my_putnbr(out + i, itgr);
+    i += dpart.sign ? put_in_str(out, (char *)"-") : 0 +
+        my_putnbr(out + i, itgr);
     if (prec) {
-        out[i] = '.';
-        d = d * my_pow(10, prec) + 0.1;
-        i += 1 + my_putnbr(out + i + 1, (int)(d));
+        itgr = i;
+        d = my_pow(10, prec) + d * my_pow(10, prec) + 0.1;
+        i += my_putnbr(out + i, (int)(d));
+        out[itgr] = '.';
     }
     return i;
 }
