@@ -116,11 +116,10 @@ Test(my_printf, n_conversion, .init = cr_redirect_stdout)
 
 Test(my_printf, null_format, .init = cr_redirect_stdout)
 {
-    int ret[2];
+    int ret;
 
-    ret[0] = printf(NULL);
-    ret[1] = my_printf(NULL);
-    cr_assert_eq(ret[0], ret[1]);
+    ret = my_printf(NULL);
+    cr_assert_eq(ret, -1);
 }
 
 /* Only test that the the code is crash-free
