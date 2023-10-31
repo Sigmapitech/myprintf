@@ -119,8 +119,13 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("% 5d", .i = -42, INT),
     TEST_ENTRY("% x", .i = -42, INT),
     TEST_ENTRY("% x", .i = 3301, INT),
+    TEST_ENTRY("% +d", .i = 0, INT),
     TEST_ENTRY("%+ d", .i = 123, INT),
     TEST_ENTRY("%+ 12d", .i = 123, INT),
+    TEST_ENTRY("%+.d", .i = 0, INT),
+    TEST_ENTRY("%+.0d", .i = 0, INT),
+    TEST_ENTRY("%+0.d", .i = 0, INT),
+    TEST_ENTRY("% .d", .i = 0, INT),
 };
 
 static
