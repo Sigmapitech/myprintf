@@ -12,12 +12,10 @@
 
 int my_putnbr(char *s, intmax_t n)
 {
-    int size = n < 0;
+    int size = 0;
 
     if (n >= 0)
         n = -n;
-    else
-        *s++ = '-';
     size += my_intlen(n);
     for (int i = my_intlen(n); i != 0; n /= 10)
         s[--i] = -(n % 10) | '0';
