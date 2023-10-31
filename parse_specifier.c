@@ -24,6 +24,8 @@ const char *parse_flag(conv_info_t *cinfo, const char *fmt)
         cinfo->flag |= 1 << idx;
         if (cinfo->flag & F_PAD_LEFT)
             cinfo->flag &= ~F_PAD_ZERO;
+        if (cinfo->flag & F_PUT_SIGN)
+            cinfo->flag &= ~F_SET_SPACE;
     }
     return NULL;
 }
