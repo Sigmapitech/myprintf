@@ -7,7 +7,8 @@
 
 #include <criterion/criterion.h>
 #include <stdio.h>
-#include "my.h"
+
+#include "internal.h"
 
 Test(double_to_str, test_nice)
 {
