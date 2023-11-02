@@ -8,9 +8,10 @@
 #ifndef TEST_INTERNAL_H
     #define TEST_INTERNAL_H
 
-    #include <limits.h>
-    #include <stdio.h>
     #include <float.h>
+    #include <limits.h>
+    #include <math.h>
+    #include <stdio.h>
 
     #define CMP_PRINTF NULL
 
@@ -165,7 +166,10 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%+ f", .d = 123.456, DOUBLE),
     TEST_ENTRY("%+f", .d = -123.456, DOUBLE),
     TEST_ENTRY("%-5.3f", .d = -123.456, DOUBLE),
-    TEST_ENTRY("%#0- 5.2f", .d = -123.456, DOUBLE)
+    TEST_ENTRY("%#0- 5.2f", .d = -123.456, DOUBLE),
+    TEST_ENTRY("%f", .d = INFINITY, DOUBLE),
+    TEST_ENTRY("%f", .d = -INFINITY, DOUBLE),
+    TEST_ENTRY("%f", .d = NAN, DOUBLE),
 };
 
 static

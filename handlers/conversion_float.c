@@ -8,6 +8,7 @@
 #include <stdio.h>
 
 #include "internal.h"
+#include "my.h"
 
 static
 int add_point(char *str)
@@ -49,6 +50,8 @@ int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
     if (cinfo->prec == INT_MAX)
         cinfo->prec = 6;
     pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
+    if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
+        return 0;
     if (cinfo->flag & F_ALT_FORM)
         pinfo->buf.written += add_point(pinfo->buf.s);
     if (0 < d)
