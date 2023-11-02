@@ -50,8 +50,15 @@ void set_flags_space_plus(conv_info_t *cinfo)
 // scientific notation of float %e
 int conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    (void)pinfo;
-    (void)cinfo;
+    double d = (double)va_arg(pinfo->ap, double);
+
+    if (cinfo->prec == INT_MAX)
+        cinfo->prec = 6;
+    pinfo->buf.written = double_to_str_sci(pinfo->buf.s, d, cinfo->prec);
+    if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
+        return 0;
+    if (0 < d)
+        set_flags_space_plus(cinfo);
     return 0;
 }
 
