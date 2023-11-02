@@ -200,6 +200,8 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%A", .d = -0.0001, DOUBLE),
     TEST_ENTRY("%A", .d = -123.456, DOUBLE),
     TEST_ENTRY("%A", .d = -0.456, DOUBLE),
+    TEST_ENTRY("%A", .d = 0.9999999999999999998, DOUBLE),
+    TEST_ENTRY("%.6f", .d = 0.000919999, DOUBLE),
 };
 
 static
