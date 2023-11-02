@@ -136,6 +136,10 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MIN >> 15, LONG),
     TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MAX >> 15, LONG),
     TEST_ENTRY("%# 0-4.16ld", .l = LONG_MAX >> 15, LONG),
+    TEST_ENTRY("%+lld", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%-8hd", .l = SHRT_MAX, LONG),
+    TEST_ENTRY("% hd", .l = SHRT_MAX + 1, LONG),
+    TEST_ENTRY("%0.5hhd", .l = CHAR_MAX + 1, LONG),
 };
 
 static
