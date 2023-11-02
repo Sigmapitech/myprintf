@@ -23,12 +23,11 @@ int conv_base(print_info_t *pinfo, int baselen, size_t n)
 
 int conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    union arg a;
+    uintmax_t u = pop_length_modifier_u(&pinfo->ap, cinfo->len_mod);
 
-    pop_length_modifier_u(&a, &pinfo->ap, cinfo->len_mod);
-    if (!a.i && cinfo->prec == 0)
+    if (!u && cinfo->prec == 0)
         return 0;
-    if (cinfo->flag & F_ALT_FORM && a.i) {
+    if (cinfo->flag & F_ALT_FORM && u) {
         cinfo->prefix.s[0] = '0';
         cinfo->prefix.written++;
     }
@@ -37,17 +36,16 @@ int conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->flag &= ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
-    return conv_base(pinfo, 8, a.i);
+    return conv_base(pinfo, 8, u);
 }
 
 int conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    union arg a;
+    uintmax_t u = pop_length_modifier_u(&pinfo->ap, cinfo->len_mod);
 
-    pop_length_modifier_u(&a, &pinfo->ap, cinfo->len_mod);
-    if (!a.i && cinfo->prec == 0)
+    if (!u && cinfo->prec == 0)
         return 0;
-    if (cinfo->flag & F_ALT_FORM && a.i) {
+    if (cinfo->flag & F_ALT_FORM && u) {
         cinfo->prefix.s[0] = '0';
         cinfo->prefix.s[1] = (~cinfo->conv & (1 << 5)) ? 'X' : 'x';
         cinfo->prefix.written = 2;
@@ -57,7 +55,7 @@ int conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->flag &= ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
-    conv_base(pinfo, 16, a.i);
+    conv_base(pinfo, 16, u);
     for (int i = 0; i < pinfo->buf.written; i++)
         if (~cinfo->conv & (1 << 5) && IS_ALPHA(pinfo->buf.s[i]))
             pinfo->buf.s[i] &= ~(1 << 5);
@@ -66,15 +64,14 @@ int conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
 
 int conv_uint(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    union arg a;
+    uintmax_t u = pop_length_modifier_u(&pinfo->ap, cinfo->len_mod);
 
-    pop_length_modifier_u(&a, &pinfo->ap, cinfo->len_mod);
-    if (!a.i && cinfo->prec == 0)
+    if (!u && cinfo->prec == 0)
         return 0;
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
         cinfo->flag |= F_PAD_ZERO;
         cinfo->flag &= ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
-    return conv_base(pinfo, 10, a.i);
+    return conv_base(pinfo, 10, u);
 }

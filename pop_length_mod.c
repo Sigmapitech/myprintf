@@ -10,44 +10,34 @@
 
 #include "internal.h"
 
-void pop_length_modifier(union arg *argp, va_list *ap, len_mod_t lm)
+intmax_t pop_length_modifier(va_list *ap, len_mod_t lm)
 {
-    if (lm == CONV_LONG) {
-        argp->i = va_arg(*ap, long);
-        return;
+    switch (lm) {
+        case CONV_LONG:
+            return va_arg(*ap, long);
+        case CONV_LONG_LONG:
+            return va_arg(*ap, long long);
+        case CONV_SHORT:
+            return (short)va_arg(*ap, int);
+        case CONV_CHAR:
+            return (char)va_arg(*ap, int);
+        default:
+            return va_arg(*ap, int);
     }
-    if (lm == CONV_LONG_LONG) {
-        argp->i = va_arg(*ap, long long);
-        return;
-    }
-    if (lm == CONV_SHORT) {
-        argp->i = (short)va_arg(*ap, int);
-        return;
-    }
-    if (lm == CONV_CHAR) {
-        argp->i = (char)va_arg(*ap, int);
-        return;
-    }
-    argp->i = va_arg(*ap, int);
 }
 
-void pop_length_modifier_u(union arg *argp, va_list *ap, len_mod_t lm)
+uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm)
 {
-    if (lm == CONV_LONG) {
-        argp->i = va_arg(*ap, unsigned long);
-        return;
+    switch (lm) {
+        case CONV_LONG:
+            return va_arg(*ap, unsigned long);
+        case CONV_LONG_LONG:
+            return va_arg(*ap, unsigned long long);
+        case CONV_SHORT:
+            return (unsigned short)va_arg(*ap, unsigned int);
+        case CONV_CHAR:
+            return (unsigned char)va_arg(*ap, unsigned int);
+        default:
+            return va_arg(*ap, unsigned int);
     }
-    if (lm == CONV_LONG_LONG) {
-        argp->i = va_arg(*ap, unsigned long long);
-        return;
-    }
-    if (lm == CONV_SHORT) {
-        argp->i = (unsigned short)va_arg(*ap, unsigned int);
-        return;
-    }
-    if (lm == CONV_CHAR) {
-        argp->i = (unsigned char)va_arg(*ap, unsigned int);
-        return;
-    }
-    argp->i = va_arg(*ap, unsigned int);
 }

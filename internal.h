@@ -14,12 +14,6 @@
     #define MAX_SPEC_LEN 2
     #define CONV_IDX(c) (c - 'A')
 
-union arg {
-    uintmax_t u;
-    intmax_t i;
-    void *p;
-};
-
 typedef enum {
     F_NO_FLAG = 0,
     F_PAD_LEFT = 1 << 0,
@@ -75,8 +69,9 @@ const char *print_literal(print_info_t *pinfo, const char *fmt);
 int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
-void pop_length_modifier(union arg *argp, va_list *ap, len_mod_t lm);
-void pop_length_modifier_u(union arg *argp, va_list *ap, len_mod_t lm);
+
+intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);
+uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm);
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
