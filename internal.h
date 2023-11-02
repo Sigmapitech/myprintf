@@ -8,6 +8,7 @@
     #define NO_USE_INTERNAL
 
     #include <stdarg.h>
+    #include <stdint.h>
     #include <stddef.h>
 
     #define MAX_SPEC_LEN 2
@@ -77,6 +78,9 @@ int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
 
+intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);
+uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm);
+
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
 int conv_str(print_info_t *pinfo, conv_info_t *cinfo);
@@ -114,23 +118,6 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
     [ CONV_IDX('A') ] = &conv_nota_hex,
     [ CONV_IDX('a') ] = &conv_nota_hex,
     [ CONV_IDX('n') ] = &conv_num
-};
-
-static
-const unsigned char UBTABLE[ CONV_IDX('z') - CONV_IDX('A') ] = {
-    [ CONV_IDX('p') ] = 0,
-    [ CONV_IDX('c') ] = 0x02,
-    [ CONV_IDX('s') ] = 0x02,
-    [ CONV_IDX('d') ] = 0xfe,
-    [ CONV_IDX('i') ] = 0xfe,
-    [ CONV_IDX('n') ] = 0xfe,
-    [ CONV_IDX('o') ] = 0xfe,
-    [ CONV_IDX('u') ] = 0xfe,
-    [ CONV_IDX('x') ] = 0xfe,
-    [ CONV_IDX('e') ] = 0x03,
-    [ CONV_IDX('f') ] = 0x03,
-    [ CONV_IDX('g') ] = 0x03,
-    [ CONV_IDX('a') ] = 0x03,
 };
 
 static

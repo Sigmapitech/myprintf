@@ -13,6 +13,7 @@
 
 #include "internal.h"
 #include "my.h"
+#include "stdint.h"
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
@@ -26,23 +27,20 @@ int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 
 int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    int i = va_arg(pinfo->ap, int);
+    intmax_t i = pop_length_modifier(&pinfo->ap, cinfo->len_mod);
 
-    if (cinfo->flag & F_PUT_SIGN) {
-        cinfo->prefix.s[0] = '+';
-        cinfo->prefix.written = i >= 0;
-    }
-    if (cinfo->flag & F_SET_SPACE) {
-        cinfo->prefix.s[0] = ' ';
-        cinfo->prefix.written = i >= 0;
-    }
+    if (i < 0)
+        cinfo->prefix.s[cinfo->prefix.written++] = '-';
+    else if (cinfo->flag & F_PUT_SIGN)
+        cinfo->prefix.s[cinfo->prefix.written++] = '+';
+    if (cinfo->flag & F_SET_SPACE && i >= 0)
+        cinfo->prefix.s[cinfo->prefix.written++] = ' ';
     if (!i && cinfo->prec == 0)
         return 0;
-    my_putnbr(pinfo->buf.s, i);
-    pinfo->buf.written = my_intlen(i) + (i < 0);
+    cinfo->prec += i && cinfo->prefix.written;
+    pinfo->buf.written = my_putnbr(pinfo->buf.s, i);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag |= F_PAD_ZERO;
-        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
     return 0;

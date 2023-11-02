@@ -7,6 +7,7 @@
 VPATH += .
 SRC += vdprintf.c
 SRC += parse_specifier.c
+SRC += pop_length_mod.c
 SRC += printf.c
 SRC += utils.c
 

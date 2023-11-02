@@ -8,6 +8,7 @@
 #ifndef TEST_INTERNAL_H
     #define TEST_INTERNAL_H
 
+    #include <limits.h>
     #include <stdio.h>
     #include <float.h>
 
@@ -24,12 +25,14 @@
 enum type {
     PTR,
     INT,
+    LONG,
     DOUBLE
 };
 
 union arg {
     const char c;
     const int i;
+    const long l;
     const void *p;
     const double d;
 };
@@ -128,6 +131,26 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%+.0d", .i = 0, INT),
     TEST_ENTRY("%+0.d", .i = 0, INT),
     TEST_ENTRY("% .d", .i = 0, INT),
+    TEST_ENTRY("%ld", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%#-4.16ld", .l = LONG_MAX >> 13, LONG),
+    TEST_ENTRY("%#-+4.16ld", .l = LONG_MAX >> 13, LONG),
+    TEST_ENTRY("%# 0-+4.16zd", .l = LONG_MAX >> 13, LONG),
+    TEST_ENTRY("%# 0-+4.16zd", .l = LONG_MIN >> 15, LONG),
+    TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MAX >> 15, LONG),
+    TEST_ENTRY("%# 0-4.16ld", .l = LONG_MAX >> 15, LONG),
+    TEST_ENTRY("%+lld", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%-8hd", .l = SHRT_MAX, LONG),
+    TEST_ENTRY("% hd", .l = SHRT_MAX + 1, LONG),
+    TEST_ENTRY("%0.5hhd", .l = CHAR_MAX + 1, LONG),
+    TEST_ENTRY("%.12hhu", .l = INT_MAX, LONG),
+    TEST_ENTRY("%+13lx", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%0llx", .l = ULLONG_MAX, LONG),
+    TEST_ENTRY("%#+ho", .l = ULLONG_MAX, LONG),
+    TEST_ENTRY("%-.12jd", .l = LONG_MIN >> 11, LONG),
+    TEST_ENTRY("%-zx", .l = LONG_MIN >> 11, LONG),
+    TEST_ENTRY("%0+18ju", .l = LONG_MAX >> 11, LONG),
+    TEST_ENTRY("% #td", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%-0tX", .l = LONG_MIN >> 3, LONG),
     TEST_ENTRY("%f", .d = 123.456, DOUBLE),
     TEST_ENTRY("%f", .d = 0, DOUBLE),
     TEST_ENTRY("%f", .d = 123.0, DOUBLE),

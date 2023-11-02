@@ -6,9 +6,10 @@
 */
 
 #include <stdio.h>
+#include <stdint.h>
 #include "my.h"
 
-int my_intlen(int i)
+int my_intlen(intmax_t i)
 {
     int n = 1;
 
