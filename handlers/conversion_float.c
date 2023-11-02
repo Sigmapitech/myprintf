@@ -16,8 +16,21 @@ int add_point(char *str)
     if (*str == '.')
         return 0;
     *str = '.';
-    *(str + 1) = '\0';
+    str[1] = '\0';
     return 1;
+}
+
+static
+void set_flags_space_plus(conv_info_t *cinfo)
+{
+    if (cinfo->flag & F_SET_SPACE) {
+        cinfo->prefix.s[0] = ' ';
+        cinfo->prefix.written = 1;
+    }
+    if (cinfo->flag & F_PUT_SIGN) {
+        cinfo->prefix.s[0] = '+';
+        cinfo->prefix.written = 1;
+    }
 }
 
 // scientific notation of float %e
@@ -38,16 +51,8 @@ int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
     pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
     if (cinfo->flag & F_ALT_FORM)
         pinfo->buf.written += add_point(pinfo->buf.s);
-    if (0 < d) {
-        if (cinfo->flag & F_SET_SPACE) {
-            cinfo->prefix.s[0] = ' ';
-            cinfo->prefix.written = 1;
-        }
-        if (cinfo->flag & F_PUT_SIGN) {
-            cinfo->prefix.s[0] = '+';
-            cinfo->prefix.written = 1;
-        }
-    }
+    if (0 < d)
+        set_flags_space_plus(cinfo);
     if (pinfo->buf.written < cinfo->prec) {
         cinfo->flag |= F_PAD_ZERO;
         cinfo->flag &= ~F_PAD_LEFT;
