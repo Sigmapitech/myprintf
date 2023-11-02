@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** my_printf
 ** File description:
-** _
+** dragon4.h
 */
 
 #ifndef DRAGON4_H
