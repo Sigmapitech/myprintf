@@ -12,7 +12,6 @@
 #include "internal.h"
 #include "my.h"
 
-static
 int put_in_str(char *out, const char *in)
 {
     int i;

@@ -70,7 +70,24 @@ int conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
 // hexadecimal + scientific notation %a
 int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    (void)pinfo;
+    char *s = pinfo->buf.s;
+    double d = (double)va_arg(pinfo->ap, double);
+    dpart_t dpart;
+    int exp;
+
     (void)cinfo;
+    init_dpart(d, &dpart);
+    if (dpart.sign)
+        *s++ = '-';
+    s += put_in_str(s, "0x1");
+    if (dpart.mentissa) {
+        *s++ = '.';
+        s += my_putnbr_base(s, 16, dpart.mentissa);
+    }
+    *s++ = 'p';
+    exp = ABS((int)dpart.exponant) - 1023;
+    *s++ = "-+"[exp >= 0];
+    s += my_putnbr_base(s, 10, (unsigned)ABS(exp));
+    pinfo->buf.written = s - pinfo->buf.s;
     return 0;
 }
