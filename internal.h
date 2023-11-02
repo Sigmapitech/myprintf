@@ -77,6 +77,7 @@ int double_to_str(char *out, double d, unsigned int prec);
 int double_to_str_sci(char *out, double d, unsigned int prec);
 int putnchar(int fd, char c, int nb);
 int put_nbr(int fd, int nb);
+int put_in_str(char *out, const char *in);
 void init_dpart(double d, dpart_t *dpart);
 
 intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);

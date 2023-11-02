@@ -19,7 +19,9 @@ int my_base_len(int base, size_t n)
 
 int my_putnbr_base(char *s, size_t base, size_t n)
 {
-    for (int i = my_base_len(base, n); i > 0; n /= base)
+    int len = my_base_len(base, n);
+
+    for (int i = len; i > 0; n /= base)
         s[--i] = BASE_CHARSET[n % base];
-    return 0;
+    return len;
 }
