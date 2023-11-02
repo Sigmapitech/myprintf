@@ -11,6 +11,19 @@
 #include "my.h"
 
 static
+void set_upcase(char *s, int is_up)
+{
+    for (; *s != '\0'; s++) {
+        if (!IS_ALPHA(*s))
+            continue;
+        if (is_up)
+            *s &= ~(1 << 5);
+        else
+            *s |= 1 << 5;
+    }
+}
+
+static
 int add_point(char *str)
 {
     for (; *str != '.' && *str != '\0'; str++);
@@ -50,6 +63,7 @@ int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
     if (cinfo->prec == INT_MAX)
         cinfo->prec = 6;
     pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
+    set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
         return 0;
     if (cinfo->flag & F_ALT_FORM)
@@ -75,7 +89,6 @@ int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
     dpart_t dpart;
     int exp;
 
-    (void)cinfo;
     init_dpart(d, &dpart);
     if (dpart.sign)
         *s++ = '-';
@@ -89,5 +102,6 @@ int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
     *s++ = "-+"[exp >= 0];
     s += my_putnbr_base(s, 10, (unsigned)ABS(exp));
     pinfo->buf.written = s - pinfo->buf.s;
+    set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     return 0;
 }
