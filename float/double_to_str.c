@@ -40,32 +40,30 @@ int handle_non_numbers(char *out, dpart_t dpart)
 }
 
 static
-dpart_t init_dpart(double d)
+void init_dpart(double d, dpart_t *dpart)
 {
-    dpart_t dpart = {
-        .sign = (BITS(d) >> 63) & 1,
-        .exponant = (BITS(d) >> 52) & 0x7ff,
-        .mentissa = BITS(d) & 0x000fffffffffffffL
-    };
-
-    return dpart;
+    dpart->sign = (BITS(d) >> 63) & 1;
+    dpart->exponant = (BITS(d) >> 52) & 0x7ff;
+    dpart->mentissa = BITS(d) & 0x000fffffffffffffL;
 }
 
 int double_to_str(char *out, double d, unsigned int prec)
 {
     int itgr = (int)d_abs(d);
     int i = 0;
-    int nb_prec = my_pow(10, prec);
-    dpart_t dpart = init_dpart(d);
+    int prec_len = my_pow(10, prec);
+    dpart_t dpart;
 
+    init_dpart(d, &dpart);
     if (dpart.exponant == 0x7ff)
         return handle_non_numbers(out, dpart);
     d = d_abs(d) - itgr;
-    i += put_in_str(out, dpart.sign ? "-" : "")
-        + my_putnbr(out + dpart.sign, itgr);
+    if (dpart.sign)
+        i += put_in_str(out, "-");
+    i += my_putnbr(out + dpart.sign, itgr);
     if (prec) {
         itgr = i;
-        d = (d + 1) * nb_prec + ((d * nb_prec - (int)(d * nb_prec)) >= 0.5);
+        d = (d + 1) * prec_len + ((d * prec_len - (int)(d * prec_len)) >= 0.5);
         i += my_putnbr(out + i, (int)(d));
         out[itgr] = '.';
     }
