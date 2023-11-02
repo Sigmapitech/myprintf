@@ -16,7 +16,7 @@
 
 int conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    int i = va_arg(pinfo->ap, int);
+    unsigned char i = (unsigned char)va_arg(pinfo->ap, int);
 
     cinfo->len_mod &= ~F_PAD_ZERO;
     pinfo->buf.s[0] = i;
@@ -28,17 +28,17 @@ int conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
     int i = va_arg(pinfo->ap, int);
 
-    if (!i && cinfo->prec == 0)
-        return 0;
-    my_putnbr(pinfo->buf.s, i);
     if (cinfo->flag & F_PUT_SIGN) {
         cinfo->prefix.s[0] = '+';
-        cinfo->prefix.written = i > 0;
+        cinfo->prefix.written = i >= 0;
     }
     if (cinfo->flag & F_SET_SPACE) {
         cinfo->prefix.s[0] = ' ';
-        cinfo->prefix.written = i > 0;
+        cinfo->prefix.written = i >= 0;
     }
+    if (!i && cinfo->prec == 0)
+        return 0;
+    my_putnbr(pinfo->buf.s, i);
     pinfo->buf.written = my_intlen(i) + (i < 0);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
         cinfo->flag |= F_PAD_ZERO;
