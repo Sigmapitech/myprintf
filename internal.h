@@ -67,7 +67,7 @@ typedef struct {
     len_mod_t len_mod;
 } conv_info_t;
 
-typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
+typedef void (*conv_func_t)(print_info_t *, conv_info_t *);
 
 const char *parse_specifier(conv_info_t *cinfo, const char *fmt);
 const char *print_literal(print_info_t *pinfo, const char *fmt);
@@ -83,22 +83,22 @@ void init_dpart(double d, dpart_t *dpart);
 intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);
 uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm);
 
-int conv_char(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_int(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_str(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_ptr(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_per(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_char(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_int(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_str(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_ptr(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_per(print_info_t *pinfo, conv_info_t *cinfo);
 
-int conv_oct(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_hex(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_uint(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_oct(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_hex(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_uint(print_info_t *pinfo, conv_info_t *cinfo);
 
-int conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo);
-int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo);
 
-int conv_num(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_num(print_info_t *pinfo, conv_info_t *cinfo);
 
 static
 const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {

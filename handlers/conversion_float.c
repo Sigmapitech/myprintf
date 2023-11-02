@@ -48,7 +48,7 @@ void set_flags_space_plus(conv_info_t *cinfo)
 }
 
 // scientific notation of float %e
-int conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
+void conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
 {
     double d = (double)va_arg(pinfo->ap, double);
 
@@ -56,14 +56,13 @@ int conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->prec = 6;
     pinfo->buf.written = double_to_str_sci(pinfo->buf.s, d, cinfo->prec);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
-        return 0;
+        return;
     if (0 < d)
         set_flags_space_plus(cinfo);
-    return 0;
 }
 
 // decimal notation %f
-int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
+void conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
 {
     double d = (double)va_arg(pinfo->ap, double);
 
@@ -72,24 +71,22 @@ int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
     pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
-        return 0;
+        return;
     if (cinfo->flag & F_ALT_FORM)
         pinfo->buf.written += add_point(pinfo->buf.s);
     if (0 < d)
         set_flags_space_plus(cinfo);
-    return 0;
 }
 
 // variable between -f & -e %g
-int conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
+void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
 {
     (void)pinfo;
     (void)cinfo;
-    return 0;
 }
 
 // hexadecimal + scientific notation %a
-int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
+void conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
 {
     char *s = pinfo->buf.s;
     double d = (double)va_arg(pinfo->ap, double);
@@ -110,5 +107,4 @@ int conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
     s += my_putnbr_base(s, 10, (unsigned)ABS(exp));
     pinfo->buf.written = s - pinfo->buf.s;
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
-    return 0;
 }
