@@ -30,12 +30,11 @@ void conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->prefix.s[0] = '0';
         cinfo->prefix.written++;
     }
+    conv_base(pinfo, 8, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag |= F_PAD_ZERO;
-        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
-    conv_base(pinfo, 8, u);
 }
 
 void conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
@@ -49,12 +48,11 @@ void conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->prefix.s[1] = (~cinfo->conv & (1 << 5)) ? 'X' : 'x';
         cinfo->prefix.written = 2;
     }
+    conv_base(pinfo, 16, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag |= F_PAD_ZERO;
-        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
-    conv_base(pinfo, 16, u);
     for (int i = 0; i < pinfo->buf.written; i++)
         if (~cinfo->conv & (1 << 5) && IS_ALPHA(pinfo->buf.s[i]))
             pinfo->buf.s[i] &= ~(1 << 5);
@@ -66,10 +64,9 @@ void conv_uint(print_info_t *pinfo, conv_info_t *cinfo)
 
     if (!u && cinfo->prec == 0)
         return;
+    conv_base(pinfo, 10, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag |= F_PAD_ZERO;
-        cinfo->flag &= ~F_PAD_LEFT;
+        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
         cinfo->width = cinfo->prec;
     }
-    conv_base(pinfo, 10, u);
 }
