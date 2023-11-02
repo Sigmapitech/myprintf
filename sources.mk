@@ -25,6 +25,9 @@ SRC += conversion_extra.c
 SRC += conversion_float.c
 SRC += conversion_numerical.c
 
+VPATH += float
+SRC += double_to_str.c
+
 VPATH += tests
 TSRC += test_double_to_str.c
 TSRC += test_my_pow.c

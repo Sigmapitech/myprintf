@@ -30,18 +30,10 @@
     // Static len have the size of the number of characters their are
     // composed of, including the '\0'
     #define SSTR_LEN(s) (sizeof(s) - 1)
-    #define BITS(val) (*(unsigned long long *)&val)
-
-typedef struct {
-    int sign;
-    unsigned long long exponant;
-    unsigned long long mentissa;
-} dpart_t;
 
 ATTR(used) static
 const char *BASE_CHARSET = "0123456789abcdef";
 
-int double_to_str(char *out, double d, unsigned int prec);
 int my_base_len(int base, size_t n);
 int my_intlen(int i);
 int my_pow(int nb, int p);
