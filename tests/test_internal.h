@@ -132,8 +132,8 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%ld", .l = LONG_MAX, LONG),
     TEST_ENTRY("%#-4.16ld", .l = LONG_MAX >> 13, LONG),
     TEST_ENTRY("%#-+4.16ld", .l = LONG_MAX >> 13, LONG),
-    TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MAX >> 13, LONG),
-    TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MIN >> 15, LONG),
+    TEST_ENTRY("%# 0-+4.16zd", .l = LONG_MAX >> 13, LONG),
+    TEST_ENTRY("%# 0-+4.16zd", .l = LONG_MIN >> 15, LONG),
     TEST_ENTRY("%# 0-+4.16ld", .l = LONG_MAX >> 15, LONG),
     TEST_ENTRY("%# 0-4.16ld", .l = LONG_MAX >> 15, LONG),
     TEST_ENTRY("%+lld", .l = LONG_MAX, LONG),
@@ -144,6 +144,11 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%+13lx", .l = LONG_MAX, LONG),
     TEST_ENTRY("%0llx", .l = ULLONG_MAX, LONG),
     TEST_ENTRY("%#+ho", .l = ULLONG_MAX, LONG),
+    TEST_ENTRY("%-.12jd", .l = LONG_MIN >> 11, LONG),
+    TEST_ENTRY("%-zx", .l = LONG_MIN >> 11, LONG),
+    TEST_ENTRY("%0+18ju", .l = LONG_MAX >> 11, LONG),
+    TEST_ENTRY("% #td", .l = LONG_MAX, LONG),
+    TEST_ENTRY("%-0tX", .l = LONG_MIN >> 3, LONG),
 };
 
 static
