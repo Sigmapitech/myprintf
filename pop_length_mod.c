@@ -5,8 +5,10 @@
 ** pop_length_mod.c
 */
 
-#include "internal.h"
+#include <limits.h>
 #include <stdio.h>
+
+#include "internal.h"
 
 void pop_length_modifier(union arg *argp, va_list *ap, len_mod_t lm)
 {
@@ -27,4 +29,25 @@ void pop_length_modifier(union arg *argp, va_list *ap, len_mod_t lm)
         return;
     }
     argp->i = va_arg(*ap, int);
+}
+
+void pop_length_modifier_u(union arg *argp, va_list *ap, len_mod_t lm)
+{
+    if (lm == CONV_LONG) {
+        argp->i = va_arg(*ap, unsigned long);
+        return;
+    }
+    if (lm == CONV_LONG_LONG) {
+        argp->i = va_arg(*ap, unsigned long long);
+        return;
+    }
+    if (lm == CONV_SHORT) {
+        argp->i = (unsigned short)va_arg(*ap, unsigned int);
+        return;
+    }
+    if (lm == CONV_CHAR) {
+        argp->i = (unsigned char)va_arg(*ap, unsigned int);
+        return;
+    }
+    argp->i = va_arg(*ap, unsigned int);
 }
