@@ -63,6 +63,8 @@ int run_printf(printf_test_t *p)
             return my_printf(p->fmt, p->arg->p);
         case INT:
             return my_printf(p->fmt, p->arg->i);
+        case DOUBLE:
+            return my_printf(p->fmt, p->arg->d);
     }
     return -1;
 }
@@ -75,6 +77,8 @@ int run_snprintf(printf_test_t *p, char *exp)
             return snprintf(exp, 500, p->fmt, p->arg->p);
         case INT:
             return snprintf(exp, 500, p->fmt, p->arg->i);
+        case DOUBLE:
+            return snprintf(exp, 500, p->fmt, p->arg->d);
     }
     return -1;
 }
