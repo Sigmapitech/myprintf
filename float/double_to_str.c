@@ -31,7 +31,6 @@ int handle_non_numbers(char *out, dpart_t dpart)
     return put_in_str(out, dpart.sign ? "-inf" : "inf");
 }
 
-static
 void init_dpart(double d, dpart_t *dpart)
 {
     union {

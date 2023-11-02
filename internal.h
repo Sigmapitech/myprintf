@@ -76,6 +76,7 @@ const char *print_literal(print_info_t *pinfo, const char *fmt);
 int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt);
 
 int put_nbr(int fd, int nb);
+void init_dpart(double d, dpart_t *dpart);
 
 intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);
 uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm);
