@@ -55,6 +55,7 @@ void conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
     if (cinfo->prec == INT_MAX)
         cinfo->prec = 6;
     pinfo->buf.written = double_to_str_sci(pinfo->buf.s, d, cinfo->prec);
+    set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
         return;
     if (0 < d)
@@ -81,8 +82,19 @@ void conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
 // variable between -f & -e %g
 void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
 {
-    (void)pinfo;
-    (void)cinfo;
+    double d = (double)va_arg(pinfo->ap, double);
+    dpart_t dpart;
+    int exp;
+
+    init_dpart(d, &dpart);
+    exp = ABS((int)dpart.exponant) - 1023;
+    if (cinfo->prec == 0)
+        cinfo->prec = 1;
+    if (exp < -4 || exp >= cinfo->prec)
+        pinfo->buf.written = double_to_str_sci(pinfo->buf.s, d, cinfo->prec);
+    else
+        pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
+    set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
 }
 
 // hexadecimal + scientific notation %a

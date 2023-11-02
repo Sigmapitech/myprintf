@@ -192,7 +192,7 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%#0- 5.2e", .d = -123.456, DOUBLE),
     TEST_ENTRY("%e", .d = INFINITY, DOUBLE),
     TEST_ENTRY("%e", .d = -INFINITY, DOUBLE),
-    TEST_ENTRY("%e", .d = NAN, DOUBLE),
+    TEST_ENTRY("%E", .d = NAN, DOUBLE),
     TEST_ENTRY("%.1e", .d = 3.14, DOUBLE),
     TEST_ENTRY("%08.3e", .d = 3.14, DOUBLE),
     TEST_ENTRY("%a", .d = 3.14, DOUBLE),
@@ -202,6 +202,9 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%A", .d = -0.456, DOUBLE),
     TEST_ENTRY("%A", .d = 0.9999999999999999998, DOUBLE),
     TEST_ENTRY("%.6f", .d = 0.000919999, DOUBLE),
+    TEST_ENTRY("%g", .d = INFINITY, DOUBLE),
+    TEST_ENTRY("%G", .d = -INFINITY, DOUBLE),
+    TEST_ENTRY("%g", .d = NAN, DOUBLE),
 };
 
 static
