@@ -91,8 +91,8 @@ ParameterizedTest(
     printf_test_t *p, test_myprintf, auto_tests, .init = cr_redirect_stdout)
 {
     int ret[2];
-    static char exp[20];
-    static char out[20];
+    static char exp[200];
+    static char out[200];
     FILE *f;
 
     memset(out, '\0', sizeof(out));
