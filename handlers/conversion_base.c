@@ -51,11 +51,9 @@ int conv_str(print_info_t *pinfo, conv_info_t *cinfo)
     cinfo->flag &= ~F_PAD_ZERO;
     pinfo->buf.s = va_arg(pinfo->ap, char *);
     if (pinfo->buf.s == NULL) {
-        if (cinfo->prec >= 6) {
+        if (cinfo->prec >= 6)
             pinfo->buf.s = (char *)"(null)";
-            pinfo->buf.written = 6;
-            return 0;
-        } else
+        else
             pinfo->buf.s = (char *)"\0";
     }
     pinfo->buf.written = my_strnlen(pinfo->buf.s, cinfo->prec);
