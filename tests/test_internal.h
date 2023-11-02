@@ -26,6 +26,7 @@ enum type {
     PTR,
     INT,
     LONG,
+    DOUBLE
 };
 
 union arg {
@@ -33,6 +34,7 @@ union arg {
     const int i;
     const long l;
     const void *p;
+    const double d;
 };
 
 typedef struct printf_test {
@@ -149,6 +151,21 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%0+18ju", .l = LONG_MAX >> 11, LONG),
     TEST_ENTRY("% #td", .l = LONG_MAX, LONG),
     TEST_ENTRY("%-0tX", .l = LONG_MIN >> 3, LONG),
+    TEST_ENTRY("%f", .d = 123.456, DOUBLE),
+    TEST_ENTRY("%f", .d = 0, DOUBLE),
+    TEST_ENTRY("%f", .d = 123.0, DOUBLE),
+    TEST_ENTRY("%f", .d = 0.456, DOUBLE),
+    TEST_ENTRY("%f", .d = -123.456, DOUBLE),
+    TEST_ENTRY("%f", .d = -123.0, DOUBLE),
+    TEST_ENTRY("%f", .d = -0.456, DOUBLE),
+    TEST_ENTRY("%.0f", .d = -0, DOUBLE),
+    TEST_ENTRY("%#.0f", .d = -69, DOUBLE),
+    TEST_ENTRY("%+f", .d = 123.456, DOUBLE),
+    TEST_ENTRY("% f", .d = 123.456, DOUBLE),
+    TEST_ENTRY("%+ f", .d = 123.456, DOUBLE),
+    TEST_ENTRY("%+f", .d = -123.456, DOUBLE),
+    TEST_ENTRY("%-5.3f", .d = -123.456, DOUBLE),
+    TEST_ENTRY("%#0- 5.2f", .d = -123.456, DOUBLE)
 };
 
 static

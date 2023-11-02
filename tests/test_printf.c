@@ -65,6 +65,8 @@ int run_printf(printf_test_t *p)
             return my_printf(p->fmt, p->arg->i);
         case LONG:
             return my_printf(p->fmt, p->arg->l);
+        case DOUBLE:
+            return my_printf(p->fmt, p->arg->d);
     }
     return -1;
 }
@@ -79,6 +81,8 @@ int run_snprintf(printf_test_t *p, char *exp)
             return snprintf(exp, 500, p->fmt, p->arg->i);
         case LONG:
             return snprintf(exp, 500, p->fmt, p->arg->l);
+        case DOUBLE:
+            return snprintf(exp, 500, p->fmt, p->arg->d);
     }
     return -1;
 }
@@ -120,11 +124,10 @@ Test(my_printf, n_conversion, .init = cr_redirect_stdout)
 
 Test(my_printf, null_format, .init = cr_redirect_stdout)
 {
-    int ret[2];
+    int ret;
 
-    ret[0] = printf(NULL);
-    ret[1] = my_printf(NULL);
-    cr_assert_eq(ret[0], ret[1]);
+    ret = my_printf(NULL);
+    cr_assert_eq(ret, -1);
 }
 
 /* Only test that the the code is crash-free

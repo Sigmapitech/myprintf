@@ -13,6 +13,13 @@
 
     #define MAX_SPEC_LEN 2
     #define CONV_IDX(c) (c - 'A')
+    #define BITS(val) (*(unsigned long long *)&val)
+
+typedef struct {
+    int sign;
+    unsigned long long exponant;
+    unsigned long long mentissa;
+} dpart_t;
 
 typedef enum {
     F_NO_FLAG = 0,
@@ -63,6 +70,7 @@ typedef struct {
 
 typedef int (*conv_func_t)(print_info_t *, conv_info_t *);
 
+int double_to_str(char *out, double d, unsigned int prec);
 int putnchar(int fd, char c, int nb);
 const char *parse_specifier(conv_info_t *cinfo, const char *fmt);
 const char *print_literal(print_info_t *pinfo, const char *fmt);

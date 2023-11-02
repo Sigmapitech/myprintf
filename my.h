@@ -35,7 +35,6 @@
 ATTR(used) static
 const char *BASE_CHARSET = "0123456789abcdef";
 
-int double_to_str(char *out, double d, unsigned int prec);
 int my_base_len(int base, size_t n);
 int my_intlen(intmax_t i);
 int my_pow(int nb, int p);
