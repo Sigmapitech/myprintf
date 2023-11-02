@@ -6,14 +6,14 @@
 */
 
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "internal.h"
 #include "my.h"
 
 static
-int put_in_str(char *out, char *in)
+int put_in_str(char *out, const char *in)
 {
     int i;
 
@@ -32,11 +32,11 @@ double d_abs(double d)
 }
 
 static
-int h_nan(char *out, dpart_t dpart)
+int handle_non_numbers(char *out, dpart_t dpart)
 {
     if (dpart.mentissa == 0)
-        return put_in_str(out, (char *)(dpart.sign ? "-inf" : "inf"));
-    return put_in_str(out, (char *)"nan");
+        return put_in_str(out, dpart.sign ? "-inf" : "inf");
+    return put_in_str(out, "nan");
 }
 
 int double_to_str(char *out, double d, unsigned int prec)
@@ -47,10 +47,10 @@ int double_to_str(char *out, double d, unsigned int prec)
         BITS(d) & 0x000fffffffffffffL };
 
     if (dpart.exponant == 0x7ff) {
-        return h_nan(out, dpart);
+        return handle_non_numbers(out, dpart);
     }
     d = d_abs(d) - itgr;
-    i += (dpart.sign ? put_in_str(out, (char *)"-") : 0)
+    i += (dpart.sign ? put_in_str(out, "-") : 0)
         + my_putnbr(out + dpart.sign, itgr);
     if (prec) {
         itgr = i;
