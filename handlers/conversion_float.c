@@ -56,11 +56,6 @@ int conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
         pinfo->buf.written += add_point(pinfo->buf.s);
     if (0 < d)
         set_flags_space_plus(cinfo);
-    if (pinfo->buf.written < cinfo->prec) {
-        cinfo->flag |= F_PAD_ZERO;
-        cinfo->flag &= ~F_PAD_LEFT;
-        cinfo->width = cinfo->prec;
-    }
     return 0;
 }
 

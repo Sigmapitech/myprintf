@@ -170,6 +170,8 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%f", .d = INFINITY, DOUBLE),
     TEST_ENTRY("%f", .d = -INFINITY, DOUBLE),
     TEST_ENTRY("%f", .d = NAN, DOUBLE),
+    TEST_ENTRY("%.1f", .d = 3.14, DOUBLE),
+    TEST_ENTRY("%08.3f", .d = 3.14, DOUBLE),
 };
 
 static
