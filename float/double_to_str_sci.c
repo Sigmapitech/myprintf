@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** double_to_str.c
+** double_to_str_sci.c
 */
 
 #include <stdio.h>

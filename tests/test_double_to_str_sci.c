@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** test_double_to_str.c
+** test_double_to_str_sci.c
 */
 
 #include <criterion/criterion.h>
