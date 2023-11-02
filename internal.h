@@ -13,7 +13,6 @@
 
     #define MAX_SPEC_LEN 2
     #define CONV_IDX(c) (c - 'A')
-    #define BITS(val) (*(unsigned long long *)&val)
 
 typedef struct {
     int sign;
