@@ -60,11 +60,11 @@ int double_to_str(char *out, double d, unsigned int prec)
         return handle_non_numbers(out, dpart);
     if (dpart.sign)
         i += put_in_str(out, "-");
-    i += my_putnbr(out + dpart.sign, (int)ABS(d));
+    d = ABS(d);
+    i += my_putnbr(out + i, (int)d + (((d - (int)d) >= 0.5) && !prec));
     if (!prec)
         return i;
     out[i++] = '.';
-    d = ABS(d);
     for (d -= (int)(d); prec-- > 0; d -= (int)d) {
         d *= 10;
         out[i++] = '0' | (int)d % 10;
