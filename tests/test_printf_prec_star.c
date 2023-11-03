@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** my_printf
 ** File description:
-** _
+** test_printf_prec_star.c
 */
 
 #include "my.h"
