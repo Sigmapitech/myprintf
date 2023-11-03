@@ -60,7 +60,7 @@ int double_to_str_sci(char *out, double d, unsigned int prec)
         i += put_in_str(out, "-");
     d = ABS(d);
     pad = get_pad(&d);
-    i += my_putnbr(out + i, (int)d);
+    i += my_putnbr(out + i, (int)d + (((d - (int)d) >= 0.5) && !prec));
     if (prec)
         i += put_frac_part(out, prec_len, i, d) - 1 - dpart.sign;
     i += put_in_str(out +i, "e") + put_in_str(out +i +1, 0 <= pad ? "+" : "-");

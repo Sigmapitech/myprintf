@@ -47,6 +47,21 @@ void set_flags_space_plus(conv_info_t *cinfo)
     }
 }
 
+static
+int insert_char(char *str, char c)
+{
+    char temp;
+
+    for (; *str != '\0'; str++) {
+        temp = *str;
+        *str = c;
+        c = temp;
+    }
+    *str = c;
+    str[1] = '\0';
+    return 1;
+}
+
 // scientific notation of float %e
 void conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
 {
@@ -60,6 +75,8 @@ void conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
         return;
     if (0 < d)
         set_flags_space_plus(cinfo);
+    if (cinfo->flag & F_ALT_FORM && pinfo->buf.s[1 + (d < 0)] != '.')
+        pinfo->buf.written += insert_char(pinfo->buf.s + 1 + (d < 0), '.');
 }
 
 // decimal notation %f
