@@ -87,6 +87,9 @@ void conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
     if (cinfo->prec == INT_MAX)
         cinfo->prec = 6;
     pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
+    if (cinfo->flag & F_PAD_ZERO &&
+        (pinfo->buf.s[d < 0] == 'i' || pinfo->buf.s[d < 0] == 'n'))
+        cinfo->flag -= cinfo->flag & F_PAD_ZERO;
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
         return;
