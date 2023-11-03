@@ -46,14 +46,20 @@ const char *parse_width(conv_info_t *cinfo, const char *fmt)
 }
 
 static
-const char *parse_prec(conv_info_t *cinfo, const char *fmt)
+const char *parse_prec(
+    print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
     if (*fmt != '.') {
         cinfo->prec = INT_MAX;
         return fmt;
     }
-    fmt++;
-    cinfo->prec = 0;
+    if (*++fmt == '*') {
+        cinfo->prec = (int)va_arg(pinfo->ap, int);
+        if (cinfo->prec < 0)
+            cinfo->prec = INT_MAX;
+        return ++fmt;
+    } else
+        cinfo->prec = 0;
     for (; IS_DIGIT(*fmt); fmt++) {
         if (cinfo->prec > (INT_MAX / 10))
             return NULL;
@@ -82,17 +88,17 @@ const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
     return fmt;
 }
 
-__attribute__((optimize("unroll-loops")))
-const char *parse_specifier(conv_info_t *cinfo, const char *fmt)
+const char *parse_specifier(
+    print_info_t *pinfo, conv_info_t *cinfo, const char *fmt)
 {
-    const char *(*parse_funcs[4])(conv_info_t *, const char *) = {
-        &parse_flag, &parse_width, &parse_prec, &parse_len_mod
-    };
-
-    for (int i = 0; i < 4; i++) {
-        fmt = parse_funcs[i](cinfo, fmt);
-        if (fmt == NULL)
-            return NULL;
-    }
-    return fmt;
+    fmt = parse_flag(cinfo, fmt);
+    if (fmt == NULL)
+        return NULL;
+    fmt = parse_width(cinfo, fmt);
+    if (fmt == NULL)
+        return NULL;
+    fmt = parse_prec(pinfo, cinfo, fmt);
+    if (fmt == NULL)
+        return NULL;
+    return parse_len_mod(cinfo, fmt);
 }

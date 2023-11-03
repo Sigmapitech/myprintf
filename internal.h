@@ -69,7 +69,8 @@ typedef struct {
 
 typedef void (*conv_func_t)(print_info_t *, conv_info_t *);
 
-const char *parse_specifier(conv_info_t *cinfo, const char *fmt);
+const char *parse_specifier(
+    print_info_t *pinfo, conv_info_t *cinfo, const char *fmt);
 const char *print_literal(print_info_t *pinfo, const char *fmt);
 int print_format(print_info_t *pinfo, conv_info_t *cinfo, const char *fmt);
 

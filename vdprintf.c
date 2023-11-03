@@ -89,7 +89,7 @@ int my_vdprintf(int fd, const char *format, va_list ap)
             format = print_literal(&pinfo, format);
             continue;
         }
-        format = parse_specifier(&cinfo, ++format);
+        format = parse_specifier(&pinfo, &cinfo, ++format);
         if (format == NULL)
             return -1;
         pinfo.written += print_format(&pinfo, &cinfo, format);
