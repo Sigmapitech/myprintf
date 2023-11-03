@@ -28,7 +28,8 @@ SRC += conversion_numerical.c
 
 VPATH += float
 SRC += double_to_str.c
-SRC += double_to_str_sci.c
+SRC += stringify_helpers.c
+SRC += split_parts.c
 
 VPATH += tests
 TSRC += test_double_to_str.c

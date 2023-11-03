@@ -14,12 +14,6 @@
     #define MAX_SPEC_LEN 2
     #define CONV_IDX(c) (c - 'A')
 
-typedef struct {
-    int sign;
-    unsigned long long exponant;
-    unsigned long long mentissa;
-} dpart_t;
-
 typedef enum {
     F_NO_FLAG = 0,
     F_PAD_LEFT = 1 << 0,
@@ -78,8 +72,6 @@ int double_to_str(char *out, double d, unsigned int prec);
 int double_to_str_sci(char *out, double d, unsigned int prec);
 int putnchar(int fd, char c, int nb);
 int put_nbr(int fd, int nb);
-int put_in_str(char *out, const char *in);
-void init_dpart(double d, dpart_t *dpart);
 
 intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);
 uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm);

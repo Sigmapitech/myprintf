@@ -2,52 +2,45 @@
 ** EPITECH PROJECT, 2023
 ** my_printf
 ** File description:
-** double_to_str.c
+** double_to_str_sci.c
 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
+#include "float.h"
 #include "internal.h"
 #include "my.h"
 
-int put_in_str(char *out, const char *in)
+static
+int put_frac_part(char *out, int prec, int i, double d)
 {
-    int i;
+    char *s = out + i;
 
-    for (i = 0; in[i] != '\0'; i++)
-        out[i] = in[i];
-    out[i] = in[i];
-    return i;
+    *s++ = '.';
+    for (d -= (int)(d); prec-- > 0; d -= (int)d) {
+        d *= 10;
+        *s++ = '0' | (int)d % 10;
+    }
+    if (d >= .5L)
+        round_up(out, s - out);
+    return s - out;
 }
 
 static
-int handle_non_numbers(char *out, dpart_t dpart)
+int get_pad(double *d)
 {
-    if (dpart.mentissa != 0)
-        return put_in_str(out, "nan");
-    return put_in_str(out, dpart.sign ? "-inf" : "inf");
-}
+    int pad = 0;
 
-void init_dpart(double d, dpart_t *dpart)
-{
-    union {
-        double d;
-        unsigned long long ull;
-    } fh = { .d = d };
-
-    dpart->sign = (fh.ull >> 63) & 1;
-    dpart->exponant = (fh.ull >> 52) & 0x7ff;
-    dpart->mentissa = fh.ull & 0x000fffffffffffffL;
-}
-
-void round_up(char *out, int len)
-{
-    --len;
-    for (; out[len] == '9'; len--)
-        out[len] = '0';
-    out[len]++;
+    if (*d == 0)
+        return 0;
+    for (; *d < 1; *d *= 10)
+        pad--;
+    for (; 10 <= *d; *d /= 10)
+        pad++;
+    return pad;
 }
 
 int double_to_str(char *out, double d, unsigned int prec)
@@ -72,4 +65,27 @@ int double_to_str(char *out, double d, unsigned int prec)
     if (d >= .5)
         round_up(out, i);
     return i;
+}
+
+int double_to_str_sci(char *out, double d, unsigned int prec)
+{
+    int i = 0;
+    int pad = 0;
+    dpart_t dpart;
+
+    init_dpart(d, &dpart);
+    if (dpart.exponant == 0x7ff)
+        return handle_non_numbers(out, dpart);
+    if (dpart.sign)
+        i += put_in_str(out, "-");
+    d = ABS(d);
+    pad = get_pad(&d);
+    i += my_putnbr(out + i, (int)d + (((d - (int)d) >= 0.5) && !prec));
+    if (prec)
+        i += put_frac_part(out, prec, i, d) - 1 - dpart.sign;
+    i += put_in_str(out +i, "e") + put_in_str(out +i +1, 0 <= pad ? "+" : "-");
+    if (pad < 10)
+        i += put_in_str(out + i, "0");
+    i += my_putnbr(out + i, pad);
+    return i + put_in_str(out + i, "\0");
 }
