@@ -50,8 +50,9 @@ void conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
     }
     conv_base(pinfo, 16, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
-        cinfo->width = cinfo->prec;
+        for (int i = cinfo->prec - pinfo->buf.written; i; --i)
+            cinfo->prefix.s[cinfo->prefix.written++] = '0';
+        cinfo->flag &= ~F_PAD_ZERO;
     }
     for (int i = 0; i < pinfo->buf.written; i++)
         if (~cinfo->conv & (1 << 5) && IS_ALPHA(pinfo->buf.s[i]))

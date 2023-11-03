@@ -168,6 +168,11 @@ const printf_test_t TESTS[] = {
     TEST_ENTRY("%#+ho", .l = ULLONG_MAX, LONG),
     TEST_ENTRY("% x", .i = 3301, INT),
     TEST_ENTRY("% x", .i = -42, INT),
+    TEST_ENTRY("%-10.2x", .i = 0, INT),
+    TEST_ENTRY("%-10.2x", .i = 1, INT),
+    TEST_ENTRY("%-10.2x", .i = -1, INT),
+    TEST_ENTRY("%-10.2x", .i = INT_MIN, INT),
+    TEST_ENTRY("%-10.2x", .i = INT_MAX, INT),
 
     // %f
     TEST_ENTRY("%f", .d = NAN, DOUBLE),
