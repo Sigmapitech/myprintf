@@ -32,8 +32,9 @@ void conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
     }
     conv_base(pinfo, 8, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        cinfo->flag = (cinfo->flag | F_PAD_ZERO) & ~F_PAD_LEFT;
-        cinfo->width = cinfo->prec;
+        for (int i = cinfo->prec - pinfo->buf.written; i; --i)
+            cinfo->prefix.s[cinfo->prefix.written++] = '0';
+        cinfo->flag &= ~F_PAD_ZERO;
     }
 }
 
