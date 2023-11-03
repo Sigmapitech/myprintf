@@ -70,10 +70,13 @@ void conv_nota_sci(print_info_t *pinfo, conv_info_t *cinfo)
     if (cinfo->prec == INT_MAX)
         cinfo->prec = 6;
     pinfo->buf.written = double_to_str_sci(pinfo->buf.s, d, cinfo->prec);
+    if (cinfo->flag & F_PAD_ZERO &&
+        (pinfo->buf.s[d < 0] == 'i' || pinfo->buf.s[d < 0] == 'n'))
+        cinfo->flag &= ~F_PAD_ZERO;
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
         return;
-    if (0 < d)
+    if (0 <= d)
         set_flags_space_plus(cinfo);
     if (cinfo->flag & F_ALT_FORM && pinfo->buf.s[1 + (d < 0)] != '.')
         pinfo->buf.written += insert_char(pinfo->buf.s + 1 + (d < 0), '.');
@@ -89,13 +92,13 @@ void conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
     pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
     if (cinfo->flag & F_PAD_ZERO &&
         (pinfo->buf.s[d < 0] == 'i' || pinfo->buf.s[d < 0] == 'n'))
-        cinfo->flag -= cinfo->flag & F_PAD_ZERO;
+        cinfo->flag &= ~F_PAD_ZERO;
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
     if (!IS_DIGIT(pinfo->buf.s[pinfo->buf.written - 1]))
         return;
     if (cinfo->flag & F_ALT_FORM)
         pinfo->buf.written += add_point(pinfo->buf.s);
-    if (0 < d)
+    if (0 <= d)
         set_flags_space_plus(cinfo);
 }
 
