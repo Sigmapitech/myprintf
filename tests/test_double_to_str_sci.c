@@ -45,17 +45,3 @@ Test(double_to_str_sci, test_big2)
     double_to_str_sci(str, d, 6);
     cr_assert_str_eq(str, "1.234568e+06");
 }
-
-/*
-int main(void)
-{
-    double d = 420.69;
-    char str[64] = { '$' };
-
-    fprintf(stderr, "-- in main --\n");
-    double_to_str_sci(str, d, 2);
-    fprintf(stderr, "-- str [420.69] -> [4.21e+02] => [%s] --\n", str);
-    fprintf(stderr, "-- out main --\n");
-    return 0;
-}
-*/
