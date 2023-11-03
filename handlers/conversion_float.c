@@ -103,7 +103,7 @@ void conv_nota_dec(print_info_t *pinfo, conv_info_t *cinfo)
         set_flags_space_plus(cinfo);
 }
 
-// variable between -f & -e %g
+/**
 void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
 {
     double d = (double)va_arg(pinfo->ap, double);
@@ -118,6 +118,15 @@ void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
         pinfo->buf.written = double_to_str_sci(pinfo->buf.s, d, cinfo->prec);
     else
         pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
+    set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
+} **/
+
+// variable between -f & -e %g
+void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
+{
+    double d = (double)va_arg(pinfo->ap, double);
+
+    pinfo->buf.written = double_to_str(pinfo->buf.s, d, cinfo->prec);
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
 }
 
