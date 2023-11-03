@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "handlers/converters.h"
 #include "internal.h"
 #include "my.h"
 

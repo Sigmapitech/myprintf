@@ -8,7 +8,7 @@
 #include <limits.h>
 #include <unistd.h>
 
-#include "internal.h"
+#include "converters.h"
 #include "my.h"
 
 static

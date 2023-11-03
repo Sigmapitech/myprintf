@@ -7,8 +7,8 @@
 #include <limits.h>
 #include <stdio.h>
 
+#include "converters.h"
 #include "float/float.h"
-#include "internal.h"
 #include "my.h"
 
 static

@@ -11,9 +11,8 @@
 #include <limits.h>
 #include <unistd.h>
 
-#include "internal.h"
+#include "converters.h"
 #include "my.h"
-#include "stdint.h"
 
 void conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {

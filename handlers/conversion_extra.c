@@ -5,7 +5,7 @@
 ** conversion_extra.c
 */
 
-#include "internal.h"
+#include "converters.h"
 #include "my.h"
 
 void conv_num(print_info_t *pinfo, conv_info_t *cinfo)
