@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** my_printf
 ** File description:
-** _
+** stringify_helpers.c
 */
 
 #include "float.h"
