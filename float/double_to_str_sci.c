@@ -22,14 +22,27 @@ int handle_non_numbers(char *out, dpart_t dpart)
 }
 
 static
-int put_frac_part(char *out, int prec_len, int i, double d)
+void round_up(char *out, int len)
 {
-    int start = i;
+    --len;
+    for (; out[len] == '9'; len--)
+        out[len] = '0';
+    out[len]++;
+}
 
-    d = (d + 1) * prec_len + ((d * prec_len - (int)(d * prec_len)) >= 0.5);
-    i += my_putnbr(out + i, (int)(d));
-    out[start] = '.';
-    return i;
+static
+int put_frac_part(char *out, int prec, int i, double d)
+{
+    char *s = out + i;
+
+    *s++ = '.';
+    for (d -= (int)(d); prec-- > 0; d -= (int)d) {
+        d *= 10;
+        *s++ = '0' | (int)d % 10;
+    }
+    if (d >= .5L)
+        round_up(out, s - out);
+    return s - out;
 }
 
 static
@@ -50,7 +63,6 @@ int double_to_str_sci(char *out, double d, unsigned int prec)
 {
     int i = 0;
     int pad = 0;
-    int prec_len = my_pow(10, prec);
     dpart_t dpart;
 
     init_dpart(d, &dpart);
@@ -62,7 +74,7 @@ int double_to_str_sci(char *out, double d, unsigned int prec)
     pad = get_pad(&d);
     i += my_putnbr(out + i, (int)d + (((d - (int)d) >= 0.5) && !prec));
     if (prec)
-        i += put_frac_part(out, prec_len, i, d) - 1 - dpart.sign;
+        i += put_frac_part(out, prec, i, d) - 1 - dpart.sign;
     i += put_in_str(out +i, "e") + put_in_str(out +i +1, 0 <= pad ? "+" : "-");
     if (pad < 10)
         i += put_in_str(out + i, "0");
