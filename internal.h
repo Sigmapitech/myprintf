@@ -99,6 +99,7 @@ void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo);
 void conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo);
 
 void conv_num(print_info_t *pinfo, conv_info_t *cinfo);
+void conv_bin(print_info_t *pinfo, conv_info_t *cinfo);
 
 static
 const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
@@ -119,6 +120,8 @@ const conv_func_t CONVERSION_FUNCS[ CONV_IDX('z') ] = {
     [ CONV_IDX('G') ] = &conv_nota_var,
     [ CONV_IDX('A') ] = &conv_nota_hex,
     [ CONV_IDX('a') ] = &conv_nota_hex,
+    [ CONV_IDX('B') ] = &conv_bin,
+    [ CONV_IDX('b') ] = &conv_bin,
     [ CONV_IDX('n') ] = &conv_num
 };
 

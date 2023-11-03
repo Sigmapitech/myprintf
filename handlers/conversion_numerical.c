@@ -72,3 +72,22 @@ void conv_uint(print_info_t *pinfo, conv_info_t *cinfo)
         cinfo->width = cinfo->prec;
     }
 }
+
+void conv_bin(print_info_t *pinfo, conv_info_t *cinfo)
+{
+    uintmax_t b = pop_length_modifier_u(&pinfo->ap, cinfo->len_mod);
+
+    if (!b && cinfo->prec == 0)
+        return;
+    if (cinfo->flag & F_ALT_FORM && b) {
+        cinfo->prefix.s[0] = '0';
+        cinfo->prefix.s[1] = (~cinfo->conv & (1 << 5)) ? 'B' : 'b';
+        cinfo->prefix.written = 2;
+    }
+    conv_base(pinfo, 2, b);
+    if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
+        for (int i = cinfo->prec - pinfo->buf.written; i; --i)
+            cinfo->prefix.s[cinfo->prefix.written++] = '0';
+        cinfo->flag &= ~F_PAD_ZERO;
+    }
+}
