@@ -15,18 +15,9 @@
 #include "my.h"
 
 static
-int put_frac_part(char *out, int prec, int i, double d)
+int get_first_digit(double d, int prec)
 {
-    char *s = out + i;
-
-    *s++ = '.';
-    for (d -= (int)(d); prec-- > 0; d -= (int)d) {
-        d *= 10;
-        *s++ = '0' | (int)d % 10;
-    }
-    if (d >= .5L)
-        round_up(out, s - out);
-    return s - out;
+    return (int)d + (((d - (int)d) >= .5) && !prec);
 }
 
 static
@@ -43,28 +34,33 @@ int get_pad(double *d)
     return pad;
 }
 
-int double_to_str(char *out, double d, unsigned int prec)
+static
+int put_frac_part(char *out, int prec, int i, double d)
 {
-    int i = 0;
-    dpart_t dpart;
+    char *s = out + i;
 
-    init_dpart(d, &dpart);
-    if (dpart.exponant == 0x7ff)
-        return handle_non_numbers(out, dpart);
-    if (dpart.sign)
-        i += put_in_str(out, "-");
-    d = ABS(d);
-    i += my_putnbr(out + i, (int)d + (((d - (int)d) >= 0.5) && !prec));
-    if (!prec)
-        return i;
-    out[i++] = '.';
+    *s++ = '.';
     for (d -= (int)(d); prec-- > 0; d -= (int)d) {
         d *= 10;
-        out[i++] = '0' | (int)d % 10;
+        *s++ = '0' | (int)d % 10;
     }
-    if (d >= .5)
-        round_up(out, i);
-    return i;
+    if (d >= .5L)
+        round_up(out, s - out);
+    return s - out;
+}
+
+static
+int add_exponant(char *out, int i, int pad)
+{
+    unsigned int apad = ABS(pad);
+    char *s = out + i;
+
+    *s++ += 'e';
+    s += put_in_str(s, 0 <= pad ? "+" : "-");
+    s += my_putnbr(s, apad / 10);
+    *s++ = '0' | (apad % 10);
+    *s = '\0';
+    return s - out;
 }
 
 int double_to_str_sci(char *out, double d, unsigned int prec)
@@ -80,12 +76,25 @@ int double_to_str_sci(char *out, double d, unsigned int prec)
         i += put_in_str(out, "-");
     d = ABS(d);
     pad = get_pad(&d);
-    i += my_putnbr(out + i, (int)d + (((d - (int)d) >= 0.5) && !prec));
+    i += my_putnbr(out + i, get_first_digit(d, prec));
     if (prec)
         i += put_frac_part(out, prec, i, d) - 1 - dpart.sign;
-    i += put_in_str(out +i, "e") + put_in_str(out +i +1, 0 <= pad ? "+" : "-");
-    if (pad < 10)
-        i += put_in_str(out + i, "0");
-    i += my_putnbr(out + i, pad);
-    return i + put_in_str(out + i, "\0");
+    return add_exponant(out, i, pad);
+}
+
+int double_to_str(char *out, double d, unsigned int prec)
+{
+    int i = 0;
+    dpart_t dpart;
+
+    init_dpart(d, &dpart);
+    if (dpart.exponant == 0x7ff)
+        return handle_non_numbers(out, dpart);
+    if (dpart.sign)
+        i += put_in_str(out, "-");
+    d = ABS(d);
+    i += my_putnbr(out + i, get_first_digit(d, prec));
+    if (!prec)
+        return i;
+    return put_frac_part(out, prec, i, d);
 }
