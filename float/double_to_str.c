@@ -11,8 +11,8 @@
 #include <unistd.h>
 
 #include "float.h"
-#include "internal.h"
-#include "my.h"
+#include "../internal.h"
+#include "../my.h"
 
 static
 int get_first_digit(double d, int prec)
@@ -39,10 +39,12 @@ int put_frac_part(char *out, int prec, int i, double d)
 {
     char *s = out + i;
 
-    *s++ = '.';
+    *s = '.';
+    s++;
     for (d -= (int)(d); prec-- > 0; d -= (int)d) {
         d *= 10;
-        *s++ = '0' | (int)d % 10;
+        *s = '0' | (int)d % 10;
+        s++;
     }
     if (d >= .5L)
         round_up(out, s - out);
@@ -55,10 +57,12 @@ int add_exponant(char *out, int i, int pad)
     unsigned int apad = ABS(pad);
     char *s = out + i;
 
-    *s++ += 'e';
+    *s += 'e';
+    s++;
     s += put_in_str(s, 0 <= pad ? "+" : "-");
     s += my_putnbr(s, apad / 10);
-    *s++ = '0' | (apad % 10);
+    *s = '0' | (apad % 10);
+    s++;
     *s = '\0';
     return s - out;
 }

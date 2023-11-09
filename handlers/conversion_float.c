@@ -8,8 +8,8 @@
 #include <stdio.h>
 
 #include "converters.h"
-#include "float/float.h"
-#include "my.h"
+#include "../float/float.h"
+#include "../my.h"
 
 static
 void set_upcase(char *s, int is_up)
@@ -130,6 +130,13 @@ void conv_nota_var(print_info_t *pinfo, conv_info_t *cinfo)
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);
 }
 
+static
+void incr_and_set(char **ptr, char c)
+{
+    **ptr = c;
+    (*ptr)++;
+}
+
 // hexadecimal + scientific notation %a
 void conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
 {
@@ -140,15 +147,15 @@ void conv_nota_hex(print_info_t *pinfo, conv_info_t *cinfo)
 
     init_dpart(d, &dpart);
     if (dpart.sign)
-        *s++ = '-';
+        incr_and_set(&s, '-');
     s += put_in_str(s, "0x1");
     if (dpart.mentissa) {
-        *s++ = '.';
+        incr_and_set(&s, '.');
         s += my_putnbr_base(s, 16, dpart.mentissa);
     }
-    *s++ = 'p';
+    incr_and_set(&s, 'p');
     exp = ABS((int)dpart.exponant) - 1023;
-    *s++ = "-+"[exp >= 0];
+    incr_and_set(&s, "-+"[exp >= 0]);
     s += my_putnbr_base(s, 10, (unsigned)ABS(exp));
     pinfo->buf.written = s - pinfo->buf.s;
     set_upcase(pinfo->buf.s, ~cinfo->conv & 32);

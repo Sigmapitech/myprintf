@@ -53,13 +53,13 @@ const char *parse_prec(
         cinfo->prec = INT_MAX;
         return fmt;
     }
-    if (*++fmt == '*') {
+    for (fmt++; *fmt == '*';) {
         cinfo->prec = (int)va_arg(pinfo->ap, int);
         if (cinfo->prec < 0)
             cinfo->prec = INT_MAX;
-        return ++fmt;
-    } else
-        cinfo->prec = 0;
+        return fmt + 1;
+    }
+    cinfo->prec = 0;
     for (; IS_DIGIT(*fmt); fmt++) {
         if (cinfo->prec > (INT_MAX / 10))
             return NULL;

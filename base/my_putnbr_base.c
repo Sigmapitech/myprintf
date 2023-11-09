@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "my.h"
+#include "../my.h"
 
 int my_base_len(int base, size_t n)
 {
@@ -21,7 +21,9 @@ int my_putnbr_base(char *s, size_t base, size_t n)
 {
     int len = my_base_len(base, n);
 
-    for (int i = len; i > 0; n /= base)
-        s[--i] = BASE_CHARSET[n % base];
+    for (int i = len; i > 0; n /= base) {
+        i--;
+        s[i] = BASE_CHARSET[n % base];
+    }
     return len;
 }

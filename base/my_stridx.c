@@ -5,7 +5,7 @@
 ** my_stridx.c
 */
 
-#include "my.h"
+#include "../my.h"
 
 int my_stridx(const char *str, char c)
 {

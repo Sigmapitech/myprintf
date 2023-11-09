@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #include "converters.h"
-#include "my.h"
+#include "../my.h"
 
 static
 void conv_base(print_info_t *pinfo, int baselen, size_t n)
@@ -32,8 +32,10 @@ void conv_oct(print_info_t *pinfo, conv_info_t *cinfo)
     }
     conv_base(pinfo, 8, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        for (int i = cinfo->prec - pinfo->buf.written; i; --i)
-            cinfo->prefix.s[cinfo->prefix.written++] = '0';
+        for (int i = cinfo->prec - pinfo->buf.written; i; --i) {
+            cinfo->prefix.s[cinfo->prefix.written] = '0';
+            cinfo->prefix.written++;
+        }
         cinfo->flag &= ~F_PAD_ZERO;
     }
 }
@@ -51,8 +53,10 @@ void conv_hex(print_info_t *pinfo, conv_info_t *cinfo)
     }
     conv_base(pinfo, 16, u);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        for (int i = cinfo->prec - pinfo->buf.written; i; --i)
-            cinfo->prefix.s[cinfo->prefix.written++] = '0';
+        for (int i = cinfo->prec - pinfo->buf.written; i; --i) {
+            cinfo->prefix.s[cinfo->prefix.written] = '0';
+            cinfo->prefix.written++;
+        }
         cinfo->flag &= ~F_PAD_ZERO;
     }
     for (int i = 0; i < pinfo->buf.written; i++)
@@ -86,8 +90,10 @@ void conv_bin(print_info_t *pinfo, conv_info_t *cinfo)
     }
     conv_base(pinfo, 2, b);
     if (pinfo->buf.written < cinfo->prec && cinfo->prec != INT_MAX) {
-        for (int i = cinfo->prec - pinfo->buf.written; i; --i)
-            cinfo->prefix.s[cinfo->prefix.written++] = '0';
+        for (int i = cinfo->prec - pinfo->buf.written; i; --i) {
+            cinfo->prefix.s[cinfo->prefix.written] = '0';
+            cinfo->prefix.written++;
+        }
         cinfo->flag &= ~F_PAD_ZERO;
     }
 }

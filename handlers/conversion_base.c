@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 #include "converters.h"
-#include "my.h"
+#include "../my.h"
 
 void conv_char(print_info_t *pinfo, conv_info_t *cinfo)
 {
@@ -23,16 +23,23 @@ void conv_char(print_info_t *pinfo, conv_info_t *cinfo)
     pinfo->buf.written = 1;
 }
 
+static
+void set_prefix(conv_info_t *cinfo, char c)
+{
+    cinfo->prefix.s[cinfo->prefix.written] = c;
+    cinfo->prefix.written++;
+}
+
 void conv_int(print_info_t *pinfo, conv_info_t *cinfo)
 {
     intmax_t i = pop_length_modifier(&pinfo->ap, cinfo->len_mod);
 
     if (i < 0)
-        cinfo->prefix.s[cinfo->prefix.written++] = '-';
+        set_prefix(cinfo, '-');
     else if (cinfo->flag & F_PUT_SIGN)
-        cinfo->prefix.s[cinfo->prefix.written++] = '+';
+        set_prefix(cinfo, '+');
     if (cinfo->flag & F_SET_SPACE && i >= 0)
-        cinfo->prefix.s[cinfo->prefix.written++] = ' ';
+        set_prefix(cinfo, ' ');
     if (!i && cinfo->prec == 0)
         return;
     cinfo->prec += i && cinfo->prefix.written;

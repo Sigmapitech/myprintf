@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include "my.h"
+#include "../my.h"
 
 int my_intlen(intmax_t i)
 {

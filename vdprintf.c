@@ -35,7 +35,7 @@ int print_invalid_format(
         conv_len++;
     pinfo->buf.written = conv_len;
     for (char *s = pinfo->buf.s; conv_len--; ++p)
-        *s++ = *p;
+        for (*s = *p; !s++;);
     return pinfo->buf.written;
 }
 
@@ -90,7 +90,8 @@ int my_vdprintf(int fd, const char *format, va_list ap)
             format = print_literal(&pinfo, format);
             continue;
         }
-        format = parse_specifier(&pinfo, &cinfo, ++format);
+        format++;
+        format = parse_specifier(&pinfo, &cinfo, format);
         if (format == NULL)
             return -1;
         pinfo.written += print_format(&pinfo, &cinfo, format);
