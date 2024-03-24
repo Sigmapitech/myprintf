@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** my_stridx.c
-*/
-
 #include "../my.h"
 
 int my_stridx(const char *str, char c)

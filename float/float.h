@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** float.h
-*/
-
 #ifndef FLOAT_INTERNAL_H
     #define FLOAT_INTERNAL_H
 

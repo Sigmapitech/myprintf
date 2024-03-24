@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** conversion_base.c
-*/
-
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>

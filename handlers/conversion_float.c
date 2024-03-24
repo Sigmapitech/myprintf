@@ -1,9 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** conversion_float.c
-*/
 #include <limits.h>
 #include <stdio.h>
 

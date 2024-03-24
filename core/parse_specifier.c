@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** parse_specifier.c
-*/
-
 #include <limits.h>
 #include <stdarg.h>
 #include <stdio.h>

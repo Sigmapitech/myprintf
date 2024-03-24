@@ -1,11 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** my_pow.c
-*/
-
-
 #include "../my.h"
 
 int my_pow(int nb, int p)

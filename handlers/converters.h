@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** converters.h
-*/
-
 #ifndef CONVERTERS_H
     #define CONVERTERS_H
 

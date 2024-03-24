@@ -1,9 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** utils.c
-*/
 #include <unistd.h>
 
 

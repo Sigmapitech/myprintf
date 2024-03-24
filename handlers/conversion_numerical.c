@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** conversion_numerical.c
-*/
-
 #include <limits.h>
 #include <unistd.h>
 

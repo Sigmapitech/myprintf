@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** conversion_extra.c
-*/
-
 #include "converters.h"
 #include "../my.h"
 

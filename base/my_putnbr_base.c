@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** my_putnbr_base.c
-*/
-
 #include <stdio.h>
 #include "../my.h"
 

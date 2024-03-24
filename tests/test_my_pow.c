@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** test_my_pow.c
-*/
-
 #include <criterion/criterion.h>
 #include "my.h"
 

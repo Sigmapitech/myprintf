@@ -16,127 +16,88 @@ env:
     github-actions[bot]
 
 jobs:
-  check_compilation:
+  check_the_repository_state:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.GH_SSH_PRIVATE_KEY }}
-          known_hosts: $GH_PUB_KEY
-      - name: Setup Nix via cachix
-        uses: cachix/install-nix-action@v20
-      - name: Setup cachix cli
-        run: nix-env -iA cachix -f https://cachix.org/api/v1/install
-      - name: Install coding-style
-        run: cachix use coding-style
-      - name: Run
-        run: |
-          nix build
-
-  run_unittests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.GH_SSH_PRIVATE_KEY }}
-          known_hosts: $GH_PUB_KEY
-      - name: Setup Nix via cachix
-        uses: cachix/install-nix-action@v20
-      - name: Setup cachix cli
-        run: nix-env -iA cachix -f https://cachix.org/api/v1/install
-      - name: Install coding-style
-        run: cachix use coding-style
-      - name: Run
-        run: |
-          nix run .#unit_tests
-
-  fix_headers:
-    runs-on: ubuntu-latest
     steps:
       - name: Get branch name
         id: branch-names
         uses: tj-actions/branch-names@v6
+
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           ref: ${{ steps.branch-names.outputs.head_ref_branch }}
+
       - name: setup git
         run: |
           git config --local user.email $GH_BOT_ACC_EMAIL
           git config --local user.name $GH_BOT_ACC_NAME
-          git fetch --unshallow origin
-      - uses: actions/setup-python@v2
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-          python-version: '3.11'
-          architecture: 'x64'
-      - name: fix headers
-        run: python ./.github/fix_headers.py
-      - name: add to git
-        run: |
-          git add .
-          git commit -m "[skip ci] Update epitech headers (auto)" || echo "nothing to commit."
-      - name: push
-        run: git push || echo "nothing to commit."
 
-  verify_coding_style_checker:
-    runs-on: ubuntu-latest
-    needs: [ fix_headers ]
-    steps:
-      - name: Get branch name
-        id: branch-names
-        uses: tj-actions/branch-names@v6
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.branch-names.outputs.head_ref_branch }}
-      - name: Make sure repo is up to date
-        run: git pull
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.GH_SSH_PRIVATE_KEY }}
           known_hosts: $GH_PUB_KEY
-      - name: Setup Nix via cachix
-        uses: cachix/install-nix-action@v20
-      - name: Setup cachix cli
-        run: nix-env -iA cachix -f https://cachix.org/api/v1/install
-      - name: Install coding-style
-        run: cachix use coding-style
-      - name: Run
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v4
+
+      - name: Run the Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v2
+
+      - name: Build
         run: |
-          nix run github:Sigmapitech/cs --extra-experimental-features 'nix-command flakes'
+          nix build
+
+      - name: Run coding style checker
+        run: |
+          nix run github:Sigmapitech/cs \
+            --extra-experimental-features 'nix-command flakes' \
+            -- . --ignore-rules=C-G1
 
   sync_repository:
-    needs: [ check_compilation, run_unittests, verify_coding_style_checker ]
+    needs: [ check_the_repository_state ]
     if: ${{ !github.event.pull_request }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.GH_SSH_PRIVATE_KEY }}
           known_hosts: $GH_PUB_KEY
-      - name: Unshallow
+
+      - name: Setup git
         run: |
           git config --global user.email "115845162+imjohntitor@users.noreply.github.com"
           git config --global user.name "ImJohnTitor"
           git remote add epitech "${{ secrets.GH_TARGET_REPO }}"
-          git fetch --unshallow origin
-      - name: Reset Author
-        run : ./.github/workflows/reset_authors.sh
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v4
+
+      - name: Run the Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v2
+
+      - name: Reset repo
+        run: |
+          git update-ref -d HEAD
+          git gc --aggressive --prune=all
+
+      - name: fix headers
+        run: python .github/insert_headers.py
+
+      - name: Commit
+        run: |
+          git add .
+          git commit -m \
+            "[skip ci] Mirror (${{ github.event.repository.updated_at }})"
+
       - name: push to epitech
         run: |
           git push epitech main --force

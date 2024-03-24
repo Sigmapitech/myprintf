@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** my_intlen.c
-*/
-
 #include <stdio.h>
 #include <stdint.h>
 #include "../my.h"

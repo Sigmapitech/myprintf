@@ -1,9 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** internal.h
-*/
 #ifndef NO_USE_INTERNAL
     #define NO_USE_INTERNAL
 

@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** my_putnbr.c
-*/
-
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>

@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** pop_length_mod.c
-*/
-
 #include <limits.h>
 #include <stdint.h>
 #include <stdio.h>

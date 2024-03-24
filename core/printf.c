@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** printf.c
-*/
-
 #include <stdarg.h>
 #include <unistd.h>
 

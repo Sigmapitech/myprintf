@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** stringify_helpers.c
-*/
-
 #include "float.h"
 
 int handle_non_numbers(char *out, dpart_t dpart)

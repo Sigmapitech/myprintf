@@ -1,5 +1,5 @@
 [reports]
-ignore = [ ]
+ignore = [ "C-G1" ]
 severity_levels = true
 merge = "multiline"
 

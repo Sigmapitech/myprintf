@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** split_parts.c
-*/
-
 #include "float.h"
 
 void init_dpart(double d, dpart_t *dpart)
