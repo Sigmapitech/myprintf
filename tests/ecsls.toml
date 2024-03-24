@@ -1,2 +1,2 @@
 [reports]
-ignore = [ "C-F2", "C-F6" ]
+ignore = [ "C-F2", "C-F6", "C-G1" ]
