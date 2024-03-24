@@ -4,6 +4,11 @@
 
 #include "internal.h"
 
+/**
+ * Helper function for length modifiers, not the best implementation
+ * but couldn't to it better.
+ **/
+
 intmax_t pop_length_modifier(va_list *ap, len_mod_t lm)
 {
     switch (lm) {
@@ -38,11 +43,11 @@ uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm)
         case CONV_CHAR:
             return (unsigned char)va_arg(*ap, unsigned int);
         case CONV_INTMAX_T:
-            return va_arg(*ap, uintmax_t);
+            return (uintmax_t)va_arg(*ap, uintmax_t);
         case CONV_SIZE_T:
-            return va_arg(*ap, size_t);
+            return (size_t)va_arg(*ap, size_t);
         case CONV_PTDRDIFF_T:
-            return va_arg(*ap, ptrdiff_t);
+            return (ptrdiff_t)va_arg(*ap, ptrdiff_t);
         default:
             return va_arg(*ap, unsigned int);
     }

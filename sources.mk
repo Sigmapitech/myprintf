@@ -1,10 +1,3 @@
-##
-## EPITECH PROJECT, 2023
-## my_printf
-## File description:
-## sources.mk
-##
-
 VPATH += core
 SRC += vdprintf.c
 SRC += parse_specifier.c

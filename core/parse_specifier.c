@@ -6,8 +6,24 @@
 #include "internal.h"
 #include "my.h"
 
+/**
+ * Format specifier parser, that collect all the required information
+ * to translate the converter appropriately.
+ *
+ * Follow the fprintf conversion format:
+ * `%[flags][width][.precision][length modifier]conversion`
+ *
+ * with the following precisions:
+ * - flags: one of `+#0- `
+ * - width integer between 0 and INT_MAX
+ * - precision (samme form as width, preceeded by a dot)
+ * - length modifier from the table below.
+ *
+ * Conversion is treated separately.
+ **/
+
 static
-const len_mod_comp_t LENGTH_MODIFIERS[8] = {
+const len_mod_comp_t LENGTH_MODIFIERS[] = {
     { "hh", CONV_CHAR },
     { "h", CONV_SHORT },
     { "ll", CONV_LONG_LONG },
@@ -43,9 +59,9 @@ const char *parse_width(conv_info_t *cinfo, const char *fmt)
         if (cinfo->width > (INT_MAX / 10))
             return NULL;
         cinfo->width *= 10;
-        if (cinfo->width > INT_MAX - (*fmt - '0'))
+        if (cinfo->width > INT_MAX - TO_DIGIT(*fmt))
             return NULL;
-        cinfo->width += *fmt - '0';
+        cinfo->width += TO_DIGIT(*fmt);
     }
     return (*fmt == '\0') ? NULL : fmt;
 }
@@ -69,9 +85,9 @@ const char *parse_prec(
         if (cinfo->prec > (INT_MAX / 10))
             return NULL;
         cinfo->prec *= 10;
-        if (cinfo->prec > INT_MAX - (*fmt - '0'))
+        if (cinfo->prec > INT_MAX - TO_DIGIT(*fmt))
             return NULL;
-        cinfo->prec += *fmt - '0';
+        cinfo->prec += TO_DIGIT(*fmt);
     }
     return (*fmt == '\0') ? NULL : fmt;
 }
@@ -82,7 +98,7 @@ const char *parse_len_mod(conv_info_t *cinfo, const char *fmt)
     char cmp_len;
 
     cinfo->len_mod = CONV_NO;
-    for (int i = 0; i < 8; i++) {
+    for (size_t i = 0; i < LENGTH_OF(LENGTH_MODIFIERS); i++) {
         cmp_len = 1 + (LENGTH_MODIFIERS[i].cmp[1] != '\0');
         if (!my_strncmp(fmt, LENGTH_MODIFIERS[i].cmp, cmp_len)) {
             cinfo->len_mod = LENGTH_MODIFIERS[i].mod;

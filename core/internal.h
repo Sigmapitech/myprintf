@@ -39,6 +39,14 @@ typedef struct {
     int written;
 } small_buf_t;
 
+/**
+ * pinfo (print_info_t) hold the data that is used within
+ * the whole duration of the printf call,
+ *
+ * while cinfo (conv_info_t) will store the data
+ * for a single conversion (%).
+ **/
+
 typedef struct {
     size_t written;
     va_list ap;

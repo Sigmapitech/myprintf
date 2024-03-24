@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** my_printf
-** File description:
-** my.h
-*/
-
 #ifndef LIB_MY_H
     #define LIB_MY_H
 
@@ -26,13 +19,17 @@
     #define IS_ALPHA(c) (IS_LOWER(C_UP(c)))
     #define IS_ALNUM(c) (IS_ALPHA(c) || IS_DIGIT(c))
 
+    #define TO_DIGIT(c) ((int)(c) & 0xf)
+
     #define ATTR(key) __attribute__((key))
     #define UNUSED ATTR(unused)
 
     #define LENGTH_OF(arr) (sizeof (arr) / sizeof(arr[0]))
 
-    // Static len have the size of the number of characters their are
-    // composed of, including the '\0'
+    /* String litterals have their length known at compile-time
+     * as they are treated like (char []). Note that a extra byte is taken
+     * by the null-terminator.
+     **/
     #define SSTR_LEN(s) (LENGTH_OF(s) - 1)
 
 int my_base_len(int base, size_t n);
@@ -45,8 +42,10 @@ int my_strncmp(char const *s1, char const *s2, int n);
 int my_strnlen(char const *str, int n);
 
 // Delivery
-int my_printf(const char *format, ...);
-int my_vdprintf(int fd, const char *format, va_list ap);
+int my_printf(const char *format, ...)
+__attribute__((format(printf, 1, 2)));
+
+int my_vdprintf(int fd, const char *fmt, va_list ap);
 void my_int_to_hex(char *buff, int input);
 
 #endif

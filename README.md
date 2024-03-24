@@ -18,6 +18,10 @@ following known exceptions:
 - multibyte character (`wchar_t`) are not supported.
 - `%e` as not been kept due to its incorrectness.
 
+> [!NOTE]
+> Ask requested by the assignment, conversion specifier `B` and `b` from
+> c2x standard have been implemented, corresponding to binary format.
+
 ### :question: <samp>Invalid format</samp>
 
 In case of invalid format, as specified by C99,our function will treat the given
