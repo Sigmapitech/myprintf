@@ -2,6 +2,8 @@
 
 #include "my.h"
 
+static const char BASE_CHARSET[] = "0123456789abcdef";
+
 int my_base_len(int base, size_t n)
 {
     int i = 1;

@@ -67,17 +67,4 @@ int put_nbr(int fd, int nb);
 
 intmax_t pop_length_modifier(va_list *ap, len_mod_t lm);
 uintmax_t pop_length_modifier_u(va_list *ap, len_mod_t lm);
-
-static
-const len_mod_comp_t LENGTH_MODIFIERS[8] = {
-    { "hh", CONV_CHAR },
-    { "h", CONV_SHORT },
-    { "ll", CONV_LONG_LONG },
-    { "l", CONV_LONG },
-    { "j", CONV_INTMAX_T },
-    { "z", CONV_SIZE_T },
-    { "L", CONV_DOUBLE },
-    { "t", CONV_PTDRDIFF_T }
-};
-
 #endif

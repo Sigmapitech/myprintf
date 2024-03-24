@@ -7,6 +7,18 @@
 #include "my.h"
 
 static
+const len_mod_comp_t LENGTH_MODIFIERS[8] = {
+    { "hh", CONV_CHAR },
+    { "h", CONV_SHORT },
+    { "ll", CONV_LONG_LONG },
+    { "l", CONV_LONG },
+    { "j", CONV_INTMAX_T },
+    { "z", CONV_SIZE_T },
+    { "L", CONV_DOUBLE },
+    { "t", CONV_PTDRDIFF_T }
+};
+
+static
 const char *parse_flag(conv_info_t *cinfo, const char *fmt)
 {
     cinfo->flag = 0;

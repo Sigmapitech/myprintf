@@ -6,6 +6,7 @@ typedef struct {
     unsigned long long exponant;
     unsigned long long mentissa;
 } dpart_t;
+
 void init_dpart(double d, dpart_t *dpart);
 
 int handle_non_numbers(char *out, dpart_t dpart);
