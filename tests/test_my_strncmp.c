@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+
 #include <criterion/criterion.h>
+
 #include "my.h"
 
 static

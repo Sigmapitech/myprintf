@@ -1,4 +1,4 @@
-#include "../my.h"
+#include "my.h"
 
 int my_pow(int nb, int p)
 {

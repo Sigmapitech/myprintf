@@ -2,8 +2,8 @@
     #define NO_USE_INTERNAL
 
     #include <stdarg.h>
-    #include <stdint.h>
     #include <stddef.h>
+    #include <stdint.h>
 
     #define MAX_SPEC_LEN 2
     #define CONV_IDX(c) (c - 'A')

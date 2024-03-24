@@ -1,4 +1,5 @@
 #include <criterion/criterion.h>
+
 #include "my.h"
 
 Test(my_stridx, test_indexing)

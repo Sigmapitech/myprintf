@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 #include "converters.h"
-#include "../my.h"
+#include "my.h"
 
 static
 void conv_base(print_info_t *pinfo, int baselen, size_t n)

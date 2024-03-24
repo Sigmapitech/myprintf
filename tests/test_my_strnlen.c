@@ -1,4 +1,5 @@
 #include <criterion/criterion.h>
+
 #include "my.h"
 
 Test(my_strnlen, limit_to_n)

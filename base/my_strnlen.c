@@ -1,5 +1,6 @@
 #include <stddef.h>
-#include "../my.h"
+
+#include "my.h"
 
 int my_strnlen(const char *str, int n)
 {

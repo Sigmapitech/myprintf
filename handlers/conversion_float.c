@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 #include "converters.h"
-#include "../float/float.h"
-#include "../my.h"
+#include "float/float.h"
+#include "my.h"
 
 static
 void set_upcase(char *s, int is_up)

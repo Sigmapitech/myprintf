@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include <criterion/criterion.h>
+
 #include "my.h"
 
 Test(my_revstr, _1_base_10)

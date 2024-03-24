@@ -1,11 +1,11 @@
-#include "my.h"
-#include "test_internal.h"
+#include <stdio.h>
 
 #include <criterion/criterion.h>
-#include <criterion/redirect.h>
 #include <criterion/parameterized.h>
+#include <criterion/redirect.h>
 
-#include <stdio.h>
+#include "my.h"
+#include "test_internal.h"
 
 Test(my_printf, passing_width_as_extra_argument, .init = cr_redirect_stdout)
 {

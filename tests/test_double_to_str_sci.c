@@ -1,4 +1,5 @@
 #include <criterion/criterion.h>
+
 #include <stdio.h>
 
 #include "core/internal.h"
