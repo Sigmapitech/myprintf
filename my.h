@@ -29,12 +29,11 @@
     #define ATTR(key) __attribute__((key))
     #define UNUSED ATTR(unused)
 
+    #define LENGTH_OF(arr) (sizeof (arr) / sizeof(arr[0]))
+
     // Static len have the size of the number of characters their are
     // composed of, including the '\0'
-    #define SSTR_LEN(s) (sizeof(s) - 1)
-
-ATTR(used) static
-const char *BASE_CHARSET = "0123456789abcdef";
+    #define SSTR_LEN(s) (LENGTH_OF(s) - 1)
 
 int my_base_len(int base, size_t n);
 int my_intlen(intmax_t i);

@@ -7,9 +7,14 @@
 #include "my.h"
 #include "test_internal.h"
 
+static
+const printf_test_t TESTS[] = {
+#include "test_printf_table.h"
+};
+
 ParameterizedTestParameters(test_myprintf, auto_tests)
 {
-    return cr_make_param_array(struct printf_test, TESTS, TEST_COUNT);
+    return cr_make_param_array(printf_test_t, TESTS, LENGTH_OF(TESTS));
 }
 
 static
@@ -17,34 +22,30 @@ char *clean(char *dest, const char *s)
 {
     int len = strlen(s);
 
-    memcpy(dest, s, 20);
-    if (len < 20)
-        memset(dest + len, '_', (20 - len));
-    for (char *p = dest; *p != '\0'; p++)
-        if (!IS_PRINT(*p))
-            *p = (*p == '\n') ? '$' : '?';
+    memcpy(dest, s, TEST_BUFFER_SIZE);
+    if (len < TEST_BUFFER_SIZE)
+        memset(dest + len, '_', (TEST_BUFFER_SIZE - len));
+    for (size_t i = 0; i < TEST_BUFFER_SIZE; i++)
+        if (!IS_PRINT(dest[i]))
+            dest[i] = (dest[i] == '\n') ? '$' : '?';
     return dest;
 }
 
 static
 void print_clean(
-    char const *name,
-    const char *out,
-    const char *exp,
+    char const *name, const char *out, const char *exp,
     int ret[2])
 {
-    static char cname[20];
-    static char cexp[20];
-    static char cout[20];
+    char cname[TEST_BUFFER_SIZE] = { '_' };
+    char cexp[TEST_BUFFER_SIZE] = { '_' };
+    char cout[TEST_BUFFER_SIZE] = { '_' };
 
-    memset(cexp, '_', 20);
-    memset(cout, '_', 20);
     fprintf(
         stderr,
-        "[%14s]: [out: %s] (%3d) | [exp: %s] (%3d)\n",
+        "[%.14s]: [out: %.*s] (%3d) | [exp: %.*s] (%3d)\n",
         clean(cname, name),
-        clean(cout, out), ret[1],
-        clean(cexp, exp), ret[0]
+        TEST_PRINT_SIZE, clean(cout, out), ret[1],
+        TEST_PRINT_SIZE, clean(cexp, exp), ret[0]
     );
 }
 
@@ -61,7 +62,7 @@ int run_printf(printf_test_t *p)
         case DOUBLE:
             return my_printf(p->fmt, p->arg->d);
     }
-    return -1;
+    __builtin_unreachable();
 }
 
 static
@@ -69,38 +70,36 @@ int run_snprintf(printf_test_t *p, char *exp)
 {
     switch (p->type) {
         case PTR:
-            return snprintf(exp, 500, p->fmt, p->arg->p);
+            return snprintf(exp, TEST_BUFFER_SIZE, p->fmt, p->arg->p);
         case INT:
-            return snprintf(exp, 500, p->fmt, p->arg->i);
+            return snprintf(exp, TEST_BUFFER_SIZE, p->fmt, p->arg->i);
         case LONG:
-            return snprintf(exp, 500, p->fmt, p->arg->l);
+            return snprintf(exp, TEST_BUFFER_SIZE, p->fmt, p->arg->l);
         case DOUBLE:
-            return snprintf(exp, 500, p->fmt, p->arg->d);
+            return snprintf(exp, TEST_BUFFER_SIZE, p->fmt, p->arg->d);
     }
-    return -1;
+    __builtin_unreachable();
 }
 
 ParameterizedTest(
     printf_test_t *p, test_myprintf, auto_tests, .init = cr_redirect_stdout)
 {
     int ret[2];
-    static char exp[200];
-    static char out[200];
+    char exp[TEST_BUFFER_SIZE] = { '\0' };
+    char out[TEST_BUFFER_SIZE] = { '\0' };
     FILE *f;
 
-    memset(out, '\0', sizeof(out));
-    memset(exp, '\0', sizeof(exp));
     if (p->exp == CMP_PRINTF)
         ret[0] = run_snprintf(p, exp);
     else {
-        strncpy(exp, p->exp, 20);
+        memcpy(exp, p->exp, sizeof exp);
         ret[0] = strlen(exp);
     }
     ret[1] = run_printf(p);
     f = cr_get_redirected_stdout();
-    fread(out, 20, 20, f);
+    fread(out, LENGTH_OF(out), sizeof *out, f);
     print_clean(p->fmt, out, exp, ret);
-    cr_assert_str_eq(out, exp);
+    cr_assert(!memcmp(exp, out, LENGTH_OF(out)));
     cr_assert_eq(ret[0], ret[1]);
 }
 
