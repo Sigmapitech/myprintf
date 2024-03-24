@@ -4,7 +4,8 @@
 ## File description:
 ## sources.mk
 ##
-VPATH += .
+
+VPATH += core
 SRC += vdprintf.c
 SRC += parse_specifier.c
 SRC += pop_length_mod.c

@@ -8,7 +8,7 @@
 #ifndef CONVERTERS_H
     #define CONVERTERS_H
 
-    #include "../internal.h"
+    #include "core/internal.h"
 
 typedef void (*conv_func_t)(print_info_t *, conv_info_t *);
 

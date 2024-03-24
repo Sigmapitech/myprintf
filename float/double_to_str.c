@@ -11,8 +11,8 @@
 #include <unistd.h>
 
 #include "float.h"
-#include "../internal.h"
-#include "../my.h"
+#include "core/internal.h"
+#include "my.h"
 
 static
 int get_first_digit(double d, int prec)
