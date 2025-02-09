@@ -3,7 +3,8 @@
 *Recreating infamous printf function as described by standard C99.*
 
 > [!CAUTION]
-> Copying the content of this repository for your own delivery will grade you a
+> if you are a epitech student, and want to make a quick buck of this repo,
+> copying the content of this repository for your own delivery will grade you a
 > `-42` for cheating.
 
 ## :closed_book: <samp>C99 limitations</samp>
