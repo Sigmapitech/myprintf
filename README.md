@@ -102,7 +102,7 @@ with the project dependencies to build and develop.
 
 ```bash
 nix develop
-nix develop github:Sigmapitech/myrpg
+nix develop github:Sigmapitech/myprintf
 ```
 
 ### <samp>Using direnv</samp>
